@@ -1,4 +1,4 @@
-package de.gherkineditor.gherkineditor;
+package de.gherkineditor;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
