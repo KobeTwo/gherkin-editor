@@ -4,28 +4,27 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Parent;
 
-@Document(indexName = "scenario", type = "scenario", shards = 1, replicas = 0, refreshInterval = "-1")
-public class Scenario {
+@Document(indexName = "folder", type = "folder", shards = 1, replicas = 0, refreshInterval = "-1")
+public class Folder {
 
     @Id
     private String id;
 
     private String name;
 
-    private String description;
-
-    String parentFolderId;
+    private String parentFolderId;
 
     @Parent(type = "project")
     String parentProjectId;
 
-    public Scenario() {
+
+    public Folder() {
     }
 
-    public Scenario(String name, String description) {
+    public Folder(String name) {
         this.name = name;
-        this.description = description;
     }
+
 
     public String getId() {
         return this.id;
@@ -43,22 +42,6 @@ public class Scenario {
         this.name = name;
     }
 
-    public String getText() {
-        return this.description;
-    }
-
-    public void setText(String text) {
-        this.description = text;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getParentFolderId() {
         return parentFolderId;
     }
@@ -67,9 +50,17 @@ public class Scenario {
         this.parentFolderId = parentFolderId;
     }
 
+    public String getParentProjectId() {
+        return parentProjectId;
+    }
+
+    public void setParentProjectId(String parentProjectId) {
+        this.parentProjectId = parentProjectId;
+    }
+
     @Override
     public String toString() {
-        return String.format("Scenario[id=%s, name='%s']", this.id,
+        return String.format("Folder[id=%s, name='%s']", this.id,
                 this.name);
     }
 
