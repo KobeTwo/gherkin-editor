@@ -1,5 +1,33 @@
 // demo data
-var data = {
+var data = [{
+    name: 'My Tree',
+    children: [
+        { name: 'hello' },
+        { name: 'wat' },
+        {
+            name: 'child folder',
+            children: [
+                {
+                    name: 'child folder',
+                    children: [
+                        { name: 'hello' },
+                        { name: 'wat' }
+                    ]
+                },
+                { name: 'hello' },
+                { name: 'wat' },
+                {
+                    name: 'child folder',
+                    children: [
+                        { name: 'hello' },
+                        { name: 'wat' }
+                    ]
+                }
+            ]
+        }
+    ]
+},
+{
     name: 'My Tree',
     children: [
         { name: 'hello' },
@@ -27,6 +55,7 @@ var data = {
         }
     ]
 }
+]
 
 // define the item component
 Vue.component('item', {
@@ -36,13 +65,17 @@ Vue.component('item', {
     },
     data: function () {
         return {
-            open: false
+            open: false,
+            selected: false
         }
     },
     computed: {
         isFolder: function () {
             return this.model.children &&
                 this.model.children.length
+        },
+        isSelected: function () {
+            return this.selected
         }
     },
     methods: {
@@ -51,12 +84,9 @@ Vue.component('item', {
                 this.open = !this.open
             }
         },
-        changeType: function () {
-            if (!this.isFolder) {
-                Vue.set(this.model, 'children', [])
-                this.addChild()
-                this.open = true
-            }
+        select: function () {
+            this.selected = true
+            console.log("selected")
         },
         addChild: function () {
             this.model.children.push({

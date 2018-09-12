@@ -3,6 +3,7 @@ package de.gherkineditor.service;
 import de.gherkineditor.model.Scenario;
 import de.gherkineditor.repository.ScenarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

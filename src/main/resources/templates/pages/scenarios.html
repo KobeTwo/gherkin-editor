@@ -21,11 +21,10 @@
                         <script type="text/x-template" id="item-template">
                             <li>
                                 <div
-                                        :class="{bold: isFolder}"
-                                        @click="toggle"
-                                        @dblclick="changeType">
+                                        :class="{selected: isSelected}"
+                                        @click="select">
+                                    <span @click="toggle" v-if="isFolder">[{{ open ? '-' : '+' }}]</span>
                                     {{ model.name }}
-                                    <span v-if="isFolder">[{{ open ? '-' : '+' }}]</span>
                                 </div>
                                 <ul v-show="open" v-if="isFolder">
                                     <item
@@ -34,7 +33,6 @@
                                             :key="index"
                                             :model="model">
                                     </item>
-                                    <li class="add" @click="addChild">+</li>
                                 </ul>
                             </li>
 
@@ -42,11 +40,21 @@
 
                         <!-- the demo root element -->
                         <ul id="scenario-sidebar">
+
                             <item
                                     class="item"
-                                    :model="treeData">
+                                    v-for="(model, index) in treeData"
+                                    :key="index"
+                                    :model="model">
                             </item>
                         </ul>
+                        <button type="button" class="btn btn-info" @click="addChild">
+                            <span class="oi oi-folder" title="create folder" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-info" @click="addChild">
+                            <span class="oi oi-file" title="create feature file" aria-hidden="true"></span>
+                        </button>
+
 
                     </div>
                 </nav>

@@ -13,4 +13,11 @@
     padding-bottom: 40px;
     background-color: #f5f5f5;
 }
+.sidebar ul {
+    list-style-type: none;
+    -webkit-padding-start: 15px;
+}
 
+.sidebar ul div.selected {
+    background-color: red;
+}
