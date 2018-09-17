@@ -2,10 +2,9 @@ package de.gherkineditor.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Parent;
 
 @Document(indexName = "scenario", type = "scenario", shards = 1, replicas = 0, refreshInterval = "-1")
-public class Scenario {
+public class Scenario extends AbstractProjectItem {
 
     @Id
     private String id;
@@ -14,17 +13,16 @@ public class Scenario {
 
     private String description;
 
-    String parentFolderId;
+    String featureId;
 
-    @Parent(type = "project")
-    String parentProjectId;
-
-    public Scenario() {
+    private Scenario() {
     }
 
-    public Scenario(String name, String description) {
+    public Scenario(String projectId, String featureId, String name, String description) {
         this.name = name;
         this.description = description;
+        setProjectId(projectId);
+        this.featureId = featureId;
     }
 
     public String getId() {
@@ -59,12 +57,12 @@ public class Scenario {
         this.description = description;
     }
 
-    public String getParentFolderId() {
-        return parentFolderId;
+    public String getFeatureId() {
+        return featureId;
     }
 
-    public void setParentFolderId(String parentFolderId) {
-        this.parentFolderId = parentFolderId;
+    public void setFeatureId(String featureId) {
+        this.featureId = featureId;
     }
 
     @Override

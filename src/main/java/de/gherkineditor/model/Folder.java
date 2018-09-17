@@ -2,10 +2,9 @@ package de.gherkineditor.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Parent;
 
 @Document(indexName = "folder", type = "folder", shards = 1, replicas = 0, refreshInterval = "-1")
-public class Folder {
+public class Folder extends AbstractProjectItem {
 
     @Id
     private String id;
@@ -14,17 +13,15 @@ public class Folder {
 
     private String parentFolderId;
 
-    @Parent(type = "project")
-    String parentProjectId;
-
-
-    public Folder() {
+    private Folder() {
     }
 
-    public Folder(String name) {
+    public Folder(String name, String parentFolderId,String projectId) {
+
         this.name = name;
+        this.parentFolderId = parentFolderId;
+        setProjectId(projectId);
     }
-
 
     public String getId() {
         return this.id;
@@ -48,14 +45,6 @@ public class Folder {
 
     public void setParentFolderId(String parentFolderId) {
         this.parentFolderId = parentFolderId;
-    }
-
-    public String getParentProjectId() {
-        return parentProjectId;
-    }
-
-    public void setParentProjectId(String parentProjectId) {
-        this.parentProjectId = parentProjectId;
     }
 
     @Override

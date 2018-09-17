@@ -5,5 +5,6 @@ import de.gherkineditor.model.Scenario;
 import java.util.List;
 
 public interface ScenarioService {
-    Iterable<Scenario> listScenarios();
+    Iterable<Scenario> listAllScenarios();
+    Iterable<Scenario> listScenarios(String projectId);
 }

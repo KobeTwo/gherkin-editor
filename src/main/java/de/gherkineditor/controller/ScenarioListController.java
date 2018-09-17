@@ -6,31 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class ScenarioListController {
+public class ScenarioListController extends AbstractProjectController {
 
     @Autowired
     ScenarioService scenarioService;
 
-    @GetMapping("/scenarios")
-    public String homepage(Model model) {
-        model.addAttribute("scenarios", scenarioService.listScenarios());
-        List<String> list1 = new ArrayList<String>();
-        list1.add("1");
-        list1.add("2");
-        model.addAttribute("list1", list1);
-
-        Scenario scenario1 = new Scenario("s1", "t1");
-        Scenario scenario2 = new Scenario("s2", "t2");
-
-        List<Scenario> list2 = new ArrayList<>();
-        list2.add(scenario1);
-        list2.add(scenario2);
-        model.addAttribute("list2",list2);
+    @GetMapping("/{projectId}/scenarios")
+    public String homepage(Model model, @PathVariable String projectId) {
+        setCurrentProject(projectId, model);
+        model.addAttribute("scenarios", scenarioService.listScenarios(projectId));
+        model.addAttribute("allScenarios", scenarioService.listAllScenarios());
 
         return "pages/scenarios";
     }

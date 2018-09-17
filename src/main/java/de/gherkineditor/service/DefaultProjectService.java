@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Validator;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class DefaultProjectService implements ProjectService{
 
@@ -19,5 +22,20 @@ public class DefaultProjectService implements ProjectService{
         }
         Project project = new Project(id);
         return projectRepository.save(project);
+    }
+
+    @Override
+    public Iterable<Project> getAllProjects() {
+        Iterable<Project> projects = projectRepository.findAll();
+        return projects;
+    }
+
+    @Override
+    public Project getProject(String id) {
+        Optional<Project> project = projectRepository.findById(id);
+        if(!project.isPresent()){
+            throw new IllegalArgumentException("Project not found");
+        }
+        return project.get();
     }
 }

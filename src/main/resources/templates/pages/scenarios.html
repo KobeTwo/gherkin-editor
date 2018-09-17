@@ -63,66 +63,8 @@
                     <div th:each="scenario : ${scenarios}">
                         <div th:text="${scenario.name}">test</div>
                     </div>
-                    <div th:text="${list1}">test</div>
-                    <div th:each="el1 : ${list1}">
-                        <div th:text="${el1}">test</div>
-                    </div>
-                    <div th:text="${list2}">test</div>
-                    <div th:each="el2 : ${list2}">
-                        <div th:text="${el2}">test</div>
-                        <div th:text="${el2.name}">test</div>
-                    </div>
-                    <div th:text="${scenarios}">test</div>
-                    <div th:each="scenario : ${scenarios}">
-                        <div th:text="${scenario.name}">test</div>
-                    </div>
-                    <div th:text="${list1}">test</div>
-                    <div th:each="el1 : ${list1}">
-                        <div th:text="${el1}">test</div>
-                    </div>
-                    <div th:text="${list2}">test</div>
-                    <div th:each="el2 : ${list2}">
-                        <div th:text="${el2}">test</div>
-                        <div th:text="${el2.name}">test</div>
-                    </div>
-                    <div th:text="${scenarios}">test</div>
-                    <div th:each="scenario : ${scenarios}">
-                        <div th:text="${scenario.name}">test</div>
-                    </div>
-                    <div th:text="${list1}">test</div>
-                    <div th:each="el1 : ${list1}">
-                        <div th:text="${el1}">test</div>
-                    </div>
-                    <div th:text="${list2}">test</div>
-                    <div th:each="el2 : ${list2}">
-                        <div th:text="${el2}">test</div>
-                        <div th:text="${el2.name}">test</div>
-                    </div>
-                    <div th:text="${scenarios}">test</div>
-                    <div th:each="scenario : ${scenarios}">
-                        <div th:text="${scenario.name}">test</div>
-                    </div>
-                    <div th:text="${list1}">test</div>
-                    <div th:each="el1 : ${list1}">
-                        <div th:text="${el1}">test</div>
-                    </div>
-                    <div th:text="${list2}">test</div>
-                    <div th:each="el2 : ${list2}">
-                        <div th:text="${el2}">test</div>
-                        <div th:text="${el2.name}">test</div>
-                    </div>
-                    <div th:text="${scenarios}">test</div>
-                    <div th:each="scenario : ${scenarios}">
-                        <div th:text="${scenario.name}">test</div>
-                    </div>
-                    <div th:text="${list1}">test</div>
-                    <div th:each="el1 : ${list1}">
-                        <div th:text="${el1}">test</div>
-                    </div>
-                    <div th:text="${list2}">test</div>
-                    <div th:each="el2 : ${list2}">
-                        <div th:text="${el2}">test</div>
-                        <div th:text="${el2.name}">test</div>
+                    <div th:each="aScenario : ${allScenarios}">
+                        <div th:text="${aScenario.name}">test</div>
                     </div>
 
                 </main>
