@@ -6,7 +6,20 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/open-iconic-bootstrap.css}"/>
 </head>
-    <header th:fragment="header">
+<body>
+    <th:block th:fragment="general-vue-templates">
+        <script type="text/x-template" id="header-projects">
+            <div class="nav-item dropdown">
+                <a th:class="${currentProject}? 'nav-link dropdown-toggle active' : 'nav-link dropdown-toggle'" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" th:text="${currentProject}? ${currentProject.id} : #{project.choose}"/>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" th:with="baseUrl=test"  v-for="project in allprojects" :href="'/' + project.id + '/scenarios'">{{ project.id }}</a>
+                    <em><a class="dropdown-item " href="/project/create" th:text="#{project.create}">create project</a></em>
+                </div>
+            </div>
+        </script>
+    </th:block>
+
+    <header th:fragment="header" class="mb-3">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="/">
                 <img th:src="@{/assets/cucumber.png}" width="30" height="30" class="d-inline-block align-top" alt="">
@@ -17,13 +30,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <div class="nav-item dropdown">
-                        <a th:class="${currentProject}? 'nav-link dropdown-toggle active' : 'nav-link dropdown-toggle'" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" th:text="${currentProject}? ${currentProject.id} : #{project.choose}"/>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" th:with="baseUrl=test" th:each="project : ${allProjects}" th:href="@{'/' + ${project.id} + '/scenarios'}" th:text="${project.id}"/>
-                            <a class="dropdown-item" href="/project/create" th:text="#{project.create}">create project</a>
-                        </div>
-                    </div>
+                    <header-projects
+                            :allprojects="allprojects">
+                    </header-projects>
+
                     <a class="nav-item nav-link" th:if="${currentProject}" th:href="@{'/' + ${currentProject.id} + '/scenarios'}" th:text="#{scenarios}"/>
                     <a class="nav-item nav-link" th:if="${currentProject}" href="#"th:text="#{actions}"/>
                     <a class="nav-item nav-link" th:if="${currentProject}" th:href="@{'/' + ${currentProject.id} + '/documentation'}" th:text="#{documentation}"/>
@@ -31,6 +41,13 @@
             </div>
         </nav>
     </header>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/vue.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    </th:block>
     
     <footer th:fragment="footer">
 
@@ -38,10 +55,15 @@
     </footer>
 
     <th:block th:fragment="jsfiles">
+        <script type="text/javascript" th:inline="javascript">
+            /*<![CDATA[*/
+            var allProjects = [[${allProjects.content}]];
+            /*]]>*/
+        </script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script type="text/javascript" th:src="@{/js/vue.js}"></script>
         <script type="text/javascript" th:src="@{/js/main.js}"></script>
     </th:block>
 

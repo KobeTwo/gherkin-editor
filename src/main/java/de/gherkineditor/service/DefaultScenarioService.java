@@ -22,7 +22,7 @@ public class DefaultScenarioService implements ScenarioService{
 
     @Override
     public Iterable<Scenario> listScenarios(String projectId) {
-        Iterable<Scenario> scenarios = scenarioRepository.findByProject(projectId);
+        Iterable<Scenario> scenarios = scenarioRepository.findByProjectId(projectId);
         return scenarios;
     }
 }
