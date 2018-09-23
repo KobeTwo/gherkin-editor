@@ -1,65 +1,78 @@
-// demo data
-var data = [{
-    name: 'My Tree',
-    children: [
-        { name: 'hello' },
-        { name: 'wat' },
-        {
-            name: 'child folder',
-            children: [
-                {
-                    name: 'child folder',
-                    children: [
-                        { name: 'hello' },
-                        { name: 'wat' }
-                    ]
-                },
-                { name: 'hello' },
-                { name: 'wat' },
-                {
-                    name: 'child folder',
-                    children: [
-                        { name: 'hello' },
-                        { name: 'wat' }
-                    ]
-                }
-            ]
-        }
-    ]
-},
-{
-    name: 'My Tree',
-    children: [
-        { name: 'hello' },
-        { name: 'wat' },
-        {
-            name: 'child folder',
-            children: [
-                {
-                    name: 'child folder',
-                    children: [
-                        { name: 'hello' },
-                        { name: 'wat' }
-                    ]
-                },
-                { name: 'hello' },
-                { name: 'wat' },
-                {
-                    name: 'child folder',
-                    children: [
-                        { name: 'hello' },
-                        { name: 'wat' }
-                    ]
-                }
-            ]
-        }
-    ]
-}
+var data =[{
+        name: 'My Tree',
+        children: [
+            { name: 'hello' },
+            { name: 'wat' },
+            {
+                name: 'child folder',
+                children: [
+                    {
+                        name: 'child folder',
+                        children: [
+                            { name: 'hello' },
+                            { name: 'wat' }
+                        ]
+                    },
+                    { name: 'hello' },
+                    { name: 'wat' },
+                    {
+                        name: 'child folder',
+                        children: [
+                            { name: 'hello' },
+                            { name: 'wat' }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        name: 'My Tree',
+        children: [
+            { name: 'hello' },
+            { name: 'wat' },
+            {
+                name: 'child folder',
+                children: [
+                    {
+                        name: 'child folder',
+                        children: [
+                            { name: 'hello' },
+                            { name: 'wat' }
+                        ]
+                    },
+                    { name: 'hello' },
+                    { name: 'wat' },
+                    {
+                        name: 'child folder',
+                        children: [
+                            { name: 'hello' },
+                            { name: 'wat' }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
 ]
 
+Vue.component('scenario-sidebar', {
+    template: '#scenario-sidebar',
+    data:  function () {
+        return {
+            roots: data
+        }
+    },
+    methods: {
+        addChild: function () {
+            alert("add child")
+        }
+    }
+})
 // define the item component
-Vue.component('item', {
-    template: '#item-template',
+Vue.component('scenario-sidebar-treeitem', {
+    name: 'scenario-sidebar-treeitem',
+    template: '#scenario-sidebar-treeitem',
     props: {
         model: Object
     },
@@ -87,19 +100,8 @@ Vue.component('item', {
         select: function () {
             this.selected = true
             console.log("selected")
-        },
-        addChild: function () {
-            this.model.children.push({
-                name: 'new stuff'
-            })
         }
     }
 })
 
-// boot up the demo
-var demo = new Vue({
-    el: '#scenario-sidebar',
-    data: {
-        treeData: data
-    }
-})
+

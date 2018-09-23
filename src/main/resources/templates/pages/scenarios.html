@@ -12,62 +12,76 @@
 
 </head>
     <body>
-        <th:block th:replace="fragments/general.html :: header"/>
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                    <div class="sidebar-sticky">
-                        <!-- item template -->
-                        <script type="text/x-template" id="item-template">
-                            <li>
-                                <div
-                                        :class="{selected: isSelected}"
-                                        @click="select">
-                                    <span @click="toggle" v-if="isFolder">[{{ open ? '-' : '+' }}]</span>
-                                    {{ model.name }}
-                                </div>
-                                <ul v-show="open" v-if="isFolder">
-                                    <item
-                                            class="item"
-                                            v-for="(model, index) in model.children"
-                                            :key="index"
-                                            :model="model">
-                                    </item>
-                                </ul>
-                            </li>
 
-                        </script>
+        <th:block th:replace="fragments/general.html :: general-vue-templates"/>
+        <script type="text/x-template" id="scenario-sidebar">
+            <div>
+                <ul>
+                    <scenario-sidebar-treeitem
+                            class="item"
+                            v-for="(model, index) in roots"
+                            :key="index"
+                            :model="model">
+                    </scenario-sidebar-treeitem>
+                </ul>
+                <button type="button" class="btn btn-info" @click="addChild">
+                    <i class="fas fa-folder-plus"></i>
+                </button>
+                <button type="button" class="btn btn-info" @click="addChild">
+                    <i class="fas fa-file-signature"></i>
+                </button>
+            </div>
+        </script>
 
-                        <!-- the demo root element -->
-                        <ul id="scenario-sidebar">
+        <script type="text/x-template" id="scenario-sidebar-treeitem">
+            <li>
+                <div
+                        :class="{selected: isSelected}"
+                        @click="select">
+                                            <span @click="toggle" v-if="isFolder">
+                                                <i v-if="open" class="fas fa-chevron-circle-down"></i>
+                                                <i v-else="open" class="fas fa-chevron-circle-right"></i>
+                                            </span>
+                    <i v-if="isFolder" class="fas fa-folder"></i>
+                    <i v-else="isFolder" class="fas fa-file"></i>
+                    {{ model.name }}
+                </div>
+                <ul v-show="open" v-if="isFolder">
+                    <scenario-sidebar-treeitem
+                            class="item"
+                            v-for="(model, index) in model.children"
+                            :key="index"
+                            :model="model">
+                    </scenario-sidebar-treeitem>
+                </ul>
+            </li>
 
-                            <item
-                                    class="item"
-                                    v-for="(model, index) in treeData"
-                                    :key="index"
-                                    :model="model">
-                            </item>
-                        </ul>
-                        <button type="button" class="btn btn-info" @click="addChild">
-                            <span class="oi oi-folder" title="create folder" aria-hidden="true"></span>
-                        </button>
-                        <button type="button" class="btn btn-info" @click="addChild">
-                            <span class="oi oi-file" title="create feature file" aria-hidden="true"></span>
-                        </button>
+        </script>
 
 
-                    </div>
-                </nav>
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                    <div th:text="${scenarios}">test</div>
-                    <div th:each="scenario : ${scenarios}">
-                        <div th:text="${scenario.name}">test</div>
-                    </div>
-                    <div th:each="aScenario : ${allScenarios}">
-                        <div th:text="${aScenario.name}">test</div>
-                    </div>
 
-                </main>
+        <div id="vue-support">
+            <th:block th:replace="fragments/general.html :: header"/>
+            <div class="container-fluid">
+                <div class="row">
+                    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                        <div class="sidebar-sticky">
+                            <scenario-sidebar>
+                            </scenario-sidebar>
+
+                        </div>
+                    </nav>
+                    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                        <div th:text="${scenarios}">test</div>
+                        <div th:each="scenario : ${scenarios}">
+                            <div th:text="${scenario.name}">test</div>
+                        </div>
+                        <div th:each="aScenario : ${allScenarios}">
+                            <div th:text="${aScenario.name}">test</div>
+                        </div>
+
+                    </main>
+                </div>
             </div>
         </div>
 
