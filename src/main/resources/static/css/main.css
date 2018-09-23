@@ -21,3 +21,12 @@
 .sidebar ul div.selected {
     background-color: red;
 }
+.sidebar ul div.sidebar-list-element {
+    padding-left: 3px;
+    cursor: pointer;
+}
+
+.sidebar .sidebar-tree-root {
+    padding-left: 0px;
+    padding-top: 3px;
+}

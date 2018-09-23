@@ -1,53 +1,26 @@
-var data =[{
-        name: 'My Tree',
-        children: [
-            { name: 'hello' },
-            { name: 'wat' },
-            {
-                name: 'child folder',
-                children: [
-                    {
-                        name: 'child folder',
-                        children: [
-                            { name: 'hello' },
-                            { name: 'wat' }
-                        ]
-                    },
-                    { name: 'hello' },
-                    { name: 'wat' },
-                    {
-                        name: 'child folder',
-                        children: [
-                            { name: 'hello' },
-                            { name: 'wat' }
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
+var data =[
     {
-        name: 'My Tree',
+        name: '/',
         children: [
-            { name: 'hello' },
-            { name: 'wat' },
+            { name: 'hello1' },
+            { name: 'wat1' },
             {
-                name: 'child folder',
+                name: 'child folder2',
                 children: [
                     {
-                        name: 'child folder',
+                        name: 'child folder3',
                         children: [
-                            { name: 'hello' },
-                            { name: 'wat' }
+                            { name: 'hello3' },
+                            { name: 'wat3' }
                         ]
                     },
-                    { name: 'hello' },
-                    { name: 'wat' },
+                    { name: 'hello4' },
+                    { name: 'wat4' },
                     {
-                        name: 'child folder',
+                        name: 'child folder5',
                         children: [
-                            { name: 'hello' },
-                            { name: 'wat' }
+                            { name: 'hello5' },
+                            { name: 'wat5' }
                         ]
                     }
                 ]
@@ -74,12 +47,11 @@ Vue.component('scenario-sidebar-treeitem', {
     name: 'scenario-sidebar-treeitem',
     template: '#scenario-sidebar-treeitem',
     props: {
-        model: Object
+        model: Object,
     },
     data: function () {
         return {
-            open: false,
-            selected: false
+            open: false
         }
     },
     computed: {
@@ -88,7 +60,7 @@ Vue.component('scenario-sidebar-treeitem', {
                 this.model.children.length
         },
         isSelected: function () {
-            return this.selected
+            return this.model.name === this.$root.selectedTreeElement
         }
     },
     methods: {
@@ -98,8 +70,7 @@ Vue.component('scenario-sidebar-treeitem', {
             }
         },
         select: function () {
-            this.selected = true
-            console.log("selected")
+            this.$root.selectedTreeElement = this.model.name
         }
     }
 })

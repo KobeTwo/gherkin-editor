@@ -10,8 +10,14 @@ public abstract class AbstractProjectController {
    @Autowired
     ProjectService projectService;
 
+    public static String NAV_SCENARIOS = "scenarios";
+    public static String NAV_DOCUMENTATION = "documentation";
+
     protected void setCurrentProject(String currentProjectId, Model model){
         Project project = projectService.getProject(currentProjectId);
         model.addAttribute("currentProject", project);
+    }
+    protected void setCurrentNav(String currentNav, Model model){
+        model.addAttribute("currentNav", currentNav);
     }
 }

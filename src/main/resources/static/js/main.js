@@ -58,7 +58,8 @@ var vueBody = new Vue({
     el: '#vue-support',
 
     data: {
-        allprojects: null
+        allprojects: null,
+        selectedTreeElement: '/'
     },
     created: function () {
         this.fetchProjects()
