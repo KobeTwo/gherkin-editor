@@ -25,7 +25,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
             .logout()
-                .permitAll();
+                .permitAll()
+                .and()
+            .authorizeRequests()
+                .antMatchers("/api/**").hasAnyRole("ADMIN","USER").and()
+                .httpBasic()
+                .and()
+                .csrf().disable();
     }
 
     @Bean

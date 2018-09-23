@@ -1,4 +1,5 @@
 var getProjectURL = '/api/project'
+var postProjectURL = '/api/project'
 /**
  * home page project list
  */
@@ -16,6 +17,42 @@ Vue.component('header-projects', {
     }
 })
 
+Vue.component('create-project-modal', {
+    template: '#create-project-modal',
+    data:  function () {
+        return {
+            inputProject: {
+                id: null
+            },
+            errorResult: null
+        }
+    },
+    props: {
+        allprojects: Array
+    },
+    methods: {
+        processForm: function () {
+            var self = this
+            $.ajax({
+                url: postProjectURL,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(this.inputProject),
+                dataType: 'json',
+                success: function(result){
+                    self.errorResult = null
+                    self.inputProject.id = '';
+                    self.allprojects.push(result);
+                    $(self.$refs["createProjectModal"]).modal('hide')
+                },
+                error: function(result){
+                    self.errorResult = result.responseJSON
+                }
+            });
+        }
+    }
+})
+
 var vueBody = new Vue({
 
     el: '#vue-support',
@@ -28,14 +65,17 @@ var vueBody = new Vue({
     },
     methods: {
         fetchProjects: function () {
-            var xhr = new XMLHttpRequest()
             var self = this
-            xhr.open('GET', getProjectURL)
-            xhr.onload = function () {
-                response = JSON.parse(xhr.responseText)
-                self.allprojects = response._embedded.project
-            }
-            xhr.send()
+            $.ajax({
+                url: getProjectURL,
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function(result){
+                    self.allprojects = result._embedded.project
+                },
+
+            });
         }
     }
 })

@@ -1,4 +1,4 @@
-package de.gherkineditor.controller;
+package de.gherkineditor.controlleradvice;
 
 import de.gherkineditor.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
