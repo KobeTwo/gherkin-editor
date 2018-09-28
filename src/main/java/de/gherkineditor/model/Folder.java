@@ -11,15 +11,15 @@ public class Folder extends AbstractProjectItem {
 
     private String name;
 
-    private String parentFolderId;
+    private String path;
 
     private Folder() {
     }
 
-    public Folder(String name, String parentFolderId,String projectId) {
+    public Folder(String name, String path, String projectId) {
 
         this.name = name;
-        this.parentFolderId = parentFolderId;
+        this.path = path;
         setProjectId(projectId);
     }
 
@@ -39,12 +39,12 @@ public class Folder extends AbstractProjectItem {
         this.name = name;
     }
 
-    public String getParentFolderId() {
-        return parentFolderId;
+    public String getPath() {
+        return path;
     }
 
-    public void setParentFolderId(String parentFolderId) {
-        this.parentFolderId = parentFolderId;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @Override

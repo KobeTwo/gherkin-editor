@@ -13,12 +13,12 @@ public class Feature extends AbstractProjectItem {
 
     private String fileName;
 
-    private String parentFolderId;
+    private String path;
 
-    public Feature(String name, String fileName, String parentFolderId, String projectId) {
+    public Feature(String name, String fileName, String path, String projectId) {
         this.name = name;
         this.fileName = fileName;
-        this.parentFolderId = parentFolderId;
+        this.path = path;
         this.setProjectId(projectId);
     }
 
@@ -38,12 +38,12 @@ public class Feature extends AbstractProjectItem {
         this.name = name;
     }
 
-    public String getParentFolderId() {
-        return parentFolderId;
+    public String getPath() {
+        return path;
     }
 
-    public void setParentFolderId(String parentFolderId) {
-        this.parentFolderId = parentFolderId;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getFileName() {

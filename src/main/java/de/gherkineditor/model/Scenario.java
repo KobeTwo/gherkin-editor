@@ -13,16 +13,16 @@ public class Scenario extends AbstractProjectItem {
 
     private String description;
 
-    String featureId;
+    String path;
 
     private Scenario() {
     }
 
-    public Scenario(String projectId, String featureId, String name, String description) {
+    public Scenario(String projectId, String path, String name, String description) {
         this.name = name;
         this.description = description;
         setProjectId(projectId);
-        this.featureId = featureId;
+        this.path = path;
     }
 
     public String getId() {
@@ -57,12 +57,12 @@ public class Scenario extends AbstractProjectItem {
         this.description = description;
     }
 
-    public String getFeatureId() {
-        return featureId;
+    public String getPath() {
+        return path;
     }
 
-    public void setFeatureId(String featureId) {
-        this.featureId = featureId;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @Override

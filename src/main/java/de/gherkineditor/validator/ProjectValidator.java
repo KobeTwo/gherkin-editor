@@ -11,7 +11,7 @@ import org.springframework.validation.Validator;
 import java.util.Optional;
 
 @Component("beforeCreateProjectValidator")
-public class ProjectValidator implements Validator {
+public class ProjectValidator extends AbstractValidator implements Validator {
 
     @Autowired
     ProjectRepository projectRepository;
@@ -35,7 +35,4 @@ public class ProjectValidator implements Validator {
         }
     }
 
-    private boolean checkInputString(String input) {
-        return (input == null || input.trim().length() == 0);
-    }
 }
