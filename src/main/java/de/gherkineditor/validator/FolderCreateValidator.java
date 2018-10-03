@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 
 import java.util.Optional;
 
-@Component("beforeCreateFolderValidator")
+@Component("beforeSaveFolderValidator")
 public class FolderValidator extends AbstractValidator implements Validator {
 
     @Autowired
@@ -25,41 +25,35 @@ public class FolderValidator extends AbstractValidator implements Validator {
     public void validate(Object obj, Errors errors) {
         Folder folder = (Folder) obj;
 
-        if (checkInputString(folder.getId())) {
+        if (isInputStringEmpty(folder.getId())) {
             errors.rejectValue("id", "field.empty");
+        } else {
+            Optional<Folder> existingIdFolder = this.folderRepository.findById(folder.getId());
+            if (existingIdFolder.isPresent()) {
+                errors.reject("object.existing");
+            }
         }
 
-        if (checkInputString(folder.getId())) {
+        if (isInputStringEmpty(folder.getProjectId())) {
             errors.rejectValue("projectId", "projectId.empty");
         }
 
-        if (checkInputString(folder.getPath())) {
+        if (isInputStringEmpty(folder.getPath())) {
             errors.rejectValue("path", "path.empty");
+
+        } else {
+            if (isPathPatternInvalid(folder.getPath())) {
+                errors.rejectValue("path", "path.pattern.error");
+            }
+            Optional<Folder> existingPathFolder = this.folderRepository.findByProjectIdAndPath(folder.getProjectId(), folder.getPath());
+            if (existingPathFolder.isPresent()) {
+                errors.reject("object.existing");
+            }
         }
 
-        if (checkInputString(folder.getName())) {
+        if (isInputStringEmpty(folder.getName())) {
             errors.rejectValue("name", "name.empty");
         }
-
-        if (validatePathPattern(folder.getPath())) {
-            errors.rejectValue("path", "path.pattern.error");
-        }
-
-        if (validatePathUnique(folder.getPath())) {
-
-            errors.rejectValue("path", "path.pattern.error");
-        }
-
-        Optional<Folder> existingFolder = folderRepository.findById(folder.getId());
-        if(existingFolder.isPresent()){
-            errors.reject("object.existing");
-        }
     }
-
-    private boolean validatePathUnique(String path){
-        return true;
-    }
-
-
 
 }
