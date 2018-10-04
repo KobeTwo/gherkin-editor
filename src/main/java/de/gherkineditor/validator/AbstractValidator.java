@@ -1,15 +1,13 @@
 package de.gherkineditor.validator;
 
-import org.springframework.validation.Validator;
-
 public abstract class AbstractValidator {
 
 
-    protected boolean checkInputString(String input) {
+    protected boolean isInputStringEmpty(String input) {
         return (input == null || input.trim().length() == 0);
     }
 
-    protected boolean validatePathPattern(String path){
-        return true;
+    protected boolean isPathPatternInvalid(String path) {
+        return !path.matches("^/([a-zA-Z0-9-_]+/)*$");
     }
 }

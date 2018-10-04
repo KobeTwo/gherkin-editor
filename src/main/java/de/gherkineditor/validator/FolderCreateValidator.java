@@ -5,12 +5,11 @@ import de.gherkineditor.repository.FolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 import java.util.Optional;
 
-@Component("beforeSaveFolderValidator")
-public class FolderValidator extends AbstractValidator implements Validator {
+@Component("beforeCreateFolderValidator")
+public class FolderCreateValidator extends FolderBaseValidator {
 
     @Autowired
     FolderRepository folderRepository;
@@ -23,36 +22,18 @@ public class FolderValidator extends AbstractValidator implements Validator {
 
     @Override
     public void validate(Object obj, Errors errors) {
+        super.validate(obj, errors);
         Folder folder = (Folder) obj;
 
-        if (isInputStringEmpty(folder.getId())) {
-            errors.rejectValue("id", "field.empty");
-        } else {
-            Optional<Folder> existingIdFolder = this.folderRepository.findById(folder.getId());
-            if (existingIdFolder.isPresent()) {
-                errors.reject("object.existing");
-            }
+        if (folder.getId() != null) {
+            errors.reject("object.idnotsupported");
         }
 
-        if (isInputStringEmpty(folder.getProjectId())) {
-            errors.rejectValue("projectId", "projectId.empty");
-        }
-
-        if (isInputStringEmpty(folder.getPath())) {
-            errors.rejectValue("path", "path.empty");
-
-        } else {
-            if (isPathPatternInvalid(folder.getPath())) {
-                errors.rejectValue("path", "path.pattern.error");
-            }
-            Optional<Folder> existingPathFolder = this.folderRepository.findByProjectIdAndPath(folder.getProjectId(), folder.getPath());
+        if (!isInputStringEmpty(folder.getPath()) && !isInputStringEmpty(folder.getProjectId())) {
+            Optional<Folder> existingPathFolder = this.folderRepository.findByPathAndName(folder.getProjectId(), folder.getPath(), folder.getName());
             if (existingPathFolder.isPresent()) {
                 errors.reject("object.existing");
             }
-        }
-
-        if (isInputStringEmpty(folder.getName())) {
-            errors.rejectValue("name", "name.empty");
         }
     }
 

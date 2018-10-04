@@ -1,17 +1,22 @@
 package de.gherkineditor.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.*;
 
 @Document(indexName = "folder", type = "folder", shards = 1, replicas = 0, refreshInterval = "-1")
-public class Folder extends AbstractProjectItem {
+public class Folder extends AbstractPathItem {
 
     @Id
     private String id;
 
+    @MultiField(
+            mainField = @Field(type = FieldType.Text, fielddata = true),
+            otherFields = {
+                    @InnerField(suffix = "raw", type = FieldType.Keyword)
+            }
+    )
     private String name;
 
-    private String path;
 
     private Folder() {
     }
@@ -19,7 +24,7 @@ public class Folder extends AbstractProjectItem {
     public Folder(String name, String path, String projectId) {
 
         this.name = name;
-        this.path = path;
+        this.setPath(path);
         setProjectId(projectId);
     }
 
@@ -31,6 +36,7 @@ public class Folder extends AbstractProjectItem {
         this.id = id;
     }
 
+
     public String getName() {
         return this.name;
     }
@@ -39,13 +45,6 @@ public class Folder extends AbstractProjectItem {
         this.name = name;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 
     @Override
     public String toString() {

@@ -1,7 +1,7 @@
 package de.gherkineditor.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.*;
 
 @Document(indexName = "scenario", type = "scenario", shards = 1, replicas = 0, refreshInterval = "-1")
 public class Scenario extends AbstractProjectItem {
@@ -13,6 +13,12 @@ public class Scenario extends AbstractProjectItem {
 
     private String description;
 
+    @MultiField(
+            mainField = @Field(type = FieldType.Text, fielddata = true),
+            otherFields = {
+                    @InnerField(suffix = "raw", type = FieldType.Keyword)
+            }
+    )
     String path;
 
     private Scenario() {
@@ -50,7 +56,7 @@ public class Scenario extends AbstractProjectItem {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -58,7 +64,7 @@ public class Scenario extends AbstractProjectItem {
     }
 
     public String getPath() {
-        return path;
+        return this.path;
     }
 
     public void setPath(String path) {

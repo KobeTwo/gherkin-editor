@@ -9,7 +9,7 @@ import org.springframework.validation.Errors;
 import java.util.Optional;
 
 @Component("beforeSaveFolderValidator")
-public class FolderCreateValidator extends FolderBaseValidator {
+public class FolderUpdateValidator extends FolderBaseValidator {
 
     @Autowired
     FolderRepository folderRepository;
@@ -25,9 +25,18 @@ public class FolderCreateValidator extends FolderBaseValidator {
         super.validate(obj, errors);
         Folder folder = (Folder) obj;
 
-        if (!isInputStringEmpty(folder.getId())) {
+        if (isInputStringEmpty(folder.getId())) {
+            errors.rejectValue("id", "field.empty");
+        } else {
             Optional<Folder> existingIdFolder = this.folderRepository.findById(folder.getId());
-            if (existingIdFolder.isPresent()) {
+            if (existingIdFolder.isPresent() && !existingIdFolder.get().getId().equals(folder.getId())) {
+                errors.reject("object.existing");
+            }
+        }
+
+        if (!isInputStringEmpty(folder.getPath()) && !isInputStringEmpty(folder.getProjectId())) {
+            Optional<Folder> existingPathFolder = this.folderRepository.findByPathAndName(folder.getProjectId(), folder.getPath(), folder.getName());
+            if (existingPathFolder.isPresent() && !existingPathFolder.get().getId().equals(folder.getId())) {
                 errors.reject("object.existing");
             }
         }

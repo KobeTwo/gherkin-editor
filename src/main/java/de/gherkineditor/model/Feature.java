@@ -1,25 +1,33 @@
 package de.gherkineditor.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.*;
 
 @Document(indexName = "feature", type = "feature", shards = 1, replicas = 0, refreshInterval = "-1")
-public class Feature extends AbstractProjectItem {
+public class Feature extends AbstractPathItem {
 
     @Id
     private String id;
 
     private String name;
 
+    @MultiField(
+            mainField = @Field(type = FieldType.Text, fielddata = true),
+            otherFields = {
+                    @InnerField(suffix = "raw", type = FieldType.Keyword)
+            }
+    )
     private String fileName;
-
-    private String path;
 
     public Feature(String name, String fileName, String path, String projectId) {
         this.name = name;
         this.fileName = fileName;
-        this.path = path;
+        setPath(path);
         this.setProjectId(projectId);
+    }
+
+    private Feature() {
+
     }
 
     public String getId() {
@@ -38,16 +46,8 @@ public class Feature extends AbstractProjectItem {
         this.name = name;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public String getFileName() {
-        return fileName;
+        return this.fileName;
     }
 
     public void setFileName(String fileName) {

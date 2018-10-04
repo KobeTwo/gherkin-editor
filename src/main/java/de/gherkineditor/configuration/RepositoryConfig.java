@@ -18,4 +18,5 @@ public class RepositoryConfig extends RepositoryRestConfigurerAdapter {
         config.exposeIdsFor(Scenario.class);
         config.exposeIdsFor(Feature.class);
     }
+
 }

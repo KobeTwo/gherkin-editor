@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public abstract class AbstractValidationService<T> implements ValidationService<T> {
+public abstract class AbstractModelService<T> implements ModelService<T> {
     @Autowired
     private Map<String, Validator> validators;
 

@@ -1,20 +1,24 @@
 package de.gherkineditor.controller;
 
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import de.gherkineditor.dto.FolderStructureItem;
+import de.gherkineditor.facade.FolderStructureFacade;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class FolderRestController {
 
-    @RequestMapping("/api/{projectId}/folder/structure")
-    public FolderStructure greeting(@PathVariable String projectId) {
-        return new FolderStructure();
+    @Autowired
+    FolderStructureFacade folderStructureFacade;
+
+    @RequestMapping(value = "/api/{projectId}/folder/structure", produces = "application/json")
+    public List<FolderStructureItem> folderStructure(@PathVariable String projectId) {
+
+        return this.folderStructureFacade.getFolderStructure(projectId);
     }
 
-    private class FolderStructure {
-
-    }
 }

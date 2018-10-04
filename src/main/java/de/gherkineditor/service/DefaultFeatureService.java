@@ -1,25 +1,25 @@
 package de.gherkineditor.service;
 
-import de.gherkineditor.model.Scenario;
-import de.gherkineditor.repository.ScenarioRepository;
+import de.gherkineditor.model.Feature;
+import de.gherkineditor.repository.FeatureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DefaultFeatureService implements ScenarioService{
+public class DefaultFeatureService implements FeatureService {
 
     @Autowired
-    ScenarioRepository scenarioRepository;
+    FeatureRepository featureRepository;
 
     @Override
-    public Iterable<Scenario> listAllScenarios() {
-        Iterable<Scenario> scenarios = scenarioRepository.findAll();
-        return scenarios;
+    public Iterable<Feature> listAllFeatures() {
+        Iterable<Feature> features = this.featureRepository.findAll();
+        return features;
     }
 
     @Override
-    public Iterable<Scenario> listScenarios(String projectId) {
-        Iterable<Scenario> scenarios = scenarioRepository.findByProjectId(projectId);
-        return scenarios;
+    public Iterable<Feature> listFeatures(String projectId) {
+        Iterable<Feature> features = this.featureRepository.findAll(projectId);
+        return features;
     }
 }

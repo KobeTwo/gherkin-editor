@@ -1,8 +1,9 @@
 package de.gherkineditor.service;
 
-import de.gherkineditor.model.Scenario;
+import de.gherkineditor.model.Feature;
 
 public interface FeatureService {
-    Iterable<Scenario> listAllScenarios();
-    Iterable<Scenario> listScenarios(String projectId);
+    Iterable<Feature> listAllFeatures();
+
+    Iterable<Feature> listFeatures(String projectId);
 }

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DefaultDemoDataService implements DemoDataService{
+public class DefaultDemoDataService implements DemoDataService {
 
     @Autowired
     ScenarioRepository scenarioRepository;
@@ -31,12 +31,20 @@ public class DefaultDemoDataService implements DemoDataService{
     @Autowired
     FeatureRepository featureRepository;
 
-    @Value( "${create.demodata}" )
+    @Autowired
+    ProjectService projectService;
+
+    @Autowired
+    FolderService folderService;
+
+
+    @Value("${create.demodata}")
     private Boolean createDemoData;
 
     @Override
     public void createDemoData() {
-        if(createDemoData){
+        if (this.createDemoData) {
+            deleteAllData();
             createProjects();
             createFolder();
             createFeatures();
@@ -44,58 +52,65 @@ public class DefaultDemoDataService implements DemoDataService{
         }
     }
 
-    private void createProjects(){
+    private void createProjects() {
         List<Project> projects = new ArrayList<Project>();
+        projects.add(this.projectService.create(new Project("project1")));
+        projects.add(this.projectService.create(new Project("project2")));
+        projects.add(this.projectService.create(new Project("project3")));
 
-        projects.add(new Project("project1"));
-        projects.add(new Project("project2"));
-        projects.add(new Project("project3"));
-
-        projectRepository.saveAll(projects);
+        this.projectRepository.saveAll(projects);
     }
 
-    private void createFolder(){
+    private void createFolder() {
         List<Folder> folders = new ArrayList<Folder>();
+        folders.add(this.folderService.create(new Folder("1", "/", "project1")));
+        folders.add(this.folderService.create(new Folder("2", "/", "project1")));
+        folders.add(this.folderService.create(new Folder("1", "/1/", "project1")));
+        folders.add(this.folderService.create(new Folder("1", "/1/1/", "project1")));
+        folders.add(this.folderService.create(new Folder("2", "/1/", "project1")));
+        folders.add(this.folderService.create(new Folder("3", "/1/", "project1")));
+        folders.add(this.folderService.create(new Folder("1", "/2/", "project1")));
 
-        folders.add(new Folder("folder1", "/1", "project1"));
-        folders.add(new Folder("folder2", "/2", "project1"));
-        folders.add(new Folder("folder1_1", "/1/1", "project1"));
-        folders.add(new Folder("folder1_2", "/1/2", "project1"));
-        folders.add(new Folder("folder1_3", "/1/3", "project1"));
-        folders.add(new Folder("folder2_1", "/2/1", "project1"));
-
-        folderRepository.saveAll(folders);
+        this.folderRepository.saveAll(folders);
     }
 
-    private void createFeatures(){
+    private void createFeatures() {
         List<Feature> features = new ArrayList<Feature>();
 
-        features.add( new Feature("feature_p1_1", "feature1file", "/1/feature1file", "project1"));
-        features.add( new Feature("feature_p1_2", "feature2file", "/1/feature2file", "project1"));
-        features.add( new Feature("feature_p1_3", "feature3file", "/1/1/feature3file", "project1"));
-        features.add( new Feature("feature_p1_4", "feature4file", "/1/1/feature4file", "project1"));
-        features.add( new Feature("feature_p1_5", "feature5file", "/1/2/feature5file", "project1"));
-        features.add( new Feature("feature_p1_5", "feature5file", "/2/feature1file", "project1"));
-        features.add( new Feature("feature_p2_1", "feature1file", "/1/feature1file", "project2"));
+        features.add(new Feature("feature_p1_1", "feature1file", "/1/", "project1"));
+        features.add(new Feature("feature_p1_2", "feature2file", "/1/", "project1"));
+        features.add(new Feature("feature_p1_3", "feature3file", "/1/1/", "project1"));
+        features.add(new Feature("feature_p1_4", "feature4file", "/1/1/", "project1"));
+        features.add(new Feature("feature_p1_5", "feature5file", "/1/2/", "project1"));
+        features.add(new Feature("feature_p1_5", "feature5file", "/2/", "project1"));
+        features.add(new Feature("feature_p2_1", "feature1file", "/1/", "project2"));
 
-        featureRepository.saveAll(features);
+        this.featureRepository.saveAll(features);
     }
 
-    private void createScenarios(){
+    private void createScenarios() {
         List<Scenario> scenarios = new ArrayList<Scenario>();
 
-        scenarios.add( new Scenario("project1", "/1/feature1file","p1f1s1", "desc1"));
-        scenarios.add( new Scenario("project1", "/1/feature1file","p1f1s2", "desc2"));
-        scenarios.add( new Scenario("project1", "/1/feature1file","p1f1s3", "desc3"));
-        scenarios.add( new Scenario("project2", "/2/feature1file","p2f1s1", "desc4"));
-        scenarios.add( new Scenario("project2", "/2/feature1file","p2sf12", "desc5"));
-        scenarios.add( new Scenario("project2", "/2/feature1file","p2f1s1", "desc6"));
+        scenarios.add(new Scenario("project1", "/1/feature1file", "p1f1s1", "desc1"));
+        scenarios.add(new Scenario("project1", "/1/feature1file", "p1f1s2", "desc2"));
+        scenarios.add(new Scenario("project1", "/1/feature1file", "p1f1s3", "desc3"));
+        scenarios.add(new Scenario("project2", "/2/feature1file", "p2f1s1", "desc4"));
+        scenarios.add(new Scenario("project2", "/2/feature1file", "p2sf12", "desc5"));
+        scenarios.add(new Scenario("project2", "/2/feature1file", "p2f1s1", "desc6"));
 
-        scenarioRepository.saveAll(scenarios);
+        this.scenarioRepository.saveAll(scenarios);
+    }
+
+    private void deleteAllData() {
+        this.scenarioRepository.deleteAll();
+        this.featureRepository.deleteAll();
+        this.folderRepository.deleteAll();
+        this.projectRepository.deleteAll();
+
     }
 
     @PostConstruct
-    private void init(){
+    private void init() {
         this.createDemoData();
     }
 }

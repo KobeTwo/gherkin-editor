@@ -1,18 +1,9 @@
 package de.gherkineditor.repository;
 
-import de.gherkineditor.model.Folder;
 import org.springframework.data.elasticsearch.annotations.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
-@Repository
-@RepositoryRestResource(collectionResourceRel = "folder", path = "folder")
-public interface FolderRepository extends CrudRepository<Folder, String>, PathItemRepository<Folder> {
-
+public interface PathItemRepository<T>  extends ProjectItemRepository<T>  {
     @Query("{\"bool\": " +
                 "{\"filter\": " +
                     "{\"bool\": " +
@@ -25,9 +16,25 @@ public interface FolderRepository extends CrudRepository<Folder, String>, PathIt
                                 "{\"term\": " +
                                     "{\"path.raw\": \"?1\" " +
                                     "} " +
-                                "} ," +
+                                "} " +
+                            "] " +
+                        "}" +
+                    "} " +
+                "} " +
+            "}")
+    Iterable<T> findChildren(@Param("projectId") String projectId , @Param("path") String path);
+
+    @Query("{\"bool\": " +
+                "{\"filter\": " +
+                    "{\"bool\": " +
+                        "{\"must\": " +
+                            "[" +
                                 "{\"term\": " +
-                                    "{\"name.raw\": \"?2\" " +
+                                    "{\"projectId.raw\": \"?0\" " +
+                                    "} " +
+                                "} ," +
+                                "{\"regexp\": " +
+                                    "{\"path.raw\": \"?1([a-zA-Z0-9-_]+/)*\" " +
                                     "} " +
                                 "} " +
                             "] " +
@@ -35,8 +42,5 @@ public interface FolderRepository extends CrudRepository<Folder, String>, PathIt
                     "} " +
                 "} " +
             "}")
-    Optional<Folder> findByPathAndName(@Param("projectId") String projectId , @Param("path") String path,  @Param("name") String name);
-
-
-
+    Iterable<T> findChildrenRecursive(@Param("projectId") String projectId , @Param("path") String path);
 }

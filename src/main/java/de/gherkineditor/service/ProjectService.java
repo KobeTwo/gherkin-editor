@@ -2,10 +2,8 @@ package de.gherkineditor.service;
 
 import de.gherkineditor.model.Project;
 
-import java.util.List;
-
-public interface ProjectService {
-    Project createProject(Project project);
+public interface ProjectService extends ModelService<Project> {
     Iterable<Project> getAllProjects();
+
     Project getProject(String id);
 }

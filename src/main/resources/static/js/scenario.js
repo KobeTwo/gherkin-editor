@@ -1,42 +1,29 @@
-var data =[
-    {
-        name: '/',
-        children: [
-            { name: 'hello1' },
-            { name: 'wat1' },
-            {
-                name: 'child folder2',
-                children: [
-                    {
-                        name: 'child folder3',
-                        children: [
-                            { name: 'hello3' },
-                            { name: 'wat3' }
-                        ]
-                    },
-                    { name: 'hello4' },
-                    { name: 'wat4' },
-                    {
-                        name: 'child folder5',
-                        children: [
-                            { name: 'hello5' },
-                            { name: 'wat5' }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
-]
+var getTreeStructureURL = '/api/project1/folder/structure'
 
 Vue.component('scenario-sidebar', {
     template: '#scenario-sidebar',
-    data:  function () {
+    data: function () {
         return {
-            roots: data
+            roots: null
         }
     },
+    created: function () {
+        this.fetchProjects()
+    },
     methods: {
+        fetchProjects: function () {
+            var self = this
+            $.ajax({
+                url: getTreeStructureURL,
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    self.roots = result
+                },
+
+            });
+        },
         addChild: function () {
             alert("add child")
         }
@@ -55,22 +42,18 @@ Vue.component('scenario-sidebar-treeitem', {
         }
     },
     computed: {
-        isFolder: function () {
-            return this.model.children &&
-                this.model.children.length
-        },
         isSelected: function () {
-            return this.model.name === this.$root.selectedTreeElement
+            return this.model.model.id === this.$root.selectedTreeElement
         }
     },
     methods: {
         toggle: function () {
-            if (this.isFolder) {
+            if (this.model.type === 'FOLDER') {
                 this.open = !this.open
             }
         },
         select: function () {
-            this.$root.selectedTreeElement = this.model.name
+            this.$root.selectedTreeElement = this.model.model.id
         }
     }
 })
