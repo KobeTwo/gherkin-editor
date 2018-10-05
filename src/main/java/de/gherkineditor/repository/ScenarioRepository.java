@@ -11,32 +11,7 @@ import java.util.Optional;
 
 @Repository
 @RepositoryRestResource(collectionResourceRel = "scenario", path = "scenario")
-public interface ScenarioRepository extends CrudRepository<Scenario, String> {
-    @Query("{\"bool\": " +
-            "{\"filter\": " +
-                "{\"bool\": " +
-                    "{\"must\": " +
-                        "[" +
-                            "{\"term\": " +
-                                "{\"projectId.raw\": \"?0\" " +
-                                "} " +
-                            "} ," +
-                            "{\"term\": " +
-                                "{\"path.raw\": \"?1\" " +
-                                "} " +
-                            "} ," +
-                            "{\"term\": " +
-                                "{\"fileName.raw\": \"?2\" " +
-                                "} " +
-                            "} " +
-                        "] " +
-                    "}" +
-                "} " +
-            "} " +
-        "}")
-    Optional<Scenario> findByPathAndFileName(@Param("projectId") String projectId , @Param("path") String path, @Param("fileName") String fileName);
-
-
+public interface ScenarioRepository extends CrudRepository<Scenario, String>, PathItemRepository<Scenario> {
     @Query("{ " +
                 "\"bool\": {" +
                     "\"filter\": { " +

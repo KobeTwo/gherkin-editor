@@ -14,12 +14,14 @@ public class ProjectUpdateValidator extends ProjectBaseValidator {
 
     @Override
     public boolean supports(Class<?> clazz) {
+
         return Project.class.equals(clazz);
     }
 
 
     @Override
     public void validate(Object obj, Errors errors) {
+
         super.validate(obj, errors);
     }
 

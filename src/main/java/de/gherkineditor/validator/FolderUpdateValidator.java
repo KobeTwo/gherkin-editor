@@ -35,7 +35,7 @@ public class FolderUpdateValidator extends FolderBaseValidator {
         }
 
         if (!isInputStringEmpty(folder.getPath()) && !isInputStringEmpty(folder.getProjectId())) {
-            Optional<Folder> existingPathFolder = this.folderRepository.findByPathAndName(folder.getProjectId(), folder.getPath(), folder.getName());
+            Optional<Folder> existingPathFolder = this.folderRepository.findByPathAndName(folder.getProjectId(), folder.getPath(), folder.getFileName());
             if (existingPathFolder.isPresent() && !existingPathFolder.get().getId().equals(folder.getId())) {
                 errors.reject("object.existing");
             }

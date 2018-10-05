@@ -9,6 +9,7 @@ import de.gherkineditor.repository.FolderRepository;
 import de.gherkineditor.service.FeatureService;
 import de.gherkineditor.service.FolderService;
 import de.gherkineditor.service.ProjectService;
+import de.gherkineditor.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,7 +58,7 @@ public class DefaultFolderStructureFacade implements FolderStructureFacade {
             FolderStructureItem item = new FolderStructureItem();
             item.setModel(folder);
             item.setType(FolderStructureItem.TYPE.FOLDER);
-            item.setChildFolders(getFolderStructure(project.getId(), folder.getPath().concat(folder.getName()).concat("/")));
+            item.setChildFolders(getFolderStructure(project.getId(), Util.getConcatenatedPath(folder.getPath(), folder.getFileName())));
             struct.add(item);
         }
 

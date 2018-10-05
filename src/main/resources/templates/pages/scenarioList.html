@@ -30,9 +30,9 @@
             <ul class="sidebar-tree-root">
                 <scenario-sidebar-treeitem
                         class="item"
-                        v-for="(model, index) in roots"
+                        v-for="(item, index) in roots"
                         :key="index"
-                        :model="model"
+                        :item="item"
                 >
                 </scenario-sidebar-treeitem>
             </ul>
@@ -47,27 +47,40 @@
              :class="{'bg-secondary text-white': isSelected}"
              @click="select">
 
-            <span v-if="model.type === 'FOLDER'">
+            <span v-if="item.type === 'FOLDER'">
                 <span @click="toggle">
                     <i v-if="open" class="fas fa-chevron-circle-down"></i>
                     <i v-else="open" class="fas fa-chevron-circle-right"></i>
                 </span>
-                <span>{{ model.model.name }}</span>
+                <span>{{ item.model.fileName }}</span>
             </span>
-            <span v-else-if="model.type === 'FEATURE'"><i class="fas fa-file"></i> {{ model.model.name }}</span>
+            <span v-else-if="item.type === 'FEATURE'"><i class="fas fa-file"></i> {{ item.model.fileName }}</span>
 
         </div>
-        <ul v-show="open" v-if="model.type === 'FOLDER'">
+        <ul v-show="open" v-if="item.type === 'FOLDER'">
+
             <scenario-sidebar-treeitem
                     class="item"
-                    v-for="(model, index) in model.childFolders"
+                    v-for="(item, index) in item.childFolders"
                     :key="index"
-                    :model="model"
+                    :item="item"
             >
             </scenario-sidebar-treeitem>
         </ul>
     </li>
 
+</script>
+
+<script type="text/x-template" id="scenario-list">
+    <div>
+        <div v-for="(scenario, index) in scenarios" class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ scenario.name }}</h5>
+                <p class="card-text">{{ scenario.description }}</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
 </script>
 
 
@@ -87,13 +100,8 @@
                 </div>
             </nav>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <div th:text="${scenarios}">test</div>
-                <div th:each="scenario : ${scenarios}">
-                    <div th:text="${scenario.name}">test</div>
-                </div>
-                <div th:each="aScenario : ${allScenarios}">
-                    <div th:text="${aScenario.name}">test</div>
-                </div>
+                <scenario-list>
+                </scenario-list>
 
             </main>
         </div>

@@ -13,8 +13,8 @@ public interface PathItemRepository<T>  extends ProjectItemRepository<T>  {
                                     "{\"projectId.raw\": \"?0\" " +
                                     "} " +
                                 "} ," +
-                                "{\"term\": " +
-                                    "{\"path.raw\": \"?1\" " +
+                                "{\"regexp\": " +
+                                    "{\"path.raw\": \"?1/?\" " +
                                     "} " +
                                 "} " +
                             "] " +
@@ -34,7 +34,7 @@ public interface PathItemRepository<T>  extends ProjectItemRepository<T>  {
                                     "} " +
                                 "} ," +
                                 "{\"regexp\": " +
-                                    "{\"path.raw\": \"?1([a-zA-Z0-9-_]+/)*\" " +
+                                    "{\"path.raw\": \"?1/?([a-zA-Z0-9-_]+/?)*\" " +
                                     "} " +
                                 "} " +
                             "] " +

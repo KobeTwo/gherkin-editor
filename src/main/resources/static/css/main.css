@@ -4,6 +4,7 @@
     padding: 15px;
     margin: auto;
 }
+
 .signin {
     display: -ms-flexbox;
     display: flex;
@@ -13,6 +14,7 @@
     padding-bottom: 40px;
     background-color: #f5f5f5;
 }
+
 .sidebar ul {
     list-style-type: none;
     -webkit-padding-start: 15px;
@@ -21,6 +23,7 @@
 .sidebar ul div.selected {
     background-color: red;
 }
+
 .sidebar ul div.sidebar-list-element {
     padding-left: 3px;
     cursor: pointer;
@@ -29,4 +32,9 @@
 .sidebar .sidebar-tree-root {
     padding-left: 0px;
     padding-top: 3px;
+}
+
+.sidebar i.fa-file {
+    padding-left: 2px;
+    padding-right: 3px;
 }

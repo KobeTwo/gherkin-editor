@@ -19,7 +19,7 @@ Vue.component('header-projects', {
 
 Vue.component('create-project-modal', {
     template: '#create-project-modal',
-    data:  function () {
+    data: function () {
         return {
             inputProject: {
                 id: null
@@ -39,13 +39,13 @@ Vue.component('create-project-modal', {
                 contentType: 'application/json',
                 data: JSON.stringify(this.inputProject),
                 dataType: 'json',
-                success: function(result){
+                success: function (result) {
                     self.errorResult = null
                     self.inputProject.id = '';
                     self.allprojects.push(result);
                     $(self.$refs["createProjectModal"]).modal('hide')
                 },
-                error: function(result){
+                error: function (result) {
                     self.errorResult = result.responseJSON
                 }
             });
@@ -59,7 +59,8 @@ var vueBody = new Vue({
 
     data: {
         allprojects: null,
-        selectedTreeElement: '/'
+        currentProject: currentProject,
+        selectedTreeElement: {model: {path: '/', fileName: ''}}
     },
     created: function () {
         this.fetchProjects()
@@ -72,7 +73,7 @@ var vueBody = new Vue({
                 type: 'GET',
                 contentType: 'application/json',
                 dataType: 'json',
-                success: function(result){
+                success: function (result) {
                     self.allprojects = result._embedded.project
                 },
 

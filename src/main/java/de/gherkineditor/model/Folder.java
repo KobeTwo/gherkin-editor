@@ -15,15 +15,15 @@ public class Folder extends AbstractPathItem {
                     @InnerField(suffix = "raw", type = FieldType.Keyword)
             }
     )
-    private String name;
+    private String fileName;
 
 
     private Folder() {
     }
 
-    public Folder(String name, String path, String projectId) {
+    public Folder(String projectId, String path, String fileName) {
 
-        this.name = name;
+        this.fileName = fileName;
         this.setPath(path);
         setProjectId(projectId);
     }
@@ -37,19 +37,19 @@ public class Folder extends AbstractPathItem {
     }
 
 
-    public String getName() {
-        return this.name;
+    public String getFileName() {
+        return this.fileName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
 
     @Override
     public String toString() {
         return String.format("Folder[id=%s, name='%s']", this.id,
-                this.name);
+                this.fileName);
     }
 
 }

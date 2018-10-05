@@ -12,5 +12,28 @@ import java.util.Optional;
 @Repository
 @RepositoryRestResource(collectionResourceRel = "feature", path = "feature")
 public interface FeatureRepository extends CrudRepository<Feature, String>, PathItemRepository<Feature> {
+    @Query("{\"bool\": " +
+                "{\"filter\": " +
+                    "{\"bool\": " +
+                        "{\"must\": " +
+                            "[" +
+                                "{\"term\": " +
+                                    "{\"projectId.raw\": \"?0\" " +
+                                    "} " +
+                                "} ," +
+                                "{\"term\": " +
+                                    "{\"path.raw\": \"?1\" " +
+                                    "} " +
+                                "} ," +
+                                "{\"term\": " +
+                                    "{\"fileName.raw\": \"?2\" " +
+                                    "} " +
+                                "} " +
+                            "] " +
+                        "}" +
+                    "} " +
+                "} " +
+            "}")
+    Optional<Feature> findByPathAndName(@Param("projectId") String projectId , @Param("path") String path,  @Param("fileName") String fileName);
 
 }

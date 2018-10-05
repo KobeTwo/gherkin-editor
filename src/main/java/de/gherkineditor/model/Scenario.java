@@ -1,10 +1,17 @@
 package de.gherkineditor.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.*;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Document(indexName = "scenario", type = "scenario", shards = 1, replicas = 0, refreshInterval = "-1")
-public class Scenario extends AbstractProjectItem {
+public class Scenario extends AbstractPathItem {
 
     @Id
     private String id;
@@ -13,13 +20,14 @@ public class Scenario extends AbstractProjectItem {
 
     private String description;
 
-    @MultiField(
-            mainField = @Field(type = FieldType.Text, fielddata = true),
-            otherFields = {
-                    @InnerField(suffix = "raw", type = FieldType.Keyword)
-            }
-    )
-    String path;
+    @Field(type = FieldType.Keyword)
+    private List<String> tags = new ArrayList<>();
+
+    @Field(type = FieldType.Nested)
+    private List<Step> steps = new ArrayList<>();
+
+    @Field(type = FieldType.Nested)
+    private Map<String, String[]> examples = new HashMap<>();
 
     private Scenario() {
     }
@@ -28,7 +36,7 @@ public class Scenario extends AbstractProjectItem {
         this.name = name;
         this.description = description;
         setProjectId(projectId);
-        this.path = path;
+        setPath(path);
     }
 
     public String getId() {
@@ -63,12 +71,52 @@ public class Scenario extends AbstractProjectItem {
         this.description = description;
     }
 
-    public String getPath() {
-        return this.path;
+    public List<String> getTags() {
+        return this.tags;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public void addTag(String tag) {
+        this.tags.add(tag);
+    }
+
+    public void removeTag(String tag) {
+        this.tags.remove(tag);
+    }
+
+    public List<Step> getSteps() {
+        return this.steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
+    }
+
+    public void addStep(Step step) {
+        this.steps.add(step);
+    }
+
+    public void removeStep(Step step) {
+        this.steps.remove(step);
+    }
+
+    public Map<String, String[]> getExamples() {
+        return this.examples;
+    }
+
+    public void setExamples(Map<String, String[]> examples) {
+        this.examples = examples;
+    }
+
+    public void setExample(String key, String[] value) {
+        this.examples.put(key, value);
+    }
+
+    public void removeExample(String key, String[] value) {
+        this.examples.put(key, value);
     }
 
     @Override

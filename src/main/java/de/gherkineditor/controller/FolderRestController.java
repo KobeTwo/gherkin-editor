@@ -3,8 +3,8 @@ package de.gherkineditor.controller;
 import de.gherkineditor.dto.FolderStructureItem;
 import de.gherkineditor.facade.FolderStructureFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,9 +15,8 @@ public class FolderRestController {
     @Autowired
     FolderStructureFacade folderStructureFacade;
 
-    @RequestMapping(value = "/api/{projectId}/folder/structure", produces = "application/json")
-    public List<FolderStructureItem> folderStructure(@PathVariable String projectId) {
-
+    @RequestMapping(value = "/api/treeStructure", produces = "application/json")
+    public List<FolderStructureItem> folderStructure(@RequestParam(name = "projectId", required = true) String projectId) {
         return this.folderStructureFacade.getFolderStructure(projectId);
     }
 

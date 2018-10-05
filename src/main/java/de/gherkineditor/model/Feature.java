@@ -3,6 +3,9 @@ package de.gherkineditor.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Document(indexName = "feature", type = "feature", shards = 1, replicas = 0, refreshInterval = "-1")
 public class Feature extends AbstractPathItem {
 
@@ -10,6 +13,14 @@ public class Feature extends AbstractPathItem {
     private String id;
 
     private String name;
+
+    private String description;
+
+    @Field(type = FieldType.Keyword)
+    private List<String> tags;
+
+    @Field(type = FieldType.Nested)
+    private List<Step> backgroundSteps = new ArrayList<>();
 
     @MultiField(
             mainField = @Field(type = FieldType.Text, fielddata = true),
@@ -19,11 +30,12 @@ public class Feature extends AbstractPathItem {
     )
     private String fileName;
 
-    public Feature(String name, String fileName, String path, String projectId) {
+    public Feature(String projectId, String path, String fileName, String name, String description) {
         this.name = name;
         this.fileName = fileName;
         setPath(path);
         this.setProjectId(projectId);
+        this.description = description;
     }
 
     private Feature() {
@@ -52,6 +64,46 @@ public class Feature extends AbstractPathItem {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<String> getTags() {
+        return this.tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public void addTag(String tag) {
+        this.tags.add(tag);
+    }
+
+    public void removeTag(String tag) {
+        this.tags.remove(tag);
+    }
+
+    public List<Step> getBackgroundSteps() {
+        return backgroundSteps;
+    }
+
+    public void setBackgroundSteps(List<Step> backgroundSteps) {
+        this.backgroundSteps = backgroundSteps;
+    }
+
+    public void addBackgroundSteps(Step step) {
+        this.backgroundSteps.add(step);
+    }
+
+    public void removeBackgroundSteps(Step step) {
+        this.backgroundSteps.remove(step);
     }
 
     @Override

@@ -27,7 +27,7 @@ public interface FolderRepository extends CrudRepository<Folder, String>, PathIt
                                     "} " +
                                 "} ," +
                                 "{\"term\": " +
-                                    "{\"name.raw\": \"?2\" " +
+                                    "{\"fileName.raw\": \"?2\" " +
                                     "} " +
                                 "} " +
                             "] " +
@@ -35,7 +35,7 @@ public interface FolderRepository extends CrudRepository<Folder, String>, PathIt
                     "} " +
                 "} " +
             "}")
-    Optional<Folder> findByPathAndName(@Param("projectId") String projectId , @Param("path") String path,  @Param("name") String name);
+    Optional<Folder> findByPathAndName(@Param("projectId") String projectId , @Param("path") String path,  @Param("fileName") String fileName);
 
 
 
