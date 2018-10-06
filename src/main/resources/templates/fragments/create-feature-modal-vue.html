@@ -1,0 +1,74 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="create-feature-modal-vue-template">
+    <script type="text/x-template" id="create-feature-modal">
+        <!-- Modal -->
+        <div ref="createFeatureModal" class="modal fade" id="createFeatureModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" th:text="#{feature.create}"/>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form @submit.prevent="processForm">
+                        <div class="modal-body">
+                            <div v-if="errorResult">
+                                <div class="alert alert-danger" role="alert"
+                                     v-for="globalError in errorResult.globalErrors">
+                                    <span>{{ globalError.message }}</span>
+                                </div>
+                                <div class="alert alert-danger" role="alert"
+                                     v-for="fieldError in errorResult.fieldErrors">
+                                    <span>{{ fieldError.message }}</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="featureFileName" th:text="#{feature.fileName}"/>
+                                <div class="input-group mb-3">
+                                    <input v-model="inputFeature.fileName" type="text" class="form-control"
+                                           id="featureFileName"
+                                           placeholder="Enter the file name of the feature"
+                                           aria-describedby="basic-addon2"
+                                    />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="basic-addon2"
+                                              th:text="#{feature.fileextension}">.feature</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group required">
+                                <label for="featureName" th:text="#{feature.name}"/>
+                                <input v-model="inputFeature.name" type="text" class="form-control"
+                                       id="featureName"
+                                       placeholder="Enter the name of the feature"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label for="featureDescription" th:text="#{feature.description}"/>
+                                <textarea v-model="inputFeature.description" type="text" class="form-control"
+                                          id="featureDescription"
+                                          placeholder="Enter the description of the feature"
+                                          rows="3"
+                                ></textarea>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{cancel}">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary" th:text="#{create.feature}"/>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </script>
+</th:block>
+</body>
+</html>

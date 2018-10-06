@@ -3,6 +3,8 @@ package de.gherkineditor.repository;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface PathItemRepository<T>  extends ProjectItemRepository<T>  {
     @Query("{\"bool\": " +
                 "{\"filter\": " +
@@ -34,7 +36,7 @@ public interface PathItemRepository<T>  extends ProjectItemRepository<T>  {
                                     "} " +
                                 "} ," +
                                 "{\"regexp\": " +
-                                    "{\"path.raw\": \"?1/?([a-zA-Z0-9-_]+/?)*\" " +
+                                    "{\"path.raw\": \"?1/?([a-zA-Z0-9-_\\\\.]+/?)*\" " +
                                     "} " +
                                 "} " +
                             "] " +
@@ -43,4 +45,28 @@ public interface PathItemRepository<T>  extends ProjectItemRepository<T>  {
                 "} " +
             "}")
     Iterable<T> findChildrenRecursive(@Param("projectId") String projectId , @Param("path") String path);
+
+    @Query("{\"bool\": " +
+            "{\"filter\": " +
+                "{\"bool\": " +
+                    "{\"must\": " +
+                        "[" +
+                            "{\"term\": " +
+                                "{\"projectId.raw\": \"?0\" " +
+                                "} " +
+                            "} ," +
+                            "{\"term\": " +
+                                "{\"path.raw\": \"?1\" " +
+                                "} " +
+                            "} ," +
+                            "{\"term\": " +
+                                "{\"fileName.raw\": \"?2\" " +
+                                "} " +
+                            "} " +
+                        "] " +
+                    "}" +
+                "} " +
+            "} " +
+        "}")
+    Optional<T> findByPathAndName(@Param("projectId") String projectId , @Param("path") String path, @Param("fileName") String fileName);
 }

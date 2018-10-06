@@ -38,3 +38,7 @@
     padding-left: 2px;
     padding-right: 3px;
 }
+
+.form-group.required label:after {
+    content: "*";
+}

@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="header-projects-vue-template">
+    <script type="text/x-template" id="header-projects">
+        <div class="nav-item dropdown">
+            <a th:class="${currentProject}? 'nav-link dropdown-toggle active' : 'nav-link dropdown-toggle'"
+               data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+               th:text="${currentProject}? ${currentProject.id} : #{project.choose}"/>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" th:with="baseUrl=test" v-for="project in allprojects"
+                   :href="'/' + project.id + '/scenarios'">{{ project.id }}</a>
+                <em><a class="dropdown-item " data-toggle="modal" data-target="#createProjectModal"
+                       th:text="#{project.create}">create project</a></em>
+            </div>
+        </div>
+    </script>
+</th:block>
+</body>
+</html>

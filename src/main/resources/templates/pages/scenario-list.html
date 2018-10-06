@@ -18,10 +18,10 @@
     <div>
         <div class="d-flex">
             <div class="ml-auto">
-                <button type="button" class="btn btn-secondary" @click="addChild">
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#createFolderModal">
                     <i class="fas fa-folder-plus"></i>
                 </button>
-                <button type="button" class="btn btn-secondary" @click="addChild">
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#createFeatureModal">
                     <i class="fas fa-file-signature"></i>
                 </button>
             </div>
@@ -61,7 +61,7 @@
 
             <scenario-sidebar-treeitem
                     class="item"
-                    v-for="(item, index) in item.childFolders"
+                    v-for="(item, index) in item.children"
                     :key="index"
                     :item="item"
             >

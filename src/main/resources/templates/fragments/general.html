@@ -16,70 +16,23 @@
         console.log(currentProject);
         /*]]>*/
     </script>
-    <script type="text/x-template" id="header-projects">
-        <div class="nav-item dropdown">
-            <a th:class="${currentProject}? 'nav-link dropdown-toggle active' : 'nav-link dropdown-toggle'"
-               data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
-               th:text="${currentProject}? ${currentProject.id} : #{project.choose}"/>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" th:with="baseUrl=test" v-for="project in allprojects"
-                   :href="'/' + project.id + '/scenarios'">{{ project.id }}</a>
-                <em><a class="dropdown-item " data-toggle="modal" data-target="#createProjectModal"
-                       th:text="#{project.create}">create project</a></em>
-            </div>
-        </div>
-    </script>
-    <script type="text/x-template" id="create-project-modal">
-        <!-- Modal -->
-        <div ref="createProjectModal" class="modal fade" id="createProjectModal" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel" th:text="#{project.create}"/>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form @submit.prevent="processForm">
-                        <div class="modal-body">
-                            <div v-if="errorResult">
-                                <div class="alert alert-danger" role="alert"
-                                     v-for="globalError in errorResult.globalErrors">
-                                    <span>{{ globalError.message }}</span>
-                                </div>
-                                <div class="alert alert-danger" role="alert"
-                                     v-for="fieldError in errorResult.fieldErrors">
-                                    <span>{{ fieldError.message }}</span>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="projectId" th:text="#{project.id}"/>
-                                <input v-model="inputProject.id" type="text" class="form-control" id="projectId"
-                                       aria-describedby="projectIdHelp" placeholder="Enter the id of the project"
-                                       autofocus>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{cancel}">
-                                Cancel
-                            </button>
-                            <button type="submit" class="btn btn-primary" th:text="#{create.project}"/>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </script>
+    <th:block th:replace="fragments/header-projects-vue.html :: header-projects-vue-template"/>
+    <th:block th:replace="fragments/create-project-modal-vue.html :: create-project-modal-vue-template"/>
+    <th:block th:replace="fragments/create-folder-modal-vue.html :: create-folder-modal-vue-template"/>
+    <th:block th:replace="fragments/create-feature-modal-vue.html :: create-feature-modal-vue-template"/>
 </th:block>
 <th:block th:fragment="header">
 
     <create-project-modal
             :allprojects="allprojects">
     </create-project-modal>
+    <create-folder-modal>
+
+    </create-folder-modal>
+
+    <create-feature-modal>
+
+    </create-feature-modal>
 
     <header class="mb-3">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -127,6 +80,7 @@
             integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
             crossorigin="anonymous"></script>
     <script type="text/javascript" th:src="@{/js/vue.js}"></script>
+    <script type="text/javascript" th:src="@{/js/util.js}"></script>
     <script type="text/javascript" th:src="@{/js/scenario-list.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
 </th:block>

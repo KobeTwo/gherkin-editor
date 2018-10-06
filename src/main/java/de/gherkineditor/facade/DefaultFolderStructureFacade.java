@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -50,15 +51,15 @@ public class DefaultFolderStructureFacade implements FolderStructureFacade {
         Iterable<Folder> folders = this.folderRepository.findChildren(project.getId(), path);
         Iterable<Feature> features = this.featureRepository.findChildren(project.getId(), path);
 
-        if (!folders.iterator().hasNext()) {
-            return null;
+        if (!folders.iterator().hasNext() && !features.iterator().hasNext()) {
+            return Collections.EMPTY_LIST;
         }
 
         for (Folder folder : folders) {
             FolderStructureItem item = new FolderStructureItem();
             item.setModel(folder);
             item.setType(FolderStructureItem.TYPE.FOLDER);
-            item.setChildFolders(getFolderStructure(project.getId(), Util.getConcatenatedPath(folder.getPath(), folder.getFileName())));
+            item.setChildren(getFolderStructure(project.getId(), Util.getConcatenatedPath(folder.getPath(), folder.getFileName())));
             struct.add(item);
         }
 
@@ -66,7 +67,7 @@ public class DefaultFolderStructureFacade implements FolderStructureFacade {
             FolderStructureItem item = new FolderStructureItem();
             item.setModel(feature);
             item.setType(FolderStructureItem.TYPE.FEATURE);
-            item.setChildFolders(null);
+            item.setChildren(null);
             struct.add(item);
         }
 

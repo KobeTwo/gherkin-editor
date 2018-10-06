@@ -17,7 +17,7 @@ public class Feature extends AbstractPathItem {
     private String description;
 
     @Field(type = FieldType.Keyword)
-    private List<String> tags;
+    private List<String> tags = new ArrayList<>();
 
     @Field(type = FieldType.Nested)
     private List<Step> backgroundSteps = new ArrayList<>();
@@ -91,7 +91,7 @@ public class Feature extends AbstractPathItem {
     }
 
     public List<Step> getBackgroundSteps() {
-        return backgroundSteps;
+        return this.backgroundSteps;
     }
 
     public void setBackgroundSteps(List<Step> backgroundSteps) {

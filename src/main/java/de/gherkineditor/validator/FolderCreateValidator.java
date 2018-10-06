@@ -26,13 +26,13 @@ public class FolderCreateValidator extends FolderBaseValidator {
         Folder folder = (Folder) obj;
 
         if (folder.getId() != null) {
-            errors.reject("object.idnotsupported");
+            errors.reject("object.idnotsupported", "It is not allowed to submit the id. It will be generated");
         }
 
         if (!isInputStringEmpty(folder.getPath()) && !isInputStringEmpty(folder.getProjectId())) {
             Optional<Folder> existingPathFolder = this.folderRepository.findByPathAndName(folder.getProjectId(), folder.getPath(), folder.getFileName());
             if (existingPathFolder.isPresent()) {
-                errors.reject("object.existing");
+                errors.reject("object.existing", "Folder with this path and file name is already existing within project");
             }
         }
     }

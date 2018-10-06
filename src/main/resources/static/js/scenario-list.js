@@ -9,6 +9,11 @@ Vue.component('scenario-sidebar', {
             roots: null
         }
     },
+    computed: {
+        selectedTreeItem: function () {
+            return this.$root.selectedTreeElement;
+        }
+    },
     created: function () {
         this.fetchTreeStructure(this.$root.currentProject.id)
     },
@@ -22,13 +27,17 @@ Vue.component('scenario-sidebar', {
                 dataType: 'json',
                 data: {projectId: projectId},
                 success: function (result) {
-                    self.roots = result
+                    rootFolder = {
+                        model: {id: 'folderRoot', path: '', fileName: '/'},
+                        children: result,
+                        type: 'FOLDER'
+                    }
+                    rootFolderList = [rootFolder]
+                    self.$root.selectedTreeElement = rootFolder
+                    self.roots = rootFolderList
                 },
 
             });
-        },
-        addChild: function () {
-            alert("add child")
         }
     }
 })

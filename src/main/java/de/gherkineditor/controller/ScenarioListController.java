@@ -21,7 +21,7 @@ public class ScenarioListController extends AbstractProjectController {
         model.addAttribute("scenarios", this.scenarioService.listScenarios(projectId));
         model.addAttribute("allScenarios", this.scenarioService.listAllScenarios());
 
-        return "pages/scenarioList";
+        return "pages/scenario-list";
     }
 
 }

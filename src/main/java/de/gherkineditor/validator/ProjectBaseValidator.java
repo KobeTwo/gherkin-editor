@@ -16,7 +16,7 @@ public abstract class ProjectBaseValidator extends AbstractValidator implements 
     public void validate(Object obj, Errors errors) {
         Project project = (Project) obj;
         if (isInputStringEmpty(project.getId())) {
-            errors.rejectValue("id", "field.empty");
+            errors.rejectValue("id", "id.empty", "Id must not be empty");
         }
     }
 }

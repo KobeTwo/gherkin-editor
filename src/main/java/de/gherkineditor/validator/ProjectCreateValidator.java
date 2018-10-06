@@ -27,7 +27,7 @@ public class ProjectCreateValidator extends ProjectBaseValidator {
         if (!isInputStringEmpty(project.getId())) {
             Optional<Project> existingProject = this.projectRepository.findById(project.getId());
             if (existingProject.isPresent()) {
-                errors.reject("object.existing");
+                errors.reject("object.existing", "Project with id is already existing");
             }
         }
     }

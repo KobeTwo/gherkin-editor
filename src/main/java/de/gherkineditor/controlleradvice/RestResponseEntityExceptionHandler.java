@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -34,7 +33,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 .stream()
                 .map(error -> new ApiGlobalError(
                         error.getCodes(),
-                        messageSource.getMessage(error , LocaleContextHolder.getLocale()))
+                        this.messageSource.getMessage(error, LocaleContextHolder.getLocale()))
                 ).collect(Collectors.toList());
 
         List<ApiFieldError> fieldErrors = nevEx
@@ -44,10 +43,10 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 .map(error -> new ApiFieldError(
                         error.getField(),
                         error.getCodes(),
-                        messageSource.getMessage(error , LocaleContextHolder.getLocale()))
+                        this.messageSource.getMessage(error, LocaleContextHolder.getLocale()))
                 ).collect(Collectors.toList());
 
-        ApiErrorsView apiErrorsView = new ApiErrorsView(nevEx.getLocalizedMessage(),globaelErrors, fieldErrors);
+        ApiErrorsView apiErrorsView = new ApiErrorsView(nevEx.getLocalizedMessage(), globaelErrors, fieldErrors);
 
 
         return new ResponseEntity<>(apiErrorsView, HttpStatus.UNPROCESSABLE_ENTITY);
@@ -67,7 +66,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         public String getMessage() {
-            return message;
+            return this.message;
         }
 
         public void setMessage(String message) {
@@ -75,7 +74,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         public List<ApiGlobalError> getGlobalErrors() {
-            return globalErrors;
+            return this.globalErrors;
         }
 
         public void setGlobalErrors(List<ApiGlobalError> globalErrors) {
@@ -83,13 +82,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         public List<ApiFieldError> getFieldErrors() {
-            return fieldErrors;
+            return this.fieldErrors;
         }
 
         public void setFieldErrors(List<ApiFieldError> fieldErrors) {
             this.fieldErrors = fieldErrors;
         }
     }
+
     class ApiGlobalError {
         private String[] codes;
         private String message;
@@ -100,7 +100,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         public String[] getCodes() {
-            return codes;
+            return this.codes;
         }
 
         public void setCodes(String[] codes) {
@@ -108,7 +108,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         public String getMessage() {
-            return message;
+            return this.message;
         }
 
         public void setMessage(String message) {
@@ -128,7 +128,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         public String getField() {
-            return field;
+            return this.field;
         }
 
         public void setField(String field) {
@@ -136,7 +136,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         public String[] getCodes() {
-            return codes;
+            return this.codes;
         }
 
         public void setCode(String[] codes) {
@@ -144,7 +144,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         public String getMessage() {
-            return message;
+            return this.message;
         }
 
         public void setMessage(String message) {

@@ -18,11 +18,11 @@ public abstract class AbstractProjectItemValidator extends AbstractValidator {
         AbstractProjectItem projectItem = (AbstractProjectItem) obj;
 
         if (isInputStringEmpty(projectItem.getProjectId())) {
-            errors.rejectValue("projectId", "projectId.empty");
-        }
-
-        if (!isProjectExisting(projectItem)) {
-            errors.rejectValue("projectId", "notexisting");
+            errors.rejectValue("projectId", "projectId.empty", "Project id must not be empty");
+        } else {
+            if (!isProjectExisting(projectItem)) {
+                errors.rejectValue("projectId", "notexisting", "Project with project id is not existing");
+            }
         }
     }
 

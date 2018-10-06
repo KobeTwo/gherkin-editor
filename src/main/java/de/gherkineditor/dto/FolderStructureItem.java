@@ -15,7 +15,7 @@ public class FolderStructureItem {
 
     private TYPE type;
 
-    private List<FolderStructureItem> childFolders = new ArrayList<>();
+    private List<FolderStructureItem> children = new ArrayList<>();
 
     public AbstractPathItem getModel() {
         return this.model;
@@ -25,12 +25,12 @@ public class FolderStructureItem {
         this.model = model;
     }
 
-    public List<FolderStructureItem> getChildFolders() {
-        return this.childFolders;
+    public List<FolderStructureItem> getChildren() {
+        return this.children;
     }
 
-    public void setChildFolders(List<FolderStructureItem> childFolders) {
-        this.childFolders = childFolders;
+    public void setChildren(List<FolderStructureItem> children) {
+        this.children = children;
     }
 
     public TYPE getType() {

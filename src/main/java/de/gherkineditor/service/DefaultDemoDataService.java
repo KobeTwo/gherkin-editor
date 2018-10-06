@@ -78,13 +78,13 @@ public class DefaultDemoDataService implements DemoDataService {
     private void createFeatures() {
         List<Feature> features = new ArrayList<Feature>();
 
-        features.add(new Feature("project1", "/1/", "feature1file", "feature_p1_1", "feature1Desc"));
-        features.add(new Feature("project1", "/1/", "feature2file", "feature_p1_2", "feature2Desc"));
-        features.add(new Feature("project1", "/1/1/", "feature3file", "feature_p1_3", "feature3Desc"));
-        features.add(new Feature("project1", "/1/1/", "feature4file", "feature_p1_4", "feature4Desc"));
-        features.add(new Feature("project1", "/1/2/", "feature5file", "feature_p1_5", "feature5Desc"));
-        features.add(new Feature("project1", "/2/", "feature6file", "feature_p1_6", "feature6Desc"));
-        features.add(new Feature("project2", "/1/", "feature1file", "feature_p2_1", "feature1Desc"));
+        features.add(new Feature("project1", "/1/", "feature1file.feature", "feature_p1_1", "feature1Desc"));
+        features.add(new Feature("project1", "/1/", "feature2file.feature", "feature_p1_2", "feature2Desc"));
+        features.add(new Feature("project1", "/1/1/", "feature3file.feature", "feature_p1_3", "feature3Desc"));
+        features.add(new Feature("project1", "/1/1/", "feature4file.feature", "feature_p1_4", "feature4Desc"));
+        features.add(new Feature("project1", "/1/2/", "feature5file.feature", "feature_p1_5", "feature5Desc"));
+        features.add(new Feature("project1", "/2/", "feature6file.feature", "feature_p1_6", "feature6Desc"));
+        features.add(new Feature("project2", "/1/", "feature1file.feature", "feature_p2_1", "feature1Desc"));
 
         this.featureRepository.saveAll(features);
     }
@@ -92,15 +92,15 @@ public class DefaultDemoDataService implements DemoDataService {
     private void createScenarios() {
         List<Scenario> scenarios = new ArrayList<Scenario>();
 
-        scenarios.add(new Scenario("project1", "/1/feature1file", "p1f1s1", "desc1"));
-        scenarios.add(new Scenario("project1", "/1/feature1file", "p1f1s2", "desc2"));
-        scenarios.add(new Scenario("project1", "/1/feature1file", "p1f1s3", "desc3"));
-        scenarios.add(new Scenario("project1", "/2/feature5file", "p1f5s4", "desc4"));
-        scenarios.add(new Scenario("project1", "/2/feature5file", "p1f5s5", "desc5"));
-        scenarios.add(new Scenario("project1", "/2/feature5file", "p1f5s6", "desc6"));
-        scenarios.add(new Scenario("project2", "/1/feature1file", "p1f1s1", "desc1"));
-        scenarios.add(new Scenario("project2", "/1/feature1file", "p1sf12", "desc2"));
-        scenarios.add(new Scenario("project2", "/1/feature1file", "p1f1s1", "desc3"));
+        scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s1", "desc1"));
+        scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s2", "desc2"));
+        scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s3", "desc3"));
+        scenarios.add(new Scenario("project1", "/1/2/feature5file.feature", "p1f5s4", "desc4"));
+        scenarios.add(new Scenario("project1", "/1/2/feature5file.feature", "p1f5s5", "desc5"));
+        scenarios.add(new Scenario("project1", "/2/feature6file.feature", "p1f5s6", "desc6"));
+        scenarios.add(new Scenario("project2", "/1/feature1file.feature", "p1f1s1", "desc1"));
+        scenarios.add(new Scenario("project2", "/1/feature1file.feature", "p1sf12", "desc2"));
+        scenarios.add(new Scenario("project2", "/1/feature1file.feature", "p1f1s1", "desc3"));
 
         this.scenarioRepository.saveAll(scenarios);
     }
