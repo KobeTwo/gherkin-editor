@@ -82,12 +82,14 @@ public class Feature extends AbstractPathItem {
         this.tags = tags;
     }
 
-    public void addTag(String tag) {
+    public Feature addTag(String tag) {
         this.tags.add(tag);
+        return this;
     }
 
-    public void removeTag(String tag) {
+    public Feature removeTag(String tag) {
         this.tags.remove(tag);
+        return this;
     }
 
     public List<Step> getBackgroundSteps() {

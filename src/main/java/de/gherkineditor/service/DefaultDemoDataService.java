@@ -78,7 +78,9 @@ public class DefaultDemoDataService implements DemoDataService {
     private void createFeatures() {
         List<Feature> features = new ArrayList<Feature>();
 
-        features.add(new Feature("project1", "/1/", "feature1file.feature", "feature_p1_1", "feature1Desc"));
+        features.add(new Feature("project1", "/1/", "feature1file.feature", "feature_p1_1", "feature1Desc")
+                .addTag("tag1")
+                .addTag("tag2"));
         features.add(new Feature("project1", "/1/", "feature2file.feature", "feature_p1_2", "feature2Desc"));
         features.add(new Feature("project1", "/1/1/", "feature3file.feature", "feature_p1_3", "feature3Desc"));
         features.add(new Feature("project1", "/1/1/", "feature4file.feature", "feature_p1_4", "feature4Desc"));

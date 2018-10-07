@@ -79,12 +79,14 @@ public class Scenario extends AbstractPathItem {
         this.tags = tags;
     }
 
-    public void addTag(String tag) {
+    public Scenario addTag(String tag) {
         this.tags.add(tag);
+        return this;
     }
 
-    public void removeTag(String tag) {
+    public Scenario removeTag(String tag) {
         this.tags.remove(tag);
+        return this;
     }
 
     public List<Step> getSteps() {

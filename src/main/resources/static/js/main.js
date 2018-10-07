@@ -333,11 +333,27 @@ Vue.component('feature-card', {
     },
     computed: {
         url: function () {
-            return Utils.getUrlForFeature(feature);
+            return Utils.getUrlForFeature(this.$root.currentProject, this.feature);
+        }
+    },
+    methods: {
+        select: function () {
+            this.$root.selectedTreeElement = {type: 'FEATURE', model: this.feature}
         }
     }
 })
 
+Vue.component('feature-detail', {
+    template: '#feature-detail',
+    props: {
+        feature: Object
+    },
+    computed: {
+        url: function () {
+            return Utils.getUrlForFeature(this.$root.currentProject, this.feature);
+        }
+    }
+})
 
 var vueBody = new Vue({
 

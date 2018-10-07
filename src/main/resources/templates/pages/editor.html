@@ -20,7 +20,7 @@
     <th:block th:replace="fragments/general.html :: header"/>
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-md-2 d-none d-md-block sidebar">
+            <nav class="col-lg-3 col-md-4 d-none d-md-block sidebar">
                 <div class="sidebar-sticky">
                     <div class="card">
                         <div class="card-body">
@@ -31,11 +31,13 @@
 
                 </div>
             </nav>
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <main role="main" class="col-lg-9 col-md-8 ml-sm-auto px-4">
                 <feature-list v-if="selectedTreeElement.type == 'FOLDER'">
                 </feature-list>
 
-                <div v-if="selectedTreeElement.type !== 'FOLDER'"> feature</div>
+                <feature-detail v-if="selectedTreeElement.type == 'FEATURE'"
+                                v-bind:feature="selectedTreeElement.model">
+                </feature-detail>
 
             </main>
         </div>

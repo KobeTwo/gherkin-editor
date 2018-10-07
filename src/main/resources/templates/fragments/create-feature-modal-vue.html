@@ -31,7 +31,7 @@
                                 <div class="input-group mb-3">
                                     <input v-model="inputFeature.fileName" type="text" class="form-control"
                                            id="featureFileName"
-                                           placeholder="Enter the file name of the feature"
+                                           th:placeholder="#{feature.filename.placeholder}"
                                            aria-describedby="basic-addon2"
                                     />
                                     <div class="input-group-append">
@@ -44,14 +44,14 @@
                                 <label for="featureName" th:text="#{feature.name}"/>
                                 <input v-model="inputFeature.name" type="text" class="form-control"
                                        id="featureName"
-                                       placeholder="Enter the name of the feature"
+                                       th:placeholder="#{feature.name.placeholder}"
                                 />
                             </div>
                             <div class="form-group">
                                 <label for="featureDescription" th:text="#{feature.description}"/>
                                 <textarea v-model="inputFeature.description" type="text" class="form-control"
                                           id="featureDescription"
-                                          placeholder="Enter the description of the feature"
+                                          th:placeholder="#{feature.description.placeholder}"
                                           rows="3"
                                 ></textarea>
                             </div>

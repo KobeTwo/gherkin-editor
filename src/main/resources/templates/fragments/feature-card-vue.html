@@ -3,7 +3,7 @@
 <th:block th:fragment="feature-card-vue-template">
     <script type="text/x-template" id="feature-card">
 
-        <a href="/" class="clickable-card">
+        <a @click="select" class="clickable-card">
             <div class="card mb-4 ">
                 <div class="card-header">
                     <i class="fas fa-file-signature"></i> {{ feature.fileName }}

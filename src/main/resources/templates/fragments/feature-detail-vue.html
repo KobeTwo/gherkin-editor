@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="feature-detail-vue-template">
+    <script type="text/x-template" id="feature-detail">
+        <form>
+            <div class="card mb-4 ">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col-lg-6 col-md-9 col-sm-11">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-file-signature"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" type="text"
+                                       th:placeholder="#{feature.filename.placeholder}"
+                                       :value="feature.fileName">
+                                <div class="input-group-append mr-auto">
+                                    <span class="input-group-text">.feature</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-3 col-sm-1 d-flex justify-content-end">
+                            <button class="btn btn-danger btn-sm ml-auto pull-right text-right" type="button"><i
+                                    class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" type="text"
+                               th:placeholder="#{feature.name.placeholder}"
+                               :value="feature.name">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control"
+                                  th:placeholder="#{feature.description.placeholder}"
+                                  rows="3"
+                        >{{ feature.description }}</textarea>
+                    </div>
+                </div>
+                <div>
+                    <h2 th:text="#{scenario.background}"></h2>
+                    <h2 th:text="#{scenarios}"></h2>
+
+                </div>
+                <div class="card-footer text-muted form-inline">
+                    <i class="fas fa-tags"></i>
+                    <span v-for="(tag, index) in feature.tags" class="ml-2">
+
+                            <div class="input-group">
+                                <input class="form-control form-control-sm" type="text"
+                                       th:placeholder="#{feature.tag.placeholder}"
+                                       :value="tag">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary btn-sm" type="button"><i
+                                            class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                    </span>
+                    <button class="btn btn-outline-secondary btn-sm ml-2" type="button"><i
+                            class="fas fa-plus"></i></button>
+                </div>
+            </div>
+        </form>
+    </script>
+</th:block>
+</body>
+</html>
