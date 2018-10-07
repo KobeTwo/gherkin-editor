@@ -15,7 +15,7 @@ public class FolderRestController {
     @Autowired
     FolderStructureFacade folderStructureFacade;
 
-    @RequestMapping(value = "/api/treeStructure", produces = "application/json")
+    @RequestMapping(value = "/rest/api/treeStructure", produces = "application/json")
     public List<FolderStructureItem> folderStructure(@RequestParam(name = "projectId", required = true) String projectId) {
         return this.folderStructureFacade.getFolderStructure(projectId);
     }

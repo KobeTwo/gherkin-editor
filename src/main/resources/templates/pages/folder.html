@@ -14,7 +14,7 @@
 <body>
 
 <th:block th:replace="fragments/general.html :: general-vue-templates"/>
-<script type="text/x-template" id="scenario-sidebar">
+<script type="text/x-template" id="tree-sidebar">
     <div>
         <div class="d-flex">
             <div class="ml-auto">
@@ -28,20 +28,20 @@
         </div>
         <div>
             <ul class="sidebar-tree-root">
-                <scenario-sidebar-treeitem
+                <tree-sidebar-item
                         class="item"
                         v-for="(item, index) in roots"
                         :key="index"
                         :item="item"
                 >
-                </scenario-sidebar-treeitem>
+                </tree-sidebar-item>
             </ul>
 
         </div>
     </div>
 </script>
 
-<script type="text/x-template" id="scenario-sidebar-treeitem">
+<script type="text/x-template" id="tree-sidebar-item">
     <li>
         <div class="sidebar-list-element"
              :class="{'bg-secondary text-white': isSelected}"
@@ -59,13 +59,13 @@
         </div>
         <ul v-show="open" v-if="item.type === 'FOLDER'">
 
-            <scenario-sidebar-treeitem
+            <tree-sidebar-item
                     class="item"
                     v-for="(item, index) in item.children"
                     :key="index"
                     :item="item"
             >
-            </scenario-sidebar-treeitem>
+            </tree-sidebar-item>
         </ul>
     </li>
 
@@ -92,8 +92,8 @@
                 <div class="sidebar-sticky">
                     <div class="card">
                         <div class="card-body">
-                            <scenario-sidebar>
-                            </scenario-sidebar>
+                            <tree-sidebar>
+                            </tree-sidebar>
                         </div>
                     </div>
 

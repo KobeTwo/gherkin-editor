@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class DefaultFolderStructureFacade implements FolderStructureFacade {
@@ -41,6 +42,7 @@ public class DefaultFolderStructureFacade implements FolderStructureFacade {
 
 
     }
+
 
     @Override
     public List<FolderStructureItem> getFolderStructure(String projectId, String path) {
@@ -73,5 +75,20 @@ public class DefaultFolderStructureFacade implements FolderStructureFacade {
 
         return struct;
     }
+
+    @Override
+    public FolderStructureItem getFolderStructureFolder(String folderId) {
+        Optional<Folder> folderOptional = this.folderRepository.findById(folderId);
+        if (!folderOptional.isPresent()) {
+            throw new IllegalArgumentException("Folder was not found");
+        }
+        FolderStructureItem item = new FolderStructureItem();
+        item.setModel(folderOptional.get());
+        item.setType(FolderStructureItem.TYPE.FOLDER);
+        item.setChildren(new ArrayList<>());
+
+        return item;
+    }
+
 
 }

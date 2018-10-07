@@ -1,9 +1,9 @@
-var getTreeStructureURL = '/api/treeStructure'
-var getScenariosURL = '/api/scenario/search/findChildrenRecursive'
+var getTreeStructureURL = '/rest/api/treeStructure'
+var getScenariosURL = '/rest/api/scenario/search/findChildrenRecursive'
 
 
-Vue.component('scenario-sidebar', {
-    template: '#scenario-sidebar',
+Vue.component('tree-sidebar', {
+    template: '#tree-sidebar',
     data: function () {
         return {
             roots: null
@@ -16,6 +16,23 @@ Vue.component('scenario-sidebar', {
     },
     created: function () {
         this.fetchTreeStructure(this.$root.currentProject.id)
+    },
+    watch: {
+        selectedTreeItem: function (val) {
+            switch (this.selectedTreeItem.type) {
+                case 'FOLDER':
+                    url = '/' + this.$root.currentProject.id + /folder/
+                    if (this.selectedTreeItem.model.id !== 'folderRoot') {
+                        url = url + this.selectedTreeItem.model.id
+                    }
+                    history.pushState({}, '', url);
+                    break
+                case 'FEATURE':
+                    url = '/' + this.$root.currentProject.id + /feature/
+                    history.pushState({}, '', url);
+                    break
+            }
+        }
     },
     methods: {
         fetchTreeStructure: function (projectId) {
@@ -33,7 +50,11 @@ Vue.component('scenario-sidebar', {
                         type: 'FOLDER'
                     }
                     rootFolderList = [rootFolder]
-                    self.$root.selectedTreeElement = rootFolder
+                    if (selectedTreeItem) {
+                        self.$root.selectedTreeElement = selectedTreeItem
+                    } else {
+                        self.$root.selectedTreeElement = rootFolder
+                    }
                     self.roots = rootFolderList
                 },
 
@@ -42,9 +63,9 @@ Vue.component('scenario-sidebar', {
     }
 })
 // define the item component
-Vue.component('scenario-sidebar-treeitem', {
-    name: 'scenario-sidebar-treeitem',
-    template: '#scenario-sidebar-treeitem',
+Vue.component('tree-sidebar-item', {
+    name: 'tree-sidebar-item',
+    template: '#tree-sidebar-item',
     props: {
         item: Object,
     },
@@ -53,9 +74,26 @@ Vue.component('scenario-sidebar-treeitem', {
             open: false
         }
     },
+    created: function () {
+        if (this.isSelected) {
+            this.$parent.setOpen()
+        }
+    },
     computed: {
         isSelected: function () {
             return this.item.model.id === this.$root.selectedTreeElement.model.id
+        }
+    },
+    watch: {
+        open: function (val) {
+            if (this.open) {
+                this.$parent.setOpen()
+            }
+        },
+        isSelected: function (val) {
+            if (this.isSelected) {
+                this.$parent.setOpen()
+            }
         }
     },
     methods: {
@@ -66,6 +104,10 @@ Vue.component('scenario-sidebar-treeitem', {
         },
         select: function () {
             this.$root.selectedTreeElement = this.item
+        },
+        setOpen: function () {
+            this.open = true;
+            this.$parent.setOpen()
         }
     }
 })
@@ -89,7 +131,7 @@ Vue.component('scenario-list', {
         }
     },
     created: function () {
-        this.fetchScenarios(this.$root.currentProject.id, this.selectedTreeItem.model.path)
+        this.fetchScenarios(this.$root.currentProject.id, this.selectedTreeItem.model.path + +this.selectedTreeItem.model.fileName)
     },
     methods: {
         fetchScenarios: function (projectId, path) {

@@ -14,6 +14,7 @@
         /*<![CDATA[*/
         var currentProject = /*[[${currentProject}]]*/ null;
         console.log(currentProject);
+        var selectedTreeItem = /*[[${selectedTreeItem}]]*/ null;
         /*]]>*/
     </script>
     <th:block th:replace="fragments/header-projects-vue.html :: header-projects-vue-template"/>
@@ -49,9 +50,9 @@
                     <header-projects
                             :allprojects="allprojects">
                     </header-projects>
-                    <a class="nav-item nav-link" th:classappend="${currentNav == 'scenarios'} ? active"
-                       th:if="${currentProject}" th:href="@{'/' + ${currentProject.id} + '/scenarios'}"
-                       th:text="#{scenarios}"/>
+                    <a class="nav-item nav-link" th:classappend="${currentNav == 'editor'} ? active"
+                       th:if="${currentProject}" th:href="@{'/' + ${currentProject.id} + '/folder'}"
+                       th:text="#{editor}"/>
                     <a class="nav-item nav-link" th:classappend="${currentNav == 'documentation'} ? active"
                        th:if="${currentProject}" th:href="@{'/' + ${currentProject.id} + '/documentation'}"
                        th:text="#{documentation}"/>
@@ -81,7 +82,7 @@
             crossorigin="anonymous"></script>
     <script type="text/javascript" th:src="@{/js/vue.js}"></script>
     <script type="text/javascript" th:src="@{/js/util.js}"></script>
-    <script type="text/javascript" th:src="@{/js/scenario-list.js}"></script>
+    <script type="text/javascript" th:src="@{/js/tree-sidebar.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
 </th:block>
 

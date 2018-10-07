@@ -16,19 +16,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()
-                .antMatchers("/css/**","/js/**","/fonts/**").permitAll()
+                .authorizeRequests()
+                .antMatchers("/css/**", "/js/**", "/fonts/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-            .formLogin()
+                .formLogin()
                 .loginPage("/login")
                 .permitAll()
                 .and()
-            .logout()
+                .logout()
                 .permitAll()
                 .and()
-            .authorizeRequests()
-                .antMatchers("/api/**").hasAnyRole("ADMIN","USER").and()
+                .authorizeRequests()
+                .antMatchers("/rest/api/**").hasAnyRole("ADMIN", "USER").and()
                 .httpBasic()
                 .and()
                 .csrf().disable();

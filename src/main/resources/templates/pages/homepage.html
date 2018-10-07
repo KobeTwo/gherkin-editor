@@ -11,40 +11,41 @@
     <th:block th:replace="fragments/general.html :: headerfiles"/>
 
 </head>
-    <body>
-        <th:block th:replace="fragments/general.html :: general-vue-templates"/>
+<body>
+<th:block th:replace="fragments/general.html :: general-vue-templates"/>
 
-        <script type="text/x-template" id="homepage-projects">
-            <div class="row">
-                <div class="col-sm-4 p-2" v-for="project in allprojects">
-                    <div class="card" >
-                        <div class="card-body">
-                            <h5 class="card-title">{{ project.id }}</h5>
-                            <a :href="'/' + project.id + '/scenarios'" class="card-link" th:text="#{scenarios}">scenarios</a>
-                            <a :href="'/' + project.id + '/documentation'" class="card-link" th:text="#{documentation}">documentation</a>
-                        </div>
-                    </div>
+<script type="text/x-template" id="homepage-projects">
+    <div class="row">
+        <div class="col-sm-4 p-2" v-for="project in allprojects">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ project.id }}</h5>
+                    <a :href="'/' + project.id + '/folder'" class="card-link" th:text="#{editor}">editor</a>
+                    <a :href="'/' + project.id + '/documentation'" class="card-link" th:text="#{documentation}">documentation</a>
                 </div>
             </div>
-        </script>
-
-        <div id="vue-support">
-            <th:block th:replace="fragments/general.html :: header"/>
-
-            <div class="container" id="homepage-project-list">
-                <homepage-projects
-                        :allprojects="allprojects">
-                </homepage-projects>
-                <div class="d-flex">
-                    <div class="ml-auto">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createProjectModal" th:text="#{project.create}"/>
-                    </div>
-                </div>
-            </div> <!-- /container -->
         </div>
+    </div>
+</script>
+
+<div id="vue-support">
+    <th:block th:replace="fragments/general.html :: header"/>
+
+    <div class="container" id="homepage-project-list">
+        <homepage-projects
+                :allprojects="allprojects">
+        </homepage-projects>
+        <div class="d-flex">
+            <div class="ml-auto">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createProjectModal"
+                        th:text="#{project.create}"/>
+            </div>
+        </div>
+    </div> <!-- /container -->
+</div>
 
 
-        <th:block th:replace="fragments/general.html :: footer"/>
-        <th:block th:replace="fragments/general.html :: jsfiles"/>
-    </body>
+<th:block th:replace="fragments/general.html :: footer"/>
+<th:block th:replace="fragments/general.html :: jsfiles"/>
+</body>
 </html>

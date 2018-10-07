@@ -1,10 +1,10 @@
 /**
  * URLs to be used for REST Requests
  */
-var getProjectURL = '/api/project'
-var postProjectURL = '/api/project'
-var postFolderURL = '/api/folder'
-var postFeatureURL = '/api/feature'
+var getProjectURL = '/rest/api/project'
+var postProjectURL = '/rest/api/project'
+var postFolderURL = '/rest/api/folder'
+var postFeatureURL = '/rest/api/feature'
 /**
  * Trigger focus on forms
  */
@@ -178,10 +178,13 @@ var vueBody = new Vue({
     data: {
         allprojects: null,
         currentProject: currentProject,
-        selectedTreeElement: {model: {path: '/', fileName: ''}}
+        selectedTreeElement: selectedTreeItem
     },
     created: function () {
         this.fetchProjects()
+        if (!this.selectedTreeElement) {
+            this.selectedTreeElement = {model: {path: '/', fileName: ''}}
+        }
     },
     methods: {
         fetchProjects: function () {
