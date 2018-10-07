@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="feature-card-vue-template">
+    <script type="text/x-template" id="feature-card">
+
+        <a href="/" class="clickable-card">
+            <div class="card mb-4 ">
+                <div class="card-header">
+                    <i class="fas fa-file-signature"></i> {{ feature.fileName }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ feature.name }}</h5>
+                    <p class="card-text">{{ feature.description }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <i class="fas fa-tags"></i> {{ feature.fileName }}
+                </div>
+            </div>
+        </a>
+    </script>
+</th:block>
+</body>
+</html>

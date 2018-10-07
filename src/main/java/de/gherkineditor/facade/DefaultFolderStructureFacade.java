@@ -90,5 +90,18 @@ public class DefaultFolderStructureFacade implements FolderStructureFacade {
         return item;
     }
 
+    @Override
+    public FolderStructureItem getFolderStructureFeature(String featureId) {
+        Optional<Feature> featureOtional = this.featureRepository.findById(featureId);
+        if (!featureOtional.isPresent()) {
+            throw new IllegalArgumentException("Feature was not found");
+        }
+        FolderStructureItem item = new FolderStructureItem();
+        item.setModel(featureOtional.get());
+        item.setType(FolderStructureItem.TYPE.FEATURE);
+        item.setChildren(null);
+
+        return item;
+    }
 
 }

@@ -19,6 +19,9 @@ var Utils = (function () {
         },
         getConcatenatedPath: function (pathItem) {
             return this.getConcatenatedPathByPathAndFileName(pathItem.path, pathItem.fileName)
+        },
+        getUrlForFeature: function (project, feature) {
+            return "/" + project.id + "/feature/" + feature.id
         }
     }
 

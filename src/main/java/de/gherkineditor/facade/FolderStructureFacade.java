@@ -10,4 +10,6 @@ public interface FolderStructureFacade {
     List<FolderStructureItem> getFolderStructure(String projectId, String path);
 
     FolderStructureItem getFolderStructureFolder(String folderId);
+
+    FolderStructureItem getFolderStructureFeature(String featureId);
 }

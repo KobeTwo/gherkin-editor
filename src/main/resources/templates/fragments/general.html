@@ -21,6 +21,10 @@
     <th:block th:replace="fragments/create-project-modal-vue.html :: create-project-modal-vue-template"/>
     <th:block th:replace="fragments/create-folder-modal-vue.html :: create-folder-modal-vue-template"/>
     <th:block th:replace="fragments/create-feature-modal-vue.html :: create-feature-modal-vue-template"/>
+    <th:block th:replace="fragments/tree-sidebar-vue.html :: tree-sidebar-vue-template"/>
+    <th:block th:replace="fragments/tree-sidebar-item-vue.html :: tree-sidebar-item-vue-template"/>
+    <th:block th:replace="fragments/feature-list-vue.html :: feature-list-vue-template"/>
+    <th:block th:replace="fragments/feature-card-vue.html :: feature-card-vue-template"/>
 </th:block>
 <th:block th:fragment="header">
 
@@ -82,7 +86,6 @@
             crossorigin="anonymous"></script>
     <script type="text/javascript" th:src="@{/js/vue.js}"></script>
     <script type="text/javascript" th:src="@{/js/util.js}"></script>
-    <script type="text/javascript" th:src="@{/js/tree-sidebar.js}"></script>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
 </th:block>
 

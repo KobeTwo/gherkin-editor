@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Grid Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <th:block th:replace="fragments/general.html :: headerfiles"/>
+
+</head>
+<body>
+
+<th:block th:replace="fragments/general.html :: general-vue-templates"/>
+
+
+<div id="vue-support">
+    <th:block th:replace="fragments/general.html :: header"/>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <div class="card">
+                        <div class="card-body">
+                            <tree-sidebar>
+                            </tree-sidebar>
+                        </div>
+                    </div>
+
+                </div>
+            </nav>
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <feature-list v-if="selectedTreeElement.type == 'FOLDER'">
+                </feature-list>
+
+                <div v-if="selectedTreeElement.type !== 'FOLDER'"> feature</div>
+
+            </main>
+        </div>
+    </div>
+</div>
+
+
+<th:block th:replace="fragments/general.html :: footer"/>
+<th:block th:replace="fragments/general.html :: jsfiles"/>
+</body>
+</html>
