@@ -100,12 +100,14 @@ public class Feature extends AbstractPathItem {
         this.backgroundSteps = backgroundSteps;
     }
 
-    public void addBackgroundSteps(Step step) {
+    public Feature addBackgroundSteps(Step step) {
         this.backgroundSteps.add(step);
+        return this;
     }
 
-    public void removeBackgroundSteps(Step step) {
+    public Feature removeBackgroundSteps(Step step) {
         this.backgroundSteps.remove(step);
+        return this;
     }
 
     @Override

@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="step-list-vue-template">
+    <script type="text/x-template" id="step-list">
+        <div>
+
+            <div class="row">
+                <div v-for="(step, index) in steps" class="col-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <select>
+                                <option value="GIVEN">Given</option>
+                                <option value="AND">And</option>
+                            </select>
+                        </div>
+                        <input class="form-control" type="text"
+                               th:placeholder="#{step.text.placeholder}"
+                               :value="step.text">
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </script>
+</th:block>
+</body>
+</html>

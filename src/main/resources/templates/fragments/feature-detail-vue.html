@@ -6,11 +6,16 @@
             <div class="card mb-4 ">
                 <div class="card-header">
                     <div class="form-row">
-                        <div class="col-lg-6 col-md-9 col-sm-11">
+                        <div class="col-lg-11 col-md-11 col-sm-11">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
                                         <i class="fas fa-file-signature"></i>
+                                    </span>
+                                </div>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        {{ feature.path }}
                                     </span>
                                 </div>
                                 <input class="form-control" type="text"
@@ -22,7 +27,7 @@
 
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-3 col-sm-1 d-flex justify-content-end">
+                        <div class="col-lg-1 col-md-1 col-sm-1 d-flex justify-content-end">
                             <button class="btn btn-danger btn-sm ml-auto pull-right text-right" type="button"><i
                                     class="fas fa-trash"></i></button>
                         </div>
@@ -32,7 +37,7 @@
                 <div class="card-body">
 
                     <div class="form-group">
-                        <input class="form-control form-control-lg" type="text"
+                        <input class="form-control form-control-lg font-weight-bold" type="text"
                                th:placeholder="#{feature.name.placeholder}"
                                :value="feature.name">
                     </div>
@@ -44,14 +49,18 @@
                     </div>
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h4 th:text="#{scenario.background}"></h4>
+                            <span class="font-weight-bold" th:text="#{scenario.background}"></span>
                         </div>
                         <div class="card-body">
+                            <step-list
+                                    v-bind:steps="this.feature.backgroundSteps">
+
+                            </step-list>
                         </div>
                     </div>
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h4 th:text="#{scenarios}"></h4>
+                            <span class="font-weight-bold" th:text="#{scenarios}"></span>
                         </div>
                         <div class="card-body">
                             <scenario-list

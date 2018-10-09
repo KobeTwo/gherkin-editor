@@ -420,6 +420,13 @@ Vue.component('scenario-detail', {
     }
 })
 
+Vue.component('step-list', {
+    template: '#step-list',
+    props: {
+        steps: Array
+    }
+})
+
 var vueBody = new Vue({
 
     el: '#vue-support',

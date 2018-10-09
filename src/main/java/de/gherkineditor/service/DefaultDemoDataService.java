@@ -1,9 +1,6 @@
 package de.gherkineditor.service;
 
-import de.gherkineditor.model.Feature;
-import de.gherkineditor.model.Folder;
-import de.gherkineditor.model.Project;
-import de.gherkineditor.model.Scenario;
+import de.gherkineditor.model.*;
 import de.gherkineditor.repository.FeatureRepository;
 import de.gherkineditor.repository.FolderRepository;
 import de.gherkineditor.repository.ProjectRepository;
@@ -80,7 +77,10 @@ public class DefaultDemoDataService implements DemoDataService {
 
         features.add(new Feature("project1", "/1/", "feature1file.feature", "feature_p1_1", "feature1Desc")
                 .addTag("tag1")
-                .addTag("tag2"));
+                .addTag("tag2")
+                .addBackgroundSteps(new Step(Step.TYPE.GIVEN, "A first test background"))
+                .addBackgroundSteps(new Step(Step.TYPE.GIVEN, "A second test background"))
+        );
         features.add(new Feature("project1", "/1/", "feature2file.feature", "feature_p1_2", "feature2Desc"));
         features.add(new Feature("project1", "/1/1/", "feature3file.feature", "feature_p1_3", "feature3Desc"));
         features.add(new Feature("project1", "/1/1/", "feature4file.feature", "feature_p1_4", "feature4Desc"));
@@ -96,7 +96,8 @@ public class DefaultDemoDataService implements DemoDataService {
 
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s1", "desc1")
                 .addTag("featuretag1")
-                .addTag("featuretag2"));
+                .addTag("featuretag2")
+        );
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s2", "desc2"));
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s3", "desc3"));
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s11", "desc11"));

@@ -2,22 +2,22 @@
 <body>
 <th:block th:fragment="tree-sidebar-item-vue-template">
     <script type="text/x-template" id="tree-sidebar-item">
-        <li>
+        <li v-if="item.type === 'FOLDER'">
             <div class="sidebar-list-element"
                  :class="{'bg-primary text-white': isSelected}"
                  @click="select">
 
-            <span v-if="item.type === 'FOLDER'">
-                <span @click="toggle">
-                    <i v-if="open" class="fas fa-chevron-circle-down"></i>
-                    <i v-else="open" class="fas fa-chevron-circle-right"></i>
+                <span>
+                    <span @click="toggle">
+                        <i v-if="open" class="fas fa-chevron-circle-down"></i>
+                        <i v-else="open" class="fas fa-chevron-circle-right"></i>
+                    </span>
+                    <span>{{ item.model.fileName }}</span>
+
                 </span>
-                <span>{{ item.model.fileName }}</span>
-            </span>
-                <span v-else-if="item.type === 'FEATURE'"><i class="fas fa-file"></i> {{ item.model.fileName }}</span>
 
             </div>
-            <ul v-show="open" v-if="item.type === 'FOLDER'">
+            <ul v-show="open">
 
                 <tree-sidebar-item
                         class="item"
@@ -27,6 +27,20 @@
                 >
                 </tree-sidebar-item>
             </ul>
+        </li>
+        <li v-else-if="item.type === 'FEATURE'">
+            <div class="sidebar-list-element"
+                 :class="{'bg-primary text-white': isSelected}"
+                 @click="select">
+                <span><i class="fas fa-file"></i> {{ item.model.fileName }}</span>
+            </div>
+            <tree-sidebar-item
+                    class="item"
+                    v-for="(item, index) in item.children"
+                    :key="index"
+                    :item="item"
+            >
+            </tree-sidebar-item>
         </li>
 
     </script>
