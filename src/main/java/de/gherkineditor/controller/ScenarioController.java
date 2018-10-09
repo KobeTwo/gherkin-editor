@@ -9,25 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(value = "/{projectId}/folder", method = RequestMethod.GET)
-public class FolderController extends AbstractProjectController {
+@RequestMapping(value = "/{projectId}/scenario", method = RequestMethod.GET)
+public class ScenarioController extends AbstractProjectController {
 
     @Autowired
     FolderStructureFacade folderStructureFacade;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String projectRoot(Model model, @PathVariable String projectId) {
-        return folder(model, projectId, null);
-    }
-
-    @RequestMapping(value = "/{folderId}", method = RequestMethod.GET)
-    public String folder(Model model, @PathVariable String projectId, @PathVariable String folderId) {
+    @RequestMapping(value = "/{scenarioId}", method = RequestMethod.GET)
+    public String scenario(Model model, @PathVariable String projectId, @PathVariable String scenarioId) {
         setCurrentProject(projectId, model);
 
         setCurrentNav(AbstractProjectController.NAV_EDITOR, model);
 
-        if (folderId != null) {
-            model.addAttribute("selectedTreeItem", this.folderStructureFacade.getFolderStructureFolder(folderId));
+        if (scenarioId != null) {
+            model.addAttribute("selectedTreeItem", this.folderStructureFacade.getFolderStructureScenario(scenarioId));
         }
 
 

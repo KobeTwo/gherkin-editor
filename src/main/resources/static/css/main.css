@@ -50,5 +50,5 @@ a.clickable-card:hover {
 }
 
 a.clickable-card .card:hover {
-    border-color: black;
+    border-color: #007bff;
 }

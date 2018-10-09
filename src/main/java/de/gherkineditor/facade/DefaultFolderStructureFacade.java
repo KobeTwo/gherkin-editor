@@ -4,8 +4,10 @@ import de.gherkineditor.dto.FolderStructureItem;
 import de.gherkineditor.model.Feature;
 import de.gherkineditor.model.Folder;
 import de.gherkineditor.model.Project;
+import de.gherkineditor.model.Scenario;
 import de.gherkineditor.repository.FeatureRepository;
 import de.gherkineditor.repository.FolderRepository;
+import de.gherkineditor.repository.ScenarioRepository;
 import de.gherkineditor.service.FeatureService;
 import de.gherkineditor.service.FolderService;
 import de.gherkineditor.service.ProjectService;
@@ -36,6 +38,9 @@ public class DefaultFolderStructureFacade implements FolderStructureFacade {
     @Autowired
     FeatureRepository featureRepository;
 
+    @Autowired
+    ScenarioRepository scenarioRepository;
+
     @Override
     public List<FolderStructureItem> getFolderStructure(String projectId) {
         return getFolderStructure(projectId, "/");
@@ -52,8 +57,9 @@ public class DefaultFolderStructureFacade implements FolderStructureFacade {
 
         Iterable<Folder> folders = this.folderRepository.findChildren(project.getId(), path);
         Iterable<Feature> features = this.featureRepository.findChildren(project.getId(), path);
+        Iterable<Scenario> scenarios = this.scenarioRepository.findChildren(project.getId(), path);
 
-        if (!folders.iterator().hasNext() && !features.iterator().hasNext()) {
+        if (!folders.iterator().hasNext() && !features.iterator().hasNext() && !scenarios.iterator().hasNext()) {
             return Collections.EMPTY_LIST;
         }
 
@@ -69,6 +75,14 @@ public class DefaultFolderStructureFacade implements FolderStructureFacade {
             FolderStructureItem item = new FolderStructureItem();
             item.setModel(feature);
             item.setType(FolderStructureItem.TYPE.FEATURE);
+            item.setChildren(getFolderStructure(project.getId(), Util.getConcatenatedPath(feature.getPath(), feature.getFileName())));
+            struct.add(item);
+        }
+
+        for (Scenario scenario : scenarios) {
+            FolderStructureItem item = new FolderStructureItem();
+            item.setModel(scenario);
+            item.setType(FolderStructureItem.TYPE.SCENARIO);
             item.setChildren(null);
             struct.add(item);
         }
@@ -99,6 +113,20 @@ public class DefaultFolderStructureFacade implements FolderStructureFacade {
         FolderStructureItem item = new FolderStructureItem();
         item.setModel(featureOtional.get());
         item.setType(FolderStructureItem.TYPE.FEATURE);
+        item.setChildren(new ArrayList<>());
+
+        return item;
+    }
+
+    @Override
+    public FolderStructureItem getFolderStructureScenario(String scenarioId) {
+        Optional<Scenario> scenarioOptional = this.scenarioRepository.findById(scenarioId);
+        if (!scenarioOptional.isPresent()) {
+            throw new IllegalArgumentException("Scenario was not found");
+        }
+        FolderStructureItem item = new FolderStructureItem();
+        item.setModel(scenarioOptional.get());
+        item.setType(FolderStructureItem.TYPE.SCENARIO);
         item.setChildren(null);
 
         return item;

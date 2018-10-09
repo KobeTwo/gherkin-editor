@@ -39,6 +39,10 @@
                                 v-bind:feature="selectedTreeElement.model">
                 </feature-detail>
 
+                <scenario-detail v-if="selectedTreeElement.type == 'SCENARIO'"
+                                 v-bind:scenario="selectedTreeElement.model">
+                </scenario-detail>
+
             </main>
         </div>
     </div>

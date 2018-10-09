@@ -6,7 +6,8 @@ var postProjectURL = '/rest/api/project'
 var postFolderURL = '/rest/api/folder'
 var postFeatureURL = '/rest/api/feature'
 var getTreeStructureURL = '/rest/api/treeStructure'
-var getFeaturesURL = '/rest/api/feature/search/findChildrenRecursive'
+var getFeaturesRecursiveURL = '/rest/api/feature/search/findChildrenRecursive'
+var getScenariosURL = '/rest/api/scenario/search/findChildren'
 
 /**
  * Trigger focus on forms
@@ -301,18 +302,18 @@ Vue.component('feature-list', {
     watch: {
         selectedTreeItem: function (val) {
 
-            this.fetchScenarios(this.$root.currentProject.id, this.selectedTreeItem.model.path + this.selectedTreeItem.model.fileName)
+            this.fetchFeatures(this.$root.currentProject.id, this.selectedTreeItem.model.path + this.selectedTreeItem.model.fileName)
         }
     },
     created: function () {
-        this.fetchScenarios(this.$root.currentProject.id, this.selectedTreeItem.model.path + this.selectedTreeItem.model.fileName)
+        this.fetchFeatures(this.$root.currentProject.id, this.selectedTreeItem.model.path + this.selectedTreeItem.model.fileName)
     },
     methods: {
-        fetchScenarios: function (projectId, path) {
+        fetchFeatures: function (projectId, path) {
             console.log('selected:' + projectId + '###' + path)
             var self = this
             $.ajax({
-                url: getFeaturesURL,
+                url: getFeaturesRecursiveURL,
                 type: 'GET',
                 contentType: 'application/json',
                 dataType: 'json',
@@ -343,14 +344,78 @@ Vue.component('feature-card', {
     }
 })
 
+Vue.component('scenario-list', {
+    template: '#scenario-list',
+    props: {
+        scenarios: Array
+    }
+})
+
+Vue.component('scenario-card', {
+    template: '#scenario-card',
+    props: {
+        scenario: Object
+    },
+    computed: {
+        url: function () {
+            return Utils.getUrlForScenario(this.$root.currentProject, this.scenario);
+        }
+    },
+    methods: {
+        select: function () {
+            this.$root.selectedTreeElement = {type: 'SCENARIO', model: this.scenario}
+        }
+    }
+})
+
 Vue.component('feature-detail', {
     template: '#feature-detail',
+    data: function () {
+        return {
+            scenarios: []
+        }
+    },
     props: {
         feature: Object
     },
     computed: {
         url: function () {
             return Utils.getUrlForFeature(this.$root.currentProject, this.feature);
+        }
+    }, created: function () {
+        this.fetchScenarios(this.$root.currentProject.id, this.feature.path + this.feature.fileName)
+    },
+    watch: {
+        feature: function (val) {
+            this.fetchScenarios(this.$root.currentProject.id, this.feature.path + this.feature.fileName)
+        }
+    },
+    methods: {
+        fetchScenarios: function (projectId, path) {
+            var self = this
+            $.ajax({
+                url: getScenariosURL,
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: {projectId: projectId, path: path},
+                success: function (result) {
+                    self.scenarios = result._embedded.scenario
+                },
+
+            });
+        }
+    }
+})
+
+Vue.component('scenario-detail', {
+    template: '#scenario-detail',
+    props: {
+        scenario: Object
+    },
+    computed: {
+        url: function () {
+            return Utils.getUrlForScenario(this.$root.currentProject, this.scenario);
         }
     }
 })

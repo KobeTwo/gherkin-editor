@@ -15,13 +15,8 @@ public class FeatureController extends AbstractProjectController {
     @Autowired
     FolderStructureFacade folderStructureFacade;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String projectRoot(Model model, @PathVariable String projectId) {
-        return projectDetail(model, projectId, null);
-    }
-
     @RequestMapping(value = "/{featureId}", method = RequestMethod.GET)
-    public String projectDetail(Model model, @PathVariable String projectId, @PathVariable String featureId) {
+    public String feature(Model model, @PathVariable String projectId, @PathVariable String featureId) {
         setCurrentProject(projectId, model);
 
         setCurrentNav(AbstractProjectController.NAV_EDITOR, model);

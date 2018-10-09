@@ -94,9 +94,14 @@ public class DefaultDemoDataService implements DemoDataService {
     private void createScenarios() {
         List<Scenario> scenarios = new ArrayList<Scenario>();
 
-        scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s1", "desc1"));
+        scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s1", "desc1")
+                .addTag("featuretag1")
+                .addTag("featuretag2"));
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s2", "desc2"));
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s3", "desc3"));
+        scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s11", "desc11"));
+        scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s12", "desc12"));
+        scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s13", "desc13"));
         scenarios.add(new Scenario("project1", "/1/2/feature5file.feature", "p1f5s4", "desc4"));
         scenarios.add(new Scenario("project1", "/1/2/feature5file.feature", "p1f5s5", "desc5"));
         scenarios.add(new Scenario("project1", "/2/feature6file.feature", "p1f5s6", "desc6"));

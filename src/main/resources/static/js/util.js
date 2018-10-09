@@ -22,6 +22,9 @@ var Utils = (function () {
         },
         getUrlForFeature: function (project, feature) {
             return "/" + project.id + "/feature/" + feature.id
+        },
+        getUrlForScenario: function (project, scenario) {
+            return "/" + project.id + "/scenario/" + scenario.id
         }
     }
 

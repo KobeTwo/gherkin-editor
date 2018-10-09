@@ -13,7 +13,10 @@
                     <p class="card-text">{{ feature.description }}</p>
                 </div>
                 <div class="card-footer text-muted">
-                    <i class="fas fa-tags"></i> {{ feature.fileName }}
+                    <i class="fas fa-tags"></i>
+                    <span v-for="(tag, index) in feature.tags" class="ml-2">
+                        {{tag}}
+                    </span>
                 </div>
             </div>
         </a>

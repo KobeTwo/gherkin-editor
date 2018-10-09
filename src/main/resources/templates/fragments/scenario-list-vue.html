@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="scenario-list-vue-template">
+    <script type="text/x-template" id="scenario-list">
+        <div>
+
+            <div class="row">
+                <div v-for="(scenario, index) in scenarios" class="col-lg-4 col-md-6 col-sm-12">
+                    <scenario-card
+                            v-bind:scenario="scenario"
+                    >
+                    </scenario-card>
+
+
+                </div>
+            </div>
+        </div>
+    </script>
+</th:block>
+</body>
+</html>

@@ -8,7 +8,7 @@ import java.util.List;
 public class FolderStructureItem {
 
     public enum TYPE {
-        FOLDER, FEATURE
+        FOLDER, FEATURE, SCENARIO
     }
 
     private AbstractPathItem model;

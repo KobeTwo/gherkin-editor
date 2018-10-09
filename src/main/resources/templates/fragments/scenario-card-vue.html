@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="scenario-card-vue-template">
+    <script type="text/x-template" id="scenario-card">
+
+        <a @click="select" class="clickable-card">
+            <div class="card mb-4 ">
+                <div class="card-body">
+                    <h5 class="card-title">{{ scenario.name }}</h5>
+                    <p class="card-text">{{ scenario.description }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <i class="fas fa-tags"></i>
+                    <span v-for="(tag, index) in scenario.tags" class="ml-2">
+                        {{tag}}
+                    </span>
+                </div>
+            </div>
+        </a>
+    </script>
+</th:block>
+</body>
+</html>

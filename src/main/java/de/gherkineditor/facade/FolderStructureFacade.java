@@ -12,4 +12,6 @@ public interface FolderStructureFacade {
     FolderStructureItem getFolderStructureFolder(String folderId);
 
     FolderStructureItem getFolderStructureFeature(String featureId);
+
+    FolderStructureItem getFolderStructureScenario(String scenarioId);
 }

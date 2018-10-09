@@ -42,10 +42,25 @@
                                   rows="3"
                         >{{ feature.description }}</textarea>
                     </div>
-                </div>
-                <div>
-                    <h2 th:text="#{scenario.background}"></h2>
-                    <h2 th:text="#{scenarios}"></h2>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4 th:text="#{scenario.background}"></h4>
+                        </div>
+                        <div class="card-body">
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4 th:text="#{scenarios}"></h4>
+                        </div>
+                        <div class="card-body">
+                            <scenario-list
+                                    v-bind:scenarios="this.scenarios"
+                            >
+                            </scenario-list>
+                        </div>
+                    </div>
+
 
                 </div>
                 <div class="card-footer text-muted form-inline">
