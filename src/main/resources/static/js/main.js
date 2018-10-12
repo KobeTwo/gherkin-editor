@@ -8,6 +8,8 @@ var postFeatureURL = '/rest/api/feature'
 var getTreeStructureURL = '/rest/api/treeStructure'
 var getFeaturesRecursiveURL = '/rest/api/feature/search/findChildrenRecursive'
 var getScenariosURL = '/rest/api/scenario/search/findChildren'
+var deleteScenarioURL = '/rest/api/scenario/'
+var deleteFeatureURL = '/rest/api/feature/'
 
 /**
  * Trigger focus on forms
@@ -177,18 +179,13 @@ Vue.component('create-feature-modal', {
 
 Vue.component('tree-sidebar', {
     template: '#tree-sidebar',
-    data: function () {
-        return {
-            roots: null
-        }
+    props: {
+        roots: Array
     },
     computed: {
         selectedTreeItem: function () {
             return this.$root.selectedTreeElement;
         }
-    },
-    created: function () {
-        this.fetchTreeStructure(this.$root.currentProject.id)
     },
     watch: {
         selectedTreeItem: function (val) {
@@ -204,34 +201,11 @@ Vue.component('tree-sidebar', {
                     url = Utils.getUrlForFeature(this.$root.currentProject, this.selectedTreeItem.model)
                     history.pushState({}, '', url);
                     break
+                case 'SCENARIO':
+                    url = Utils.getUrlForScenario(this.$root.currentProject, this.selectedTreeItem.model)
+                    history.pushState({}, '', url);
+                    break
             }
-        }
-    },
-    methods: {
-        fetchTreeStructure: function (projectId) {
-            var self = this
-            $.ajax({
-                url: getTreeStructureURL,
-                type: 'GET',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: {projectId: projectId},
-                success: function (result) {
-                    rootFolder = {
-                        model: {id: 'folderRoot', path: '', fileName: '/'},
-                        children: result,
-                        type: 'FOLDER'
-                    }
-                    rootFolderList = [rootFolder]
-                    if (selectedTreeItem) {
-                        self.$root.selectedTreeElement = selectedTreeItem
-                    } else {
-                        self.$root.selectedTreeElement = rootFolder
-                    }
-                    self.roots = rootFolderList
-                },
-
-            });
         }
     }
 })
@@ -251,10 +225,25 @@ Vue.component('tree-sidebar-item', {
         if (this.isSelected && this.$parent.setOpen) {
             this.$parent.setOpen()
         }
+        if (this.$parent.item && this.$parent.item.pathItems != null) {
+            this.item.pathItems = new Array(this.$parent.item.pathItems)
+            this.item.pathItems.push(this.item)
+        } else {
+            this.item.pathItems = new Array
+        }
+
     },
     computed: {
         isSelected: function () {
             return this.item.model.id === this.$root.selectedTreeElement.model.id
+        },
+        fileNameWithoutSuffix: function (val) {
+            switch (this.item.type) {
+                case 'FOLDER':
+                    return this.model.fileName
+                case 'FEATURE':
+                    return Utils.getFileNameWithoutSuffix(this.item.model)
+            }
         }
     },
     watch: {
@@ -417,6 +406,32 @@ Vue.component('scenario-detail', {
         url: function () {
             return Utils.getUrlForScenario(this.$root.currentProject, this.scenario);
         }
+    },
+    methods: {
+        addTag: function () {
+            this.scenario.tags.push('')
+        },
+        removeTag: function (name) {
+            this.scenario.tags.pop(name)
+        },
+        removeScenario: function () {
+            alert('TODO')
+        },
+        saveScenario: function () {
+            alert('TODO')
+        }
+    }
+})
+
+Vue.component('tag-input', {
+    template: '#tag-input',
+    props: {
+        tag: String
+    },
+    methods: {
+        remove: function () {
+            this.$parent.removeTag(this.tag)
+        }
     }
 })
 
@@ -427,33 +442,61 @@ Vue.component('step-list', {
     }
 })
 
-var vueBody = new Vue({
-
-    el: '#vue-support',
-
-    data: {
-        allprojects: null,
-        currentProject: currentProject,
-        selectedTreeElement: selectedTreeItem
-    },
-    created: function () {
-        this.fetchProjects()
-        if (!this.selectedTreeElement) {
-            this.selectedTreeElement = {model: {path: '/', fileName: ''}}
+Vue.component('delete-scenario-modal', {
+    template: '#delete-scenario-modal',
+    data: function () {
+        return {
+            error: false
         }
     },
+    props: {
+        scenario: Object
+    },
     methods: {
-        fetchProjects: function () {
+        processForm: function () {
             var self = this
             $.ajax({
-                url: getProjectURL,
-                type: 'GET',
+                url: deleteScenarioURL + this.scenario.id,
+                type: 'DELETE',
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function (result) {
-                    self.allprojects = result._embedded.project
+                    self.errorResult = null
+                    $(self.$refs["deleteFeatureModal"]).modal('hide')
                 },
+                error: function (result) {
+                    self.errorResult = result.responseJSON
+                }
+            });
+        }
+    }
+})
 
+Vue.component('delete-feature-modal', {
+    template: '#delete-feature-modal',
+    data: function () {
+        return {
+            error: false
+        }
+    },
+    props: {
+        feature: Object
+    },
+    methods: {
+        processForm: function () {
+            var self = this
+            $.ajax({
+                url: deleteFeatureURL + this.feature.id,
+                type: 'DELETE',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    self.errorResult = null
+                    $(self.$refs["deleteFeatureModal"]).modal('hide')
+                },
+                error: function (result) {
+                    self.errorResult = result.responseJSON
+                }
             });
         }
     }

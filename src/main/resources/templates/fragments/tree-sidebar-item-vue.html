@@ -15,7 +15,18 @@
                     <span>{{ item.model.fileName }}</span>
 
                 </span>
-
+                <span v-if="isSelected" class="float-right">
+                    <a class="pr-1" data-toggle="modal"
+                       data-target="#createFolderModal"
+                    >
+                        <i class="fas fa-folder-plus"></i>
+                    </a>
+                    <a class="pr-1" data-toggle="modal"
+                       data-target="#createFeatureModal"
+                    >
+                        <i class="fas fa-file-signature"></i>
+                    </a>
+                </span>
             </div>
             <ul v-show="open">
 
@@ -32,7 +43,7 @@
             <div class="sidebar-list-element"
                  :class="{'bg-primary text-white': isSelected}"
                  @click="select">
-                <span><i class="fas fa-file"></i> {{ item.model.fileName }}</span>
+                <span><i class="fas fa-file"></i> {{ fileNameWithoutSuffix }}</span>
             </div>
             <tree-sidebar-item
                     class="item"

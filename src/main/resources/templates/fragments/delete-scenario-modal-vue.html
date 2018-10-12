@@ -1,46 +1,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<th:block th:fragment="create-folder-modal-vue-template">
-    <script type="text/x-template" id="create-folder-modal">
+<th:block th:fragment="delete-scenario-modal-vue-template">
+    <script type="text/x-template" id="delete-scenario-modal">
         <!-- Modal -->
-        <div ref="createFolderModal" class="modal fade" id="createFolderModal" tabindex="-1" role="dialog"
+        <div ref="deleteScenarioModal" class="modal fade" id="deleteScenarioModal" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel" th:text="#{folder.create}"/>
+                        <h5 class="modal-title" id="exampleModalLabel" th:text="#{scenario.delete}"/>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <form @submit.prevent="processForm">
                         <div class="modal-body">
-                            <div v-if="errorResult">
-                                <div class="alert alert-danger" role="alert"
-                                     v-for="globalError in errorResult.globalErrors">
-                                    <span>{{ globalError.message }}</span>
-                                </div>
-                                <div class="alert alert-danger" role="alert"
-                                     v-for="fieldError in errorResult.fieldErrors">
-                                    <span>{{ fieldError.message }}</span>
-                                </div>
+                            <div v-if="error">
+                                <span th:text="#{scenario.delete.error}"></span>
+                            </div>
+                            <div>
+                                <span th:text="#{scenario.delete.confirm}"></span>
+                            </div>
+                            <div>
+                                <span class="text-monospace">{{scenario.path}} - {{ scenario.name }}</span>
                             </div>
 
-                            <div class="form-group required">
-                                <label for="folderFileName" th:text="#{folder.fileName}"/>
-                                <input v-model="inputFolder.fileName" type="text" class="form-control"
-                                       id="folderFileName"
-                                       aria-describedby="folderFileNameHelp"
-                                       placeholder="Enter the file name of the folder"
-                                >
-                            </div>
 
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{cancel}">
                                 Cancel
                             </button>
-                            <button type="submit" class="btn btn-primary" th:text="#{create.folder}"/>
+                            <button type="submit" class="btn btn-primary" th:text="#{scenario.delete}"/>
                         </div>
                     </form>
 

@@ -3,6 +3,9 @@
 <th:block th:fragment="feature-detail-vue-template">
     <script type="text/x-template" id="feature-detail">
         <form>
+            <delete-feature-modal
+                    :feature="feature">
+            </delete-feature-modal>
             <div class="card mb-4 ">
                 <div class="card-header">
                     <div class="form-row">
@@ -28,7 +31,9 @@
                             </div>
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-1 d-flex justify-content-end">
-                            <button class="btn btn-danger btn-sm ml-auto pull-right text-right" type="button"><i
+                            <button class="btn btn-danger btn-sm ml-auto pull-right text-right" type="button"
+                                    data-toggle="modal"
+                                    data-target="#deleteFeatureModal"><i
                                     class="fas fa-trash"></i></button>
                         </div>
                     </div>

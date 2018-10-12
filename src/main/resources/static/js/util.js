@@ -25,6 +25,9 @@ var Utils = (function () {
         },
         getUrlForScenario: function (project, scenario) {
             return "/" + project.id + "/scenario/" + scenario.id
+        },
+        getFileNameWithoutSuffix: function (folderItem) {
+            return folderItem.fileName.replace('.feature', '')
         }
     }
 

@@ -8,9 +8,12 @@
                 <div v-for="(step, index) in steps" class="col-12">
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <select>
+                            <select v-model="step.type">
                                 <option value="GIVEN">Given</option>
-                                <option value="AND">And</option>
+                                <option value="AND">and</option>
+                                <option value="BUT">but</option>
+                                <option value="WHEN">When</option>
+                                <option value="THEN">Then</option>
                             </select>
                         </div>
                         <input class="form-control" type="text"

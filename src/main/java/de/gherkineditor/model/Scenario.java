@@ -97,12 +97,14 @@ public class Scenario extends AbstractPathItem {
         this.steps = steps;
     }
 
-    public void addStep(Step step) {
+    public Scenario addStep(Step step) {
         this.steps.add(step);
+        return this;
     }
 
-    public void removeStep(Step step) {
+    public Scenario removeStep(Step step) {
         this.steps.remove(step);
+        return this;
     }
 
     public Map<String, String[]> getExamples() {

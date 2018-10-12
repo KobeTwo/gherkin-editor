@@ -97,6 +97,11 @@ public class DefaultDemoDataService implements DemoDataService {
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s1", "desc1")
                 .addTag("featuretag1")
                 .addTag("featuretag2")
+                .addStep(new Step(Step.TYPE.GIVEN, "A given step"))
+                .addStep(new Step(Step.TYPE.AND, "A given and step"))
+                .addStep(new Step(Step.TYPE.BUT, "A given but step"))
+                .addStep(new Step(Step.TYPE.WHEN, "A when step"))
+                .addStep(new Step(Step.TYPE.THEN, "A then and step"))
         );
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s2", "desc2"));
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s3", "desc3"));

@@ -1,14 +1,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<th:block th:fragment="delete-scenario-modal-vue-template">
-    <script type="text/x-template" id="delete-scenario-modal">
+<th:block th:fragment="delete-project-modal-vue-template">
+    <script type="text/x-template" id="delete-project-modal">
         <!-- Modal -->
-        <div ref="deleteScenarioModal" class="modal fade" id="deleteScenarioModal" tabindex="-1" role="dialog"
+        <div ref="deleteProjectModal" class="modal fade" id="deleteProjectModal" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel" th:text="#{scenario.delete}"/>
+                        <h5 class="modal-title" id="exampleModalLabel" th:text="#{project.delete}"/>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -32,7 +32,7 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{cancel}">
                                 Cancel
                             </button>
-                            <button type="submit" class="btn btn-primary" th:text="#{scenario.delete}"/>
+                            <button type="submit" class="btn btn-primary" th:text="#{project.delete}"/>
                         </div>
                     </form>
 
