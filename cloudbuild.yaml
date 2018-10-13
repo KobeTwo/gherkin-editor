@@ -9,3 +9,7 @@ steps:
     args: ['package']
   - name: gcr.io/cloud-builders/gsutil
     args: ['cp', 'target/gherkineditor-release.jar', 'gs://gherkin-editor-release/gherkineditor-$TAG_NAME.jar']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/gherkineditor:$TAG_NAME', '.']
+images:
+  - 'gcr.io/$PROJECT_ID/my-image'
