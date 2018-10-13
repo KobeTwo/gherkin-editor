@@ -2,7 +2,7 @@ steps:
   - name: gcr.io/cloud-builders/docker
       args: ['run', '-d', '-e', 'discovery.type=single-node', 'docker.elastic.co/elasticsearch/elasticsearch:6.4.2']
   - name: gcr.io/cloud-builders/docker
-      args: ['sleep', '20s']
+      args: ['sleep', '15s']
   - name: gcr.io/cloud-builders/docker
       args: ['ps']
   - name: gcr.io/cloud-builders/mvn
