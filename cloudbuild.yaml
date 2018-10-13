@@ -7,3 +7,5 @@ steps:
     args: ['ps']
   - name: gcr.io/cloud-builders/mvn
     args: ['package']
+  - name: gcr.io/cloud-builders/gsutil
+    args: ['cp', 'target/gherkineditor-release.jar', 'gs://gherkin-editor-release/gherkineditor-$TAG_NAME.jar']
