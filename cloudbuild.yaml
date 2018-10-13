@@ -1,3 +1,7 @@
 steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ['run', '-d', 'docker.elastic.co/elasticsearch/elasticsearch:6.4.0']
+  - name: gcr.io/cloud-builders/docker
+    args: ['ps']
   - name: gcr.io/cloud-builders/mvn
-    args: ['test']
+    args: ['package']
