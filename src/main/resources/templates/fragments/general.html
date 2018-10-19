@@ -72,6 +72,11 @@
                        th:text="#{documentation}"/>
                 </div>
             </div>
+            <div>
+                <a class="nav-item nav-link"
+                   th:href="@{'https://' + ${authDomain} + '/v2/logout?returnTo=http%3A%2F%2Flocalhost%3A8080%2Flogout&client_id=' + ${authClientId}}"><i
+                        class="fas fa-power-off"></i></a>
+            </div>
         </nav>
     </header>
 </th:block>

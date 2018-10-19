@@ -4,7 +4,7 @@
     <script type="text/x-template" id="tree-sidebar-item">
         <li v-if="item.type === 'FOLDER'">
             <div class="sidebar-list-element"
-                 :class="{'bg-primary text-white': isSelected}"
+                 :class="{'bg-info text-white': isSelected}"
                  @click="select">
 
                 <span>
@@ -16,16 +16,27 @@
 
                 </span>
                 <span v-if="isSelected" class="float-right">
-                    <a class="pr-1" data-toggle="modal"
-                       data-target="#createFolderModal"
+                    <span class="pr-1" data-toggle="modal"
+                          data-target="#createFolderModal"
                     >
-                        <i class="fas fa-folder-plus"></i>
-                    </a>
-                    <a class="pr-1" data-toggle="modal"
-                       data-target="#createFeatureModal"
+                        <a data-toggle="tooltip" th:title="#{folder.create}">
+                            <i class="fas fa-folder-plus"></i>
+                        </a>
+                    </span>
+                    <span class="pr-1" data-toggle="modal"
+                          data-target="#createFeatureModal"
                     >
-                        <i class="fas fa-file-signature"></i>
-                    </a>
+                        <a data-toggle="tooltip" th:title="#{feature.create}">
+                            <i class="fas fa-file-signature"></i>
+                        </a>
+                    </span>
+                    <span class="pr-1" data-toggle="modal"
+                          data-target="#deleteFolderModal"
+                    >
+                        <a data-toggle="tooltip" th:title="#{folder.delete}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </span>
                 </span>
             </div>
             <ul v-show="open">
@@ -41,9 +52,25 @@
         </li>
         <li v-else-if="item.type === 'FEATURE'">
             <div class="sidebar-list-element"
-                 :class="{'bg-primary text-white': isSelected}"
+                 :class="{'bg-info text-white': isSelected}"
                  @click="select">
                 <span><i class="fas fa-file"></i> {{ fileNameWithoutSuffix }}</span>
+                <span v-if="isSelected" class="float-right">
+                    <span class="pr-1" data-toggle="modal"
+                          data-target="#createScenarioModal"
+                    >
+                        <a data-toggle="tooltip" th:title="#{scenario.create}">
+                            <i class="fas fa-handshake"></i>
+                        </a>
+                    </span>
+                    <span class="pr-1" data-toggle="modal"
+                          data-target="#deleteFolderModal"
+                    >
+                        <a data-toggle="tooltip" th:title="#{feature.delete}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </span>
+                </span>
             </div>
             <tree-sidebar-item
                     class="item"

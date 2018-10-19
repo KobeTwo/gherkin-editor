@@ -3,10 +3,12 @@
 <th:block th:fragment="step-list-vue-template">
     <script type="text/x-template" id="step-list">
         <div>
-
-            <div class="row">
+            <div class="row form-group">
                 <div v-for="(step, index) in steps" class="col-12">
                     <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-arrows-alt-v"></i></span>
+                        </div>
                         <div class="input-group-prepend">
                             <select v-model="step.type">
                                 <option value="GIVEN">Given</option>
@@ -22,7 +24,24 @@
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="row form-group">
+                <div class="col-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <select>
+                                <option value="GIVEN">Given</option>
+                                <option value="AND">and</option>
+                                <option value="BUT">but</option>
+                                <option value="WHEN">When</option>
+                                <option value="THEN">Then</option>
+                            </select>
+                        </div>
+                        <input class="form-control" type="text"
+                               th:placeholder="#{step.add.text.placeholder}"
+                        >
+                    </div>
+                </div>
+            </div>
         </div>
     </script>
 </th:block>

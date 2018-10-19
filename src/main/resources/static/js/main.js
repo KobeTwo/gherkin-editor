@@ -12,6 +12,13 @@ var deleteScenarioURL = '/rest/api/scenario/'
 var deleteFeatureURL = '/rest/api/feature/'
 
 /**
+ * enable tooltips
+ */
+$(document).ready(function () {
+    $("body").tooltip({selector: '[data-toggle=tooltip]'});
+});
+
+/**
  * Trigger focus on forms
  */
 $(document).ready(function () {
