@@ -19,6 +19,7 @@
     </script>
     <th:block th:replace="fragments/header-projects-vue.html :: header-projects-vue-template"/>
     <th:block th:replace="fragments/create-project-modal-vue.html :: create-project-modal-vue-template"/>
+    <th:block th:replace="fragments/import-project-modal-vue.html :: import-project-modal-vue-template"/>
     <th:block th:replace="fragments/create-folder-modal-vue.html :: create-folder-modal-vue-template"/>
     <th:block th:replace="fragments/create-feature-modal-vue.html :: create-feature-modal-vue-template"/>
     <th:block th:replace="fragments/tree-sidebar-vue.html :: tree-sidebar-vue-template"/>
@@ -35,12 +36,18 @@
     <th:block th:replace="fragments/delete-feature-modal-vue.html :: delete-feature-modal-vue-template"/>
     <th:block th:replace="fragments/delete-folder-modal-vue.html :: delete-folder-modal-vue-template"/>
     <th:block th:replace="fragments/delete-project-modal-vue.html :: delete-project-modal-vue-template"/>
+    <th:block th:replace="fragments/global-alert-box-vue.html :: global-alert-box-vue-template"/>
 </th:block>
 <th:block th:fragment="header">
 
     <create-project-modal
             :allprojects="allprojects">
     </create-project-modal>
+
+    <import-project-modal
+            :allprojects="allprojects">
+    </import-project-modal>
+
     <create-folder-modal>
 
     </create-folder-modal>
@@ -50,34 +57,45 @@
     </create-feature-modal>
 
     <header class="mb-3">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
             <a class="navbar-brand" href="/">
                 <img th:src="@{/assets/cucumber.png}" width="30" height="30" class="d-inline-block align-top" alt="">
                 Gherkin-Editor
             </a>
+            <span class="mr-auto"></span>
+            <button th:if="${currentNav == 'editor'}" class="navbar-toggler treeSidebarToggler mr-2" type="button"
+                    data-toggle="collapse"
+                    data-target="#treeSidebarNavbar"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle tree sidebar">
+                <span><i class="far fa-folder-open"></i></span>
+            </button>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
+                <div class="navbar-nav w-100">
                     <header-projects
                             :allprojects="allprojects">
                     </header-projects>
+
                     <a class="nav-item nav-link" th:classappend="${currentNav == 'editor'} ? active"
                        th:if="${currentProject}" th:href="@{'/' + ${currentProject.id} + '/folder'}"
                        th:text="#{editor}"/>
                     <a class="nav-item nav-link" th:classappend="${currentNav == 'documentation'} ? active"
                        th:if="${currentProject}" th:href="@{'/' + ${currentProject.id} + '/documentation'}"
                        th:text="#{documentation}"/>
+                    <span class="mr-auto"></span>
+                    <a class="btn btn-outline-secondary" role="button"
+                       th:href="@{'https://' + ${authDomain} + '/v2/logout?returnTo=http%3A%2F%2Flocalhost%3A8080%2Flogout&client_id=' + ${authClientId}}">
+                        <i class="fas fa-power-off"></i> <span th:text="#{logout}"></span>
+                    </a>
                 </div>
             </div>
-            <div>
-                <a class="nav-item nav-link"
-                   th:href="@{'https://' + ${authDomain} + '/v2/logout?returnTo=http%3A%2F%2Flocalhost%3A8080%2Flogout&client_id=' + ${authClientId}}"><i
-                        class="fas fa-power-off"></i></a>
-            </div>
+
         </nav>
+        <global-alert-box>
+        </global-alert-box>
     </header>
 </th:block>
     

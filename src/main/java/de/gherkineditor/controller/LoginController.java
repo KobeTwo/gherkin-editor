@@ -23,6 +23,7 @@ public class LoginController {
         String redirectUri = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/callback";
         String authorizeUrl = this.controller.buildAuthorizeUrl(req, redirectUri)
                 .withAudience(String.format("https://%s/userinfo", this.webSecurityConfig.getDomain()))
+                .withScope("openid email profile")
                 .build();
         return "redirect:" + authorizeUrl;
     }

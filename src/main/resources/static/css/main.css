@@ -52,3 +52,38 @@ a.clickable-card:hover {
 a.clickable-card .card:hover {
     border-color: #007bff;
 }
+
+.treeSidebarToggler i {
+    vertical-align: middle;
+    display: inline-grid;
+    line-height: 1.5em;
+}
+
+.fixedButtons {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+.input-group-w100 {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    width: 1%;
+}
+
+.input-group-w100 .input-group-text {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    width: 1%;
+    display: inline;
+    text-align: left;
+}
+
+.alert-box {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 9999;
+}

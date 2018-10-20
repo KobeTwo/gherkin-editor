@@ -8,28 +8,22 @@
             </delete-scenario-modal>
             <div class="card mb-4 ">
                 <div class="card-header">
-                    <div class="form-row">
-                        <div class="col-lg-11 col-md-11 col-sm-11">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
+                    <div class="input-group w-100">
+                        <div class="input-group-prepend">
                                     <span class="input-group-text">
                                         <i class="fas fa-file-signature"></i>
                                     </span>
-                                </div>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        {{ scenario.path }}
-                                    </span>
-                                </div>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        {{ scenario.name }}
-                                    </span>
-                                </div>
-                            </div>
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 d-flex justify-content-end">
-                            <button class="btn btn-danger btn-sm ml-auto pull-right text-right" data-toggle="modal"
+                        <div class="input-group-prepend input-group-w100">
+                            <span class="input-group-text">
+                                <span>{{ scenario.path }} </span>
+                                <i class="fas fa-chevron-right"></i>
+                                <span>{{ scenario.name }} </span>
+                            </span>
+                        </div>
+                        <div class="input-group-append mr-auto">
+                            <button class="btn btn-outline-danger btn-sm ml-auto pull-right text-right"
+                                    data-toggle="modal"
                                     data-target="#deleteScenarioModal" type="button"><i
                                     class="fas fa-trash"></i></button>
                         </div>
@@ -75,6 +69,11 @@
                     <button @click="addTag" class="btn btn-outline-secondary btn-sm ml-2" type="button"><i
                             class="fas fa-plus"></i></button>
                 </div>
+            </div>
+            <div class="fixedButtons">
+                <button @click="addTag" class="btn btn-primary" type="button">
+                    <i class="far fa-save"></i> <span th:text="#{save}"></span>
+                </button>
             </div>
         </form>
     </script>

@@ -11,6 +11,8 @@ var getScenariosURL = '/rest/api/scenario/search/findChildren'
 var deleteScenarioURL = '/rest/api/scenario/'
 var deleteFeatureURL = '/rest/api/feature/'
 
+var vueBus = new Vue();
+
 /**
  * enable tooltips
  */
@@ -25,12 +27,20 @@ $(document).ready(function () {
     $('#createProjectModal').on('shown.bs.modal', function () {
         $('#projectId').trigger('focus')
     })
+    $('#importProjectModal').on('shown.bs.modal', function () {
+        $('#projectId').trigger('focus')
+    })
     $('#createFolderModal').on('shown.bs.modal', function () {
         $('#folderFileName').trigger('focus')
     })
     $('#createFeatureModal').on('shown.bs.modal', function () {
         $('#featureFileName').trigger('focus')
     })
+
+    $('#project-archive').on('change', function () {
+        fileName = $(this).val().split('\\').pop();
+        $(this).next('#project-archive-label').addClass("selected").html(fileName);
+    });
 })
 
 /**
@@ -81,6 +91,7 @@ Vue.component('create-project-modal', {
                     self.inputProject = $.extend(true, {}, self.emptyProject)
                     self.allprojects.push(result);
                     $(self.$refs["createProjectModal"]).modal('hide')
+                    vueBus.$emit("createdProject", result)
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
@@ -89,6 +100,46 @@ Vue.component('create-project-modal', {
         }
     }
 })
+
+Vue.component('import-project-modal', {
+    template: '#import-project-modal',
+    data: function () {
+        return {
+            emptyProject: {
+                id: null
+            },
+            inputProject: {
+                id: null
+            },
+            errorResult: null
+        }
+    },
+    props: {
+        allprojects: Array
+    },
+    methods: {
+        processForm: function () {
+            var self = this
+            $.ajax({
+                url: postProjectURL,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(this.inputProject),
+                dataType: 'json',
+                success: function (result) {
+                    self.errorResult = null
+                    self.inputProject = $.extend(true, {}, self.emptyProject)
+                    self.allprojects.push(result);
+                    $(self.$refs["createProjectModal"]).modal('hide')
+                },
+                error: function (result) {
+                    self.errorResult = result.responseJSON
+                }
+            });
+        }
+    }
+})
+
 Vue.component('create-folder-modal', {
     template: '#create-folder-modal',
     data: function () {
@@ -469,7 +520,8 @@ Vue.component('delete-scenario-modal', {
                 dataType: 'json',
                 success: function (result) {
                     self.errorResult = null
-                    $(self.$refs["deleteFeatureModal"]).modal('hide')
+                    vueBus.$emit("deletedScenario", self.scenario)
+                    $(self.$refs["deleteScenarioModal"]).modal('hide')
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
@@ -506,5 +558,34 @@ Vue.component('delete-feature-modal', {
                 }
             });
         }
+    }
+})
+
+Vue.component('global-alert-box', {
+    template: '#global-alert-box',
+    data: function () {
+        return {
+            alerts: []
+        }
+    },
+    methods: {
+        addAlert: function (type, text, dismissible) {
+            alert = {};
+            alert.type = type
+            alert.text = text
+            alert.dismissible = dismissible
+            this.alerts.push(alert)
+        }
+    },
+    created: function () {
+        vueBus.$on('createdProject', (project) => {
+            this.addAlert("alert-success", "Project " + project.id + " was successfully created", true)
+        });
+
+        vueBus.$on('deletedScenario', (scenario) => {
+            this.addAlert("alert-success", "Scenario " + scenario.name + " was successfully deleted", true)
+        });
+
+
     }
 })

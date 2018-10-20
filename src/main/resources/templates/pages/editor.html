@@ -20,9 +20,9 @@
     <th:block th:replace="fragments/general.html :: header"/>
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-lg-3 col-md-4 d-none d-md-block sidebar">
+            <nav class="col-lg-3 col-md-4 d-md-block sidebar collapse" id="treeSidebarNavbar">
                 <div class="sidebar-sticky">
-                    <div class="card">
+                    <div class="card mb-2">
                         <div class="card-body">
                             <tree-sidebar
                                     v-bind:roots="treeRoots">
@@ -32,7 +32,7 @@
 
                 </div>
             </nav>
-            <main role="main" class="col-lg-9 col-md-8 ml-sm-auto px-4">
+            <main role="main" class="col-lg-9 col-md-8 ml-sm-auto">
                 <feature-list v-if="selectedTreeElement.type == 'FOLDER'">
                 </feature-list>
 

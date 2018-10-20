@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.security.Principal;
+
 @ControllerAdvice(basePackages = "de.gherkineditor.controller")
 public class ProjectControllerAdvice {
 
@@ -19,7 +21,7 @@ public class ProjectControllerAdvice {
     private String clientId;
 
     @ModelAttribute
-    public void addGeneralData(Model model) {
+    public void addGeneralData(Model model, final Principal principal) {
         model.addAttribute("allProjects", this.projectService.getAllProjects());
         model.addAttribute("authDomain", this.domain);
         model.addAttribute("authClientId", this.clientId);

@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="import-project-modal-vue-template">
+    <script type="text/x-template" id="import-project-modal">
+        <!-- Modal -->
+        <div ref="importProjectModal" class="modal fade" id="importProjectModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" th:text="#{project.create}"/>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form @submit.prevent="processForm" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div v-if="errorResult">
+                                <div class="alert alert-danger" role="alert"
+                                     v-for="globalError in errorResult.globalErrors">
+                                    <span>{{ globalError.message }}</span>
+                                </div>
+                                <div class="alert alert-danger" role="alert"
+                                     v-for="fieldError in errorResult.fieldErrors">
+                                    <span>{{ fieldError.message }}</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="projectId" th:text="#{project.id}"/>
+                                <input v-model="inputProject.id" type="text" class="form-control" id="projectId"
+                                       aria-describedby="projectIdHelp" placeholder="Enter the id of the project">
+                            </div>
+                            <div class="form-group required">
+                                <label for="project-archive" th:text="#{project.archive}"/>
+                                <div class="custom-file">
+                                    <input type="file" accept="application/zip"
+                                           class="custom-file-input input-file" id="project-archive">
+                                    <label id="project-archive-label" class="custom-file-label" for="project-archive"
+                                           th:text="#{project.choose.archive}">
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{cancel}">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary" th:text="#{import.project}"/>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </script>
+</th:block>
+</body>
+</html>

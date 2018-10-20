@@ -6,7 +6,7 @@ var vueBody = new Vue({
         allprojects: null,
         currentProject: currentProject,
         selectedTreeElement: selectedTreeItem,
-        treeRoots: null
+        treeRoots: null,
     },
     created: function () {
         this.fetchProjects()

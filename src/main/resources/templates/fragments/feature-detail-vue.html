@@ -8,30 +8,25 @@
             </delete-feature-modal>
             <div class="card mb-4 ">
                 <div class="card-header">
-                    <div class="form-row">
-                        <div class="col-lg-11 col-md-11 col-sm-11">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
                                     <span class="input-group-text">
                                         <i class="fas fa-file-signature"></i>
                                     </span>
-                                </div>
-                                <div class="input-group-prepend">
+                        </div>
+                        <div class="input-group-prepend">
                                     <span class="input-group-text">
                                         {{ feature.path }}
                                     </span>
-                                </div>
-                                <input class="form-control" type="text"
-                                       th:placeholder="#{feature.filename.placeholder}"
-                                       :value="feature.fileName">
-                                <div class="input-group-append mr-auto">
-                                    <span class="input-group-text">.feature</span>
-                                </div>
-
-                            </div>
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 d-flex justify-content-end">
-                            <button class="btn btn-danger btn-sm ml-auto pull-right text-right" type="button"
+                        <input class="form-control" type="text"
+                               th:placeholder="#{feature.filename.placeholder}"
+                               :value="feature.fileName">
+                        <div class="input-group-append mr-auto">
+                            <span class="input-group-text">.feature</span>
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-danger btn-sm ml-auto pull-right text-right" type="button"
                                     data-toggle="modal"
                                     data-target="#deleteFeatureModal"><i
                                     class="fas fa-trash"></i></button>
