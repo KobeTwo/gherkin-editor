@@ -28,6 +28,13 @@ var Utils = (function () {
         },
         getFileNameWithoutSuffix: function (folderItem) {
             return folderItem.fileName.replace('.feature', '')
+        },
+        getRootFolder: function () {
+            rootFolder = {
+                model: {id: 'folderRoot', path: '', fileName: '/'},
+                type: 'FOLDER'
+            }
+            return rootFolder
         }
     }
 

@@ -14,6 +14,16 @@ var vueBody = new Vue({
             this.selectedTreeElement = {model: {path: '/', fileName: ''}}
         }
         this.fetchTreeStructure(this.$root.currentProject.id)
+
+        vueBus.$on('deletedScenario', (scenario) => {
+            this.selectedTreeElement = Utils.getRootFolder()
+        });
+        vueBus.$on('deletedFeature', (feature) => {
+            this.selectedTreeElement = Utils.getRootFolder()
+        });
+        vueBus.$on('deletedFolder', (folder) => {
+            this.selectedTreeElement = Utils.getRootFolder()
+        });
     },
     methods: {
         fetchProjects: function () {
@@ -38,11 +48,8 @@ var vueBody = new Vue({
                 dataType: 'json',
                 data: {projectId: projectId},
                 success: function (result) {
-                    rootFolder = {
-                        model: {id: 'folderRoot', path: '', fileName: '/'},
-                        children: result,
-                        type: 'FOLDER'
-                    }
+                    rootFolder = Utils.getRootFolder();
+                    rootFolder.children = result
                     rootFolderList = [rootFolder]
                     if (selectedTreeItem) {
                         self.selectedTreeElement = selectedTreeItem

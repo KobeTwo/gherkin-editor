@@ -250,7 +250,7 @@ Vue.component('tree-sidebar', {
             switch (this.selectedTreeItem.type) {
                 case 'FOLDER':
                     url = '/' + this.$root.currentProject.id + /folder/
-                    if (this.selectedTreeItem.model.id !== 'folderRoot') {
+                    if (this.selectedTreeItem.model.id !== Utils.getRootFolder().model.id) {
                         url = url + this.selectedTreeItem.model.id
                     }
                     history.pushState({}, '', url);
@@ -289,6 +289,24 @@ Vue.component('tree-sidebar-item', {
         } else {
             this.item.pathItems = new Array
         }
+
+        vueBus.$on('deletedFeature', (feature) => {
+            if (this.item.children) {
+                this.item.children = this.item.children.filter(function (value, index, arr) {
+                    return value.model.id !== feature.id
+                });
+            }
+
+        });
+
+        vueBus.$on('deletedScenario', (scenario) => {
+            if (this.item.children) {
+                this.item.children = this.item.children.filter(function (value, index, arr) {
+                    return value.model.id !== scenario.id
+                });
+            }
+
+        });
 
     },
     computed: {
@@ -470,7 +488,9 @@ Vue.component('scenario-detail', {
             this.scenario.tags.push('')
         },
         removeTag: function (name) {
-            this.scenario.tags.pop(name)
+            this.scenario.tags = this.scenario.tags.filter(function (value, index, arr) {
+                return value !== name
+            });
         },
         removeScenario: function () {
             alert('TODO')
@@ -551,6 +571,7 @@ Vue.component('delete-feature-modal', {
                 dataType: 'json',
                 success: function (result) {
                     self.errorResult = null
+                    vueBus.$emit("deletedFeature", self.feature)
                     $(self.$refs["deleteFeatureModal"]).modal('hide')
                 },
                 error: function (result) {
@@ -584,6 +605,14 @@ Vue.component('global-alert-box', {
 
         vueBus.$on('deletedScenario', (scenario) => {
             this.addAlert("alert-success", "Scenario " + scenario.name + " was successfully deleted", true)
+        });
+
+        vueBus.$on('deletedFeature', (feature) => {
+            this.addAlert("alert-success", "Feature " + feature.fileName + " was successfully deleted", true)
+        });
+
+        vueBus.$on('deletedFolder', (folder) => {
+            this.addAlert("alert-success", "Folder " + folder.fileName + " was successfully deleted", true)
         });
 
 
