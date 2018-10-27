@@ -21,7 +21,7 @@
                         </div>
                         <input class="form-control" type="text"
                                th:placeholder="#{feature.filename.placeholder}"
-                               :value="feature.fileName">
+                               :value="getFileNameWithoutSuffix(feature)">
                         <div class="input-group-append mr-auto">
                             <span class="input-group-text">.feature</span>
                         </div>
