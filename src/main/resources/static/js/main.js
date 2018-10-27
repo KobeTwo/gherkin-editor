@@ -10,6 +10,7 @@ var getFeaturesRecursiveURL = '/rest/api/feature/search/findChildrenRecursive'
 var getScenariosURL = '/rest/api/scenario/search/findChildren'
 var deleteScenarioURL = '/rest/api/scenario/'
 var deleteFeatureURL = '/rest/api/feature/'
+var deleteFolderURL = '/rest/api/folder/'
 
 var vueBus = new Vue();
 
@@ -389,6 +390,14 @@ Vue.component('tree-sidebar-item', {
 
         });
 
+        vueBus.$on('deletedFolder', (folder) => {
+            if (this.item.children) {
+                this.item.children = this.item.children.filter(function (value, index, arr) {
+                    return value.model.id !== folder.id
+                });
+            }
+        });
+
     },
     computed: {
         isSelected: function () {
@@ -655,6 +664,37 @@ Vue.component('delete-feature-modal', {
                     self.errorResult = null
                     vueBus.$emit("deletedFeature", self.feature)
                     $(self.$refs["deleteFeatureModal"]).modal('hide')
+                },
+                error: function (result) {
+                    self.errorResult = result.responseJSON
+                }
+            });
+        }
+    }
+})
+
+Vue.component('delete-folder-modal', {
+    template: '#delete-folder-modal',
+    data: function () {
+        return {
+            error: false
+        }
+    },
+    props: {
+        folder: Object
+    },
+    methods: {
+        processForm: function () {
+            var self = this
+            $.ajax({
+                url: deleteFolderURL + this.folder.id,
+                type: 'DELETE',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    self.errorResult = null
+                    vueBus.$emit("deletedFolder", self.folder)
+                    $(self.$refs["deleteFolderModal"]).modal('hide')
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON

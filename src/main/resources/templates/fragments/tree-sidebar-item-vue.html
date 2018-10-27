@@ -30,7 +30,8 @@
                             <i class="fas fa-file-signature"></i>
                         </a>
                     </span>
-                    <span class="pr-1" data-toggle="modal"
+                    <span v-if="item.model.id !== 'folderRoot'"
+                          class="pr-1" data-toggle="modal"
                           data-target="#deleteFolderModal"
                     >
                         <a data-toggle="tooltip" th:title="#{folder.delete}">
