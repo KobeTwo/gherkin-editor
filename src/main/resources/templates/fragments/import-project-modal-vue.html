@@ -34,7 +34,7 @@
                             <div class="form-group required">
                                 <label for="project-archive" th:text="#{project.archive}"/>
                                 <div class="custom-file">
-                                    <input type="file" accept="application/zip"
+                                    <input @change="processFile($event)" type="file" accept="application/zip"
                                            class="custom-file-input input-file" id="project-archive">
                                     <label id="project-archive-label" class="custom-file-label" for="project-archive"
                                            th:text="#{project.choose.archive}">

@@ -5,7 +5,7 @@ import org.springframework.data.elasticsearch.annotations.*;
 
 @Document(indexName = "folder", type = "folder", shards = 1, replicas = 0, refreshInterval = "-1")
 public class Folder extends AbstractPathItem {
-
+    
     @Id
     private String id;
 

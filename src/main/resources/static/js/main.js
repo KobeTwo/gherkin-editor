@@ -2,6 +2,7 @@
  * URLs to be used for REST Requests
  */
 var getProjectURL = '/rest/api/project'
+var importProjectURL = '/rest/api/project/import'
 var postProjectURL = '/rest/api/project'
 var postFolderURL = '/rest/api/folder'
 var postFeatureURL = '/rest/api/feature'
@@ -151,7 +152,8 @@ Vue.component('import-project-modal', {
                 id: null
             },
             inputProject: {
-                id: null
+                id: null,
+                file: null
             },
             errorResult: null
         }
@@ -160,19 +162,26 @@ Vue.component('import-project-modal', {
         allprojects: Array
     },
     methods: {
+        processFile(event) {
+            this.inputProject.file = event.target.files[0]
+        },
         processForm: function () {
             var self = this
+            var data = new FormData();
+            data.append('file', this.inputProject.file)
+            data.append('projectId', this.inputProject.id)
             $.ajax({
-                url: postProjectURL,
+                url: importProjectURL,
                 type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(this.inputProject),
-                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: data,
                 success: function (result) {
                     self.errorResult = null
                     self.inputProject = $.extend(true, {}, self.emptyProject)
                     self.allprojects.push(result);
-                    $(self.$refs["createProjectModal"]).modal('hide')
+                    $(self.$refs["importProjectModal"]).modal('hide')
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
