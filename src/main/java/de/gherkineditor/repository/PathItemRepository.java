@@ -1,8 +1,11 @@
 package de.gherkineditor.repository;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PathItemRepository<T>  extends ProjectItemRepository<T>  {
@@ -44,7 +47,7 @@ public interface PathItemRepository<T>  extends ProjectItemRepository<T>  {
                     "} " +
                 "} " +
             "}")
-    Iterable<T> findChildrenRecursive(@Param("projectId") String projectId , @Param("path") String path);
+    List<T> findChildrenRecursive(@Param("projectId") String projectId , @Param("path") String path, Pageable pageable);
 
     @Query("{\"bool\": " +
             "{\"filter\": " +

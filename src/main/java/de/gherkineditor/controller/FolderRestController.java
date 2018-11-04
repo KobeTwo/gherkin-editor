@@ -42,8 +42,8 @@ public class FolderRestController {
         Optional<Folder> folderOptional = this.folderRepository.findById(folderId);
         if (folderOptional.isPresent()) {
             String path = Util.getConcatenatedPath(folderOptional.get().getPath(), folderOptional.get().getFileName());
-            Iterable<Scenario> scenariosToDelete = this.scenarioRepository.findChildrenRecursive(folderOptional.get().getProjectId(), path);
-            Iterable<Feature> featuresToDelete = this.featureRepository.findChildrenRecursive(folderOptional.get().getProjectId(), path);
+            Iterable<Scenario> scenariosToDelete = this.scenarioRepository.findChildrenRecursive(folderOptional.get().getProjectId(), path, null);
+            Iterable<Feature> featuresToDelete = this.featureRepository.findChildrenRecursive(folderOptional.get().getProjectId(), path, null);
             this.scenarioRepository.deleteAll(scenariosToDelete);
             this.featureRepository.deleteAll(featuresToDelete);
             this.folderRepository.delete(folderOptional.get());

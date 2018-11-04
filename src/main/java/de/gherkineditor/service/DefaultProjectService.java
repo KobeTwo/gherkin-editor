@@ -12,6 +12,7 @@ import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.zip.ZipEntry;
 
@@ -24,7 +25,7 @@ public class DefaultProjectService extends AbstractModelService<Project> impleme
     ProjectRepository projectRepository;
 
     @Autowired
-    FolderService folderService;
+    FeatureService featureService;
 
     @Override
     public Iterable<Project> getAllProjects() {
@@ -50,8 +51,8 @@ public class DefaultProjectService extends AbstractModelService<Project> impleme
             public void process(InputStream in, ZipEntry zipEntry) throws IOException {
                 if (zipEntry.getName().endsWith(".feature")) {
                     DefaultProjectService.this.logger.info("Found feature file in zip " + zipEntry.getName() + "for project import " + projectId);
-                    IOUtils.copy(in, System.out);
-                    DefaultProjectService.this.folderService.createFoldersForFeatureImport(project, zipEntry.getName());
+                    String content = IOUtils.toString(in, StandardCharsets.UTF_8);
+                    DefaultProjectService.this.featureService.createFeature(project, zipEntry.getName(), content);
                 }
             }
         });

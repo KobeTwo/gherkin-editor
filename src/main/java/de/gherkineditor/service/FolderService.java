@@ -8,6 +8,6 @@ public interface FolderService extends ModelService<Folder> {
 
     Iterable<Folder> listFolders(String projectId);
 
-    void createFoldersForFeatureImport(Project project, String inputFileName);
+    void createParentFoldersForFeature(Project project, String featureAbsolutePath);
 
 }

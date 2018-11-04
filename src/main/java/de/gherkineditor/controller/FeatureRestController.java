@@ -26,7 +26,7 @@ public class FeatureRestController {
         Optional<Feature> featureOptional = this.featureRepository.findById(featureId);
         if (featureOptional.isPresent()) {
             String path = Util.getConcatenatedPath(featureOptional.get().getPath(), featureOptional.get().getFileName());
-            Iterable<Scenario> scenariosToDelete = this.scenarioRepository.findChildrenRecursive(featureOptional.get().getProjectId(), path);
+            Iterable<Scenario> scenariosToDelete = this.scenarioRepository.findChildrenRecursive(featureOptional.get().getProjectId(), path, null);
             this.scenarioRepository.deleteAll(scenariosToDelete);
             this.featureRepository.delete(featureOptional.get());
         }
