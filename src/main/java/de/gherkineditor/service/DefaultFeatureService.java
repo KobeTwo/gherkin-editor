@@ -2,6 +2,7 @@ package de.gherkineditor.service;
 
 import de.gherkineditor.model.Feature;
 import de.gherkineditor.model.Project;
+import de.gherkineditor.model.Step;
 import de.gherkineditor.repository.FeatureRepository;
 import io.cucumber.gherkin.Gherkin;
 import io.cucumber.messages.Messages;
@@ -20,6 +21,9 @@ public class DefaultFeatureService implements FeatureService {
 
     @Autowired
     FolderService folderService;
+
+    @Autowired
+    ScenarioService scenarioService;
 
     @Override
     public Iterable<Feature> listAllFeatures() {
@@ -45,18 +49,32 @@ public class DefaultFeatureService implements FeatureService {
 
     @Override
     public void createFeature(Project project, String absolutePath, Messages.Feature featureMessage) {
-        String path = "/" + absolutePath.substring(0, absolutePath.lastIndexOf(File.separator));
+        String path = absolutePath.substring(0, absolutePath.lastIndexOf(File.separator) + 1);
         String fileName = absolutePath.substring(absolutePath.lastIndexOf(File.separator) + 1);
 
         //create folder structure
         this.folderService.createParentFoldersForFeature(project, absolutePath);
 
         //create basic feature
-        Feature feature = new Feature(project.getId(), path, fileName, featureMessage.getName(), featureMessage.getDescription());
+        Feature feature = new Feature(project.getId(), path, fileName, featureMessage.getName().trim(), featureMessage.getDescription().trim());
 
-        //add tags
+        //add tags to feature
         for (Messages.Tag tag : featureMessage.getTagsList()) {
-            feature.addTag(tag.getName());
+            feature.addTag(tag.getName().trim());
+        }
+
+        for (Messages.FeatureChild child : featureMessage.getChildrenList()) {
+            if (child.hasBackground()) {
+                Messages.Background backgroundMessage = child.getBackground();
+                for (Messages.Step stepMessage : backgroundMessage.getStepsList()) {
+                    feature.addBackgroundSteps(new Step(Step.TYPE.valueOf(stepMessage.getKeyword().toUpperCase().trim()), stepMessage.getText().trim()));
+                }
+
+            }
+
+            if (child.hasScenario()) {
+                this.scenarioService.createScenario(project, absolutePath, child.getScenario());
+            }
         }
 
 

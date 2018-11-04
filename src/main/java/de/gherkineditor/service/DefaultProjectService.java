@@ -52,7 +52,7 @@ public class DefaultProjectService extends AbstractModelService<Project> impleme
                 if (zipEntry.getName().endsWith(".feature")) {
                     DefaultProjectService.this.logger.info("Found feature file in zip " + zipEntry.getName() + "for project import " + projectId);
                     String content = IOUtils.toString(in, StandardCharsets.UTF_8);
-                    DefaultProjectService.this.featureService.createFeature(project, zipEntry.getName(), content);
+                    DefaultProjectService.this.featureService.createFeature(project, "/" + zipEntry.getName(), content);
                 }
             }
         });

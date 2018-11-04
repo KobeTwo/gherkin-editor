@@ -1,5 +1,8 @@
 package de.gherkineditor.service;
 
-public interface ScenarioService {
+import de.gherkineditor.model.Project;
+import io.cucumber.messages.Messages;
 
+public interface ScenarioService {
+    void createScenario(Project project, String absolutePath, Messages.Scenario scenarioMessage);
 }

@@ -4,7 +4,7 @@ public class Step {
 
 
     public enum TYPE {
-        GIVEN, WHEN, THEN, AND, BUT
+        GIVEN, WHEN, THEN, AND, BUT;
     }
 
     private TYPE type;
@@ -25,6 +25,7 @@ public class Step {
     public void setType(TYPE type) {
         this.type = type;
     }
+
 
     public String getText() {
         return this.text;

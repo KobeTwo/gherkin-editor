@@ -29,7 +29,7 @@ public class DefaultFolderService extends AbstractModelService<Folder> implement
 
     @Override
     public void createParentFoldersForFeature(Project project, String featureAbsolutePath) {
-        String inputPath = featureAbsolutePath.substring(0, featureAbsolutePath.lastIndexOf(File.separator));
+        String inputPath = featureAbsolutePath.substring(1, featureAbsolutePath.lastIndexOf(File.separator));
         String[] dirs = inputPath.split(File.separator);
         String path = "/";
         for (String fileName : dirs) {
