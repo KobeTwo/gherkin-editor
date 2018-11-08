@@ -28,7 +28,6 @@
                                     class="fas fa-trash"></i></button>
                         </div>
                     </div>
-
                 </div>
                 <div class="card-body">
 
@@ -45,7 +44,8 @@
                     </div>
                     <div class="card mb-4">
                         <div class="card-header">
-                            <span class="font-weight-bold" th:text="#{scenario.steps}"></span>
+                            <i class="fas fa-shoe-prints"></i> <span class="font-weight-bold"
+                                                                     th:text="#{scenario.steps}"></span>
                         </div>
                         <div class="card-body">
                             <step-list
@@ -54,10 +54,22 @@
                             </step-list>
                         </div>
                     </div>
+                    <div class="card mb-4">
+                        <a class="clickable-card" data-toggle="collapse" href="#collapseExamples">
+                            <div class="card-header">
+                                <i class="fas fa-table"></i> <span class="font-weight-bold"
+                                                                   th:text="#{scenario.examples}"></span> <i
+                                    class="fas fa-chevron-circle-down float-right"></i>
+                            </div>
+                        </a>
+                        <div id="collapseExamples" class="collapse">
+                            <div class="card-body">
+                                Lorem ipsum..
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
 
-                </div>
                 <div class="card-footer text-muted form-inline">
                     <i class="fas fa-tags"></i>
                     <span v-for="(tag, index) in scenario.tags" class="ml-2">
