@@ -4,8 +4,8 @@
     <script type="text/x-template" id="feature-list">
         <div>
 
-            <div class="row">
-                <div v-for="(feature, index) in features" class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card-columns">
+                <div v-for="(feature, index) in features">
                     <feature-card
                             v-bind:feature="feature"
                     >
