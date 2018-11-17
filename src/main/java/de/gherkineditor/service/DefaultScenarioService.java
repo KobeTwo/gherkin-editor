@@ -26,7 +26,29 @@ public class DefaultScenarioService implements ScenarioService {
 
         //add steps for scenario
         for (Messages.Step stepMessage : scenarioMessage.getStepsList()) {
-            scenario.addStep(new Step(Step.TYPE.valueOf(stepMessage.getKeyword().toUpperCase().trim()), stepMessage.getText().trim()));
+            Step step = new Step(Step.TYPE.valueOf(stepMessage.getKeyword().toUpperCase().trim()), stepMessage.getText().trim());
+
+            //add doc string
+            if (stepMessage.getArgumentCase().equals(Messages.Step.ArgumentCase.DOC_STRING)) {
+                step.setDocstring(stepMessage.getDocString().getContent());
+            }
+
+            //add data table
+            if (stepMessage.getArgumentCase().equals(Messages.Step.ArgumentCase.DATA_TABLE)) {
+                Messages.DataTable dataTable = stepMessage.getDataTable();
+                String[][] dataTableArray = new String[dataTable.getRowsCount()][];
+                for (int i = 0; i < dataTable.getRowsCount(); i++) {
+                    Messages.TableRow row = dataTable.getRows(i);
+                    String[] rowArray = new String[row.getCellsCount()];
+                    for (int j = 0; j < row.getCellsCount(); j++) {
+                        Messages.TableCell cell = row.getCells(j);
+                        rowArray[j] = cell.getValue();
+                    }
+                    dataTableArray[i] = rowArray;
+                }
+                step.setDatatable(dataTableArray);
+            }
+            scenario.addStep(step);
         }
 
         this.scenarioRepository.save(scenario);
