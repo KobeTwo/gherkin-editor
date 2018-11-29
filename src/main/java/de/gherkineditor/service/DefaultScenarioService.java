@@ -1,9 +1,11 @@
 package de.gherkineditor.service;
 
+import de.gherkineditor.model.Feature;
 import de.gherkineditor.model.Project;
 import de.gherkineditor.model.Scenario;
 import de.gherkineditor.model.Step;
 import de.gherkineditor.repository.ScenarioRepository;
+import de.gherkineditor.util.Util;
 import io.cucumber.messages.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,5 +54,10 @@ public class DefaultScenarioService implements ScenarioService {
         }
 
         this.scenarioRepository.save(scenario);
+    }
+
+    @Override
+    public Iterable<Scenario> getScenarios(Feature feature) {
+        return this.scenarioRepository.findChildren(feature.getProjectId(), Util.getConcatenatedPath(feature.getPath(), feature.getFileName()));
     }
 }

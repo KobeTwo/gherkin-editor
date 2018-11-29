@@ -12,4 +12,6 @@ public interface FeatureService {
     void createFeature(Project project, String absolutePath, String content);
 
     void createFeature(Project project, String absolutePath, Messages.Feature featureMessage);
+
+    String getFeatureContent(Feature feature);
 }

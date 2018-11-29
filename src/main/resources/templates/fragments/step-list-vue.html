@@ -12,24 +12,25 @@
                         <div class="input-group-prepend">
                             <select v-model="step.type">
                                 <option value="GIVEN">Given</option>
-                                <option value="AND">and</option>
-                                <option value="BUT">but</option>
+                                <option value="AND">And</option>
+                                <option value="BUT">But</option>
                                 <option value="WHEN">When</option>
                                 <option value="THEN">Then</option>
                             </select>
                         </div>
                         <input class="form-control" type="text"
                                th:placeholder="#{step.text.placeholder}"
-                               :value="step.text">
+                               v-model="step.text"
+                        >
                         <div class="input-group-append">
                             <a class="input-group-text" href="#" id="dropdownMenuLink"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span><i class="fas fa-ellipsis-v"></i></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#" th:text="#{step.create.freetextparameter}"></a>
-                                <a class="dropdown-item" href="#" th:text="#{step.create.tableparameter}"></a>
-                                <a class="dropdown-item" href="#" th:text="#{step.delete}"></a>
+                                <a class="dropdown-item" th:text="#{step.create.freetextparameter}"></a>
+                                <a class="dropdown-item" th:text="#{step.create.tableparameter}"></a>
+                                <a class="dropdown-item" @click="deleteStep(step)" th:text="#{step.delete}"></a>
                             </div>
                         </div>
                     </div>
@@ -41,8 +42,8 @@
                         <div class="input-group-prepend">
                             <select>
                                 <option value="GIVEN">Given</option>
-                                <option value="AND">and</option>
-                                <option value="BUT">but</option>
+                                <option value="AND">And</option>
+                                <option value="BUT">But</option>
                                 <option value="WHEN">When</option>
                                 <option value="THEN">Then</option>
                             </select>

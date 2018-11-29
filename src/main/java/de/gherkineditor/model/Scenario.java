@@ -55,14 +55,6 @@ public class Scenario extends AbstractPathItem {
         this.name = name;
     }
 
-    public String getText() {
-        return this.description;
-    }
-
-    public void setText(String text) {
-        this.description = text;
-    }
-
     public String getDescription() {
         return this.description;
     }

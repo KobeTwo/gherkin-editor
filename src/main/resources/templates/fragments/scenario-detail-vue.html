@@ -34,13 +34,15 @@
                     <div class="form-group">
                         <input class="form-control form-control-lg" type="text"
                                th:placeholder="#{scenario.name.placeholder}"
-                               :value="scenario.name">
+                               v-model="scenario.name"
+                        >
                     </div>
                     <div class="form-group">
                         <textarea class="form-control"
                                   th:placeholder="#{scenario.description.placeholder}"
                                   rows="3"
-                        >{{ scenario.description }}</textarea>
+                                  v-model="scenario.description"
+                        ></textarea>
                     </div>
                     <div class="card mb-4">
                         <div class="card-header">
@@ -71,19 +73,17 @@
                 </div>
 
                 <div class="card-footer text-muted form-inline">
-                    <i class="fas fa-tags"></i>
-                    <span v-for="(tag, index) in scenario.tags" class="ml-2">
-                        <tag-input
-                                v-bind:tag="tag"
-                        >
-                        </tag-input>
-                    </span>
+                    <tag-list-input
+                            v-bind:tags="this.scenario.tags"
+                    >
+                    </tag-list-input>
+                    
                     <button @click="addTag" class="btn btn-outline-secondary btn-sm ml-2" type="button"><i
                             class="fas fa-plus"></i></button>
                 </div>
             </div>
             <div class="fixedButtons">
-                <button @click="addTag" class="btn btn-primary" type="button">
+                <button @click="saveScenario" class="btn btn-primary" type="button">
                     <i class="far fa-save"></i> <span th:text="#{save}"></span>
                 </button>
             </div>

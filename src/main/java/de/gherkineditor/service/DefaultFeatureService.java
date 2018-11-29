@@ -8,6 +8,8 @@ import io.cucumber.gherkin.Gherkin;
 import io.cucumber.messages.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.io.File;
 import java.util.Collections;
@@ -24,6 +26,9 @@ public class DefaultFeatureService implements FeatureService {
 
     @Autowired
     ScenarioService scenarioService;
+
+    @Autowired
+    TemplateEngine basicTemplateEngine;
 
     @Override
     public Iterable<Feature> listAllFeatures() {
@@ -80,5 +85,19 @@ public class DefaultFeatureService implements FeatureService {
 
         this.featureRepository.save(feature);
     }
+
+    @Override
+    public String getFeatureContent(Feature feature) {
+        final Context ctx = new Context();
+
+        ctx.setVariable("feature", feature);
+        ctx.setVariable("scenarios", this.scenarioService.getScenarios(feature));
+        String featureContent = this.basicTemplateEngine.process("text/feature.txt", ctx);
+
+        System.out.println(featureContent);
+
+        return featureContent;
+    }
+
 
 }

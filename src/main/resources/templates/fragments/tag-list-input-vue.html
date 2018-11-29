@@ -1,16 +1,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<th:block th:fragment="tag-input-vue-template">
-    <script type="text/x-template" id="tag-input">
-        <div class="input-group">
-            <input class="form-control form-control-sm" type="text"
-                   th:placeholder="#{scenario.tag.placeholder}"
-                   v-model="tag"
-            >
-            <div class="input-group-append">
-                <button @click="remove" class="btn btn-outline-secondary btn-sm" type="button"><i
-                        class="fas fa-trash"></i></button>
-            </div>
+<th:block th:fragment="tag-list-input-vue-template">
+    <script type="text/x-template" id="tag-list-input">
+        <div class="form-inline">
+            <i class="fas fa-tags"></i>
+            <span v-for="(tag, index) in tags" class="ml-2">
+
+                <div class="input-group">
+                    <input class="form-control form-control-sm" type="text"
+                           th:placeholder="#{scenario.tag.placeholder}"
+                           v-model="tags[index]"
+                    >
+                    <div class="input-group-append">
+                        <button @click="removeTag(tags[index])" class="btn btn-outline-secondary btn-sm"
+                                type="button"><i
+                                class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            </span>
         </div>
     </script>
 </th:block>

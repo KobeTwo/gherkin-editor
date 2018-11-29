@@ -9,6 +9,8 @@ var postFeatureURL = '/rest/api/feature'
 var getTreeStructureURL = '/rest/api/treeStructure'
 var getFeaturesRecursiveURL = '/rest/api/feature/search/findChildrenRecursive'
 var getScenariosURL = '/rest/api/scenario/search/findChildren'
+var patchFeatureURL = '/rest/api/feature/'
+var patchScenarioURL = '/rest/api/scenario/'
 var deleteScenarioURL = '/rest/api/scenario/'
 var deleteFeatureURL = '/rest/api/feature/'
 var deleteFolderURL = '/rest/api/folder/'
@@ -569,6 +571,29 @@ Vue.component('feature-detail', {
                 },
 
             });
+        },
+        saveFeature: function () {
+            var self = this
+            $.ajax({
+                url: patchFeatureURL + self.feature.id,
+                type: 'PATCH',
+                contentType: 'application/json',
+                data: JSON.stringify(this.feature),
+                dataType: 'json',
+                success: function (result) {
+                    self.errorResult = null
+                    vueBus.$emit("patchFeature", result)
+                },
+                error: function (result) {
+                    self.errorResult = result.responseJSON
+                }
+            });
+        },
+        removeTag: function (name) {
+            this.feature.tags.splice(this.feature.tags.indexOf(name), 1);
+        },
+        addTag: function () {
+            this.feature.tags.push('')
         }
     }
 })
@@ -588,27 +613,39 @@ Vue.component('scenario-detail', {
             this.scenario.tags.push('')
         },
         removeTag: function (name) {
-            this.scenario.tags = this.scenario.tags.filter(function (value, index, arr) {
-                return value !== name
-            });
+            this.scenario.tags.splice(this.scenario.tags.indexOf(name), 1);
         },
         removeScenario: function () {
             alert('TODO')
         },
         saveScenario: function () {
-            alert('TODO')
+            var self = this
+            $.ajax({
+                url: patchScenarioURL + self.scenario.id,
+                type: 'PATCH',
+                contentType: 'application/json',
+                data: JSON.stringify(this.scenario),
+                dataType: 'json',
+                success: function (result) {
+                    self.errorResult = null
+                    vueBus.$emit("patchScenario", result)
+                },
+                error: function (result) {
+                    self.errorResult = result.responseJSON
+                }
+            });
         }
     }
 })
 
-Vue.component('tag-input', {
-    template: '#tag-input',
+Vue.component('tag-list-input', {
+    template: '#tag-list-input',
     props: {
-        tag: String
+        tags: Array
     },
     methods: {
-        remove: function () {
-            this.$parent.removeTag(this.tag)
+        removeTag: function (tag) {
+            this.$parent.removeTag(tag)
         }
     }
 })
@@ -617,6 +654,12 @@ Vue.component('step-list', {
     template: '#step-list',
     props: {
         steps: Array
+    },
+    methods: {
+        deleteStep: function (step) {
+            this.steps.splice(this.steps.indexOf(step), 1);
+
+        }
     }
 })
 
