@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="data-table-vue-template">
+    <script type="text/x-template" id="data-table">
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div v-for="(row, y) in datatable" class="form-row">
+                        <div v-for="(col, x) in row" class="form-group col">
+                            <input type="text" class="form-control" v-model="datatable[y][x]">
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button @click="addVertical" class="btn btn-outline-secondary btn-sm ml-2" type="button"><i
+                                class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-auto">
+                    <button @click="addHorizontal" class="btn btn-outline-secondary btn-sm ml-2" type="button"><i
+                            class="fas fa-plus"></i></button>
+                </div>
+            </div>
+        </div>
+    </script>
+</th:block>
+</body>
+</html>

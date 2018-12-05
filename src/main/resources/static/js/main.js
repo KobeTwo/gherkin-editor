@@ -792,3 +792,20 @@ Vue.component('global-alert-box', {
 
     }
 })
+
+Vue.component('data-table', {
+    template: '#data-table',
+    data: function () {
+        return {
+            datatable: [[1, 2], [3, 4]]
+        }
+    },
+    methods: {
+        addHorizontal: function () {
+            alert('added hor')
+        },
+        addVertical: function () {
+            alert('added ver')
+        }
+    }
+})
