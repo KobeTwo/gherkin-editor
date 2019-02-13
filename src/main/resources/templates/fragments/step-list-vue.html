@@ -18,10 +18,10 @@
                                 <option value="THEN">Then</option>
                             </select>
                         </div>
-                        <input class="form-control" type="text"
-                               th:placeholder="#{step.text.placeholder}"
-                               v-model="step.text"
+                        <step-input
+                                v-bind:step="step"
                         >
+                        </step-input>
                         <div class="input-group-append">
                             <a class="input-group-text" href="#" id="dropdownMenuLink"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -51,6 +51,7 @@
                         <input class="form-control" type="text"
                                th:placeholder="#{step.add.text.placeholder}"
                         >
+
                     </div>
                 </div>
             </div>

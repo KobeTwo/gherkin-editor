@@ -1,0 +1,17 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="step-input-vue-template">
+    <script type="text/x-template" id="step-input">
+        <div>
+            <input class="form-control" type="text"
+                   th:placeholder="#{step.text.placeholder}"
+                   v-model="step.text"
+            >
+            <ul v-for="(suggestion) in suggestions">
+                <li>{{ suggestion }}</li>
+            </ul>
+        </div>
+    </script>
+</th:block>
+</body>
+</html>

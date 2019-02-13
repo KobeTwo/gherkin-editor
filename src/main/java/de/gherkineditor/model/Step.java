@@ -1,5 +1,10 @@
 package de.gherkineditor.model;
 
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.InnerField;
+import org.springframework.data.elasticsearch.annotations.MultiField;
+
 public class Step {
 
 
@@ -8,6 +13,12 @@ public class Step {
     }
 
     private TYPE type;
+    @MultiField(
+            mainField = @Field(type = FieldType.Text, store = true, fielddata = true),
+            otherFields = {
+                    @InnerField(suffix = "raw", type = FieldType.Keyword)
+            }
+    )
     private String text;
     private String docstring;
 

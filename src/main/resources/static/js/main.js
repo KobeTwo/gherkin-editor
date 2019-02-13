@@ -137,6 +137,7 @@ Vue.component('create-project-modal', {
                     self.allprojects.push(result);
                     $(self.$refs["createProjectModal"]).modal('hide')
                     vueBus.$emit("createdProject", result)
+                    vueBus.$emit("addAlert", "alert-success", "Project " + result.id + " was successfully created", true)
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
@@ -582,10 +583,12 @@ Vue.component('feature-detail', {
                 dataType: 'json',
                 success: function (result) {
                     self.errorResult = null
-                    vueBus.$emit("patchFeature", result)
+                    vueBus.$emit("saveFeature", result)
+                    vueBus.$emit("addAlert", "alert-success", "Feature " + self.feature.name + " was saved", true)
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
+                    vueBus.$emit("addAlert", "alert-danger", "Error while saving feature " + self.feature.name, true)
                 }
             });
         },
@@ -629,9 +632,11 @@ Vue.component('scenario-detail', {
                 success: function (result) {
                     self.errorResult = null
                     vueBus.$emit("patchScenario", result)
+                    vueBus.$emit("addAlert", "alert-success", "Scenario " + self.scenario.name + " was saved", true)
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
+                    vueBus.$emit("addAlert", "alert-danger", "Error while saving scenario " + self.scenario.name, true)
                 }
             });
         }
@@ -684,10 +689,12 @@ Vue.component('delete-scenario-modal', {
                 success: function (result) {
                     self.errorResult = null
                     vueBus.$emit("deletedScenario", self.scenario)
+                    vueBus.$emit("addAlert", "alert-success", "Scenario " + self.scenario + " was successfully deleted", true)
                     $(self.$refs["deleteScenarioModal"]).modal('hide')
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
+                    vueBus.$emit("addAlert", "alert-danger", "Error while deleting scenario " + self.scenario, true)
                 }
             });
         }
@@ -715,10 +722,12 @@ Vue.component('delete-feature-modal', {
                 success: function (result) {
                     self.errorResult = null
                     vueBus.$emit("deletedFeature", self.feature)
+                    vueBus.$emit("addAlert", "alert-success", "Feature " + self.feature + " was successfully deleted", true)
                     $(self.$refs["deleteFeatureModal"]).modal('hide')
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
+                    vueBus.$emit("addAlert", "alert-danger", "Error while deleting feature " + self.feature, true)
                 }
             });
         }
@@ -746,10 +755,12 @@ Vue.component('delete-folder-modal', {
                 success: function (result) {
                     self.errorResult = null
                     vueBus.$emit("deletedFolder", self.folder)
+                    vueBus.$emit("addAlert", "alert-success", "Folder " + self.folder + " was successfully deleted", true)
                     $(self.$refs["deleteFolderModal"]).modal('hide')
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
+                    vueBus.$emit("addAlert", "alert-danger", "Error while deleting folder " + self.folder, true)
                 }
             });
         }
@@ -760,7 +771,7 @@ Vue.component('global-alert-box', {
     template: '#global-alert-box',
     data: function () {
         return {
-            alerts: []
+            alerts: new Map()
         }
     },
     methods: {
@@ -769,27 +780,14 @@ Vue.component('global-alert-box', {
             alert.type = type
             alert.text = text
             alert.dismissible = dismissible
-            this.alerts.push(alert)
+            this.alerts.set(text, alert)
+            this.$forceUpdate()
         }
     },
     created: function () {
-        vueBus.$on('createdProject', (project) => {
-            this.addAlert("alert-success", "Project " + project.id + " was successfully created", true)
+        vueBus.$on('addAlert', (type, text, dismissible) => {
+            this.addAlert(type, text, dismissible)
         });
-
-        vueBus.$on('deletedScenario', (scenario) => {
-            this.addAlert("alert-success", "Scenario " + scenario.name + " was successfully deleted", true)
-        });
-
-        vueBus.$on('deletedFeature', (feature) => {
-            this.addAlert("alert-success", "Feature " + feature.fileName + " was successfully deleted", true)
-        });
-
-        vueBus.$on('deletedFolder', (folder) => {
-            this.addAlert("alert-success", "Folder " + folder.fileName + " was successfully deleted", true)
-        });
-
-
     }
 })
 
@@ -806,6 +804,23 @@ Vue.component('data-table', {
         },
         addVertical: function () {
             alert('added ver')
+        }
+    }
+})
+
+Vue.component('step-input', {
+    template: '#step-input',
+    props: {
+        step: Object
+    },
+    computed: {
+        text: function () {
+            return this.step.text;
+        }
+    },
+    watch: {
+        text: function (val) {
+            alert('text changed')
         }
     }
 })
