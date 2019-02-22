@@ -14,6 +14,7 @@ var patchScenarioURL = '/rest/api/scenario/'
 var deleteScenarioURL = '/rest/api/scenario/'
 var deleteFeatureURL = '/rest/api/feature/'
 var deleteFolderURL = '/rest/api/folder/'
+var suggestStepsURL = '/rest/api/suggest'
 
 var vueBus = new Vue();
 
@@ -810,6 +811,11 @@ Vue.component('data-table', {
 
 Vue.component('step-input', {
     template: '#step-input',
+    data: function () {
+        return {
+            suggestions: []
+        }
+    },
     props: {
         step: Object
     },
@@ -820,7 +826,17 @@ Vue.component('step-input', {
     },
     watch: {
         text: function (val) {
-            alert('text changed')
+            var self = this
+            $.ajax({
+                url: suggestStepsURL,
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: {text: val},
+                success: function (result) {
+                    self.suggestions = result
+                },
+            });
         }
     }
 })

@@ -7,8 +7,8 @@
                    th:placeholder="#{step.text.placeholder}"
                    v-model="step.text"
             >
-            <ul v-for="(suggestion) in suggestions">
-                <li>{{ suggestion }}</li>
+            <ul>
+                <li v-for="(suggestion) in suggestions">{{ suggestion }}</li>
             </ul>
         </div>
     </script>
