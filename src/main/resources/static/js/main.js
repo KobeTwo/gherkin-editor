@@ -813,7 +813,8 @@ Vue.component('step-input', {
     template: '#step-input',
     data: function () {
         return {
-            suggestions: []
+            suggestions: [],
+            focused: false
         }
     },
     props: {
@@ -826,17 +827,24 @@ Vue.component('step-input', {
     },
     watch: {
         text: function (val) {
-            var self = this
-            $.ajax({
-                url: suggestStepsURL,
-                type: 'GET',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: {text: val},
-                success: function (result) {
-                    self.suggestions = result
-                },
-            });
+            if (this.focused) {
+                var self = this
+                $.ajax({
+                    url: suggestStepsURL,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: {text: val},
+                    success: function (result) {
+                        self.suggestions = result
+                    },
+                });
+            }
+        },
+        focused: function (val) {
+            if (!this.focused) {
+                this.suggestions = []
+            }
         }
     }
 })

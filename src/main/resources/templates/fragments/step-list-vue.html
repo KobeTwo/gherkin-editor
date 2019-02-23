@@ -5,35 +5,10 @@
         <div>
             <div class="row form-group">
                 <div v-for="(step, index) in steps" class="col-12">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-arrows-alt-v"></i></span>
-                        </div>
-                        <div class="input-group-prepend">
-                            <select v-model="step.type">
-                                <option value="GIVEN">Given</option>
-                                <option value="AND">And</option>
-                                <option value="BUT">But</option>
-                                <option value="WHEN">When</option>
-                                <option value="THEN">Then</option>
-                            </select>
-                        </div>
-                        <step-input
-                                v-bind:step="step"
-                        >
-                        </step-input>
-                        <div class="input-group-append">
-                            <a class="input-group-text" href="#" id="dropdownMenuLink"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span><i class="fas fa-ellipsis-v"></i></span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" th:text="#{step.create.freetextparameter}"></a>
-                                <a class="dropdown-item" th:text="#{step.create.tableparameter}"></a>
-                                <a class="dropdown-item" @click="deleteStep(step)" th:text="#{step.delete}"></a>
-                            </div>
-                        </div>
-                    </div>
+                    <step-input
+                            v-bind:step="step"
+                    >
+                    </step-input>
                 </div>
             </div>
             <div class="row form-group">

@@ -87,3 +87,17 @@ a.clickable-card .card:hover {
     right: 10px;
     z-index: 9999;
 }
+
+.suggestion-list {
+    position: absolute;
+    z-index: 1;
+}
+
+.step-input-wrapper {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    position: relative;
+    display: block;
+    width: 1%;
+}
