@@ -10,6 +10,9 @@ var vueBody = new Vue({
         if (!this.selectedTreeElement) {
             this.selectedTreeElement = {model: {path: '/', fileName: ''}}
         }
+        if (!this.highlightedTreeElement) {
+            this.highlightedTreeElement = {model: {path: '/', fileName: ''}}
+        }
     },
     methods: {
         fetchProjects: function () {

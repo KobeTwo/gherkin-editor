@@ -302,12 +302,15 @@ Vue.component('tree-sidebar', {
 
         vueBus.$on('deletedScenario', (scenario) => {
             this.$root.selectedTreeElement = this.getRootFolder()
+            this.$root.highlightedTreeElement = this.getRootFolder()
         });
         vueBus.$on('deletedFeature', (feature) => {
             this.$root.selectedTreeElement = this.getRootFolder()
+            this.$root.highlightedTreeElement = this.getRootFolder()
         });
         vueBus.$on('deletedFolder', (folder) => {
             this.$root.selectedTreeElement = this.getRootFolder()
+            this.$root.highlightedTreeElement = this.getRootFolder()
         });
     },
     methods: {
@@ -416,6 +419,9 @@ Vue.component('tree-sidebar-item', {
         isSelected: function () {
             return this.item.model.id === this.$root.selectedTreeElement.model.id
         },
+        isHighlighted: function () {
+            return this.item.model.id === this.$root.highlightedTreeElement.model.id
+        },
         fileNameWithoutSuffix: function (val) {
             switch (this.item.type) {
                 case 'FOLDER':
@@ -445,6 +451,12 @@ Vue.component('tree-sidebar-item', {
         },
         select: function () {
             this.$root.selectedTreeElement = this.item
+
+            if (this.item.type == 'SCENARIO') {
+                this.$root.highlightedTreeElement = this.$parent.item
+            } else {
+                this.$root.highlightedTreeElement = this.item
+            }
         },
         setOpen: function () {
             this.open = true;

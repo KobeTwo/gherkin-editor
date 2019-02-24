@@ -5,12 +5,16 @@ var vueBody = new Vue({
         allprojects: null,
         currentProject: currentProject,
         selectedTreeElement: selectedTreeItem,
+        highlightedTreeElement: null,
         treeRoots: null,
     },
     created: function () {
         this.fetchProjects()
         if (!this.selectedTreeElement) {
             this.selectedTreeElement = {model: {path: '/', fileName: ''}}
+        }
+        if (!this.highlightedTreeElement) {
+            this.highlightedTreeElement = {model: {path: '/', fileName: ''}}
         }
 
     },

@@ -4,7 +4,7 @@
     <script type="text/x-template" id="tree-sidebar-item">
         <li v-if="item.type === 'FOLDER'">
             <div class="sidebar-list-element"
-                 :class="{'bg-info text-white': isSelected}"
+                 :class="{'bg-info text-white': isHighlighted}"
                  @click="select">
 
                 <span>
@@ -53,7 +53,7 @@
         </li>
         <li v-else-if="item.type === 'FEATURE'">
             <div class="sidebar-list-element"
-                 :class="{'bg-info text-white': isSelected}"
+                 :class="{'bg-info text-white': isHighlighted}"
                  @click="select">
                 <span><i class="fas fa-file"></i> {{ fileNameWithoutSuffix }}</span>
                 <span v-if="isSelected" class="float-right">
