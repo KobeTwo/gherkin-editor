@@ -13,8 +13,7 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         var currentProject = /*[[${currentProject}]]*/ null;
-        console.log(currentProject);
-        var selectedTreeItem = /*[[${selectedTreeItem}]]*/ null;
+        var initialTreeItem = /*[[${selectedTreeItem}]]*/ null;
         /*]]>*/
     </script>
     <th:block th:replace="fragments/header-projects-vue.html :: header-projects-vue-template"/>
@@ -58,8 +57,7 @@
 
     </create-feature-modal>
 
-    <delete-folder-modal
-            :folder="selectedTreeElement.model">
+    <delete-folder-modal>
     </delete-folder-modal>
 
     <header class="mb-3">

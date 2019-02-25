@@ -24,8 +24,7 @@
                 <div class="sidebar-sticky">
                     <div class="card mb-2">
                         <div class="card-body">
-                            <tree-sidebar
-                                    v-bind:roots="treeRoots">
+                            <tree-sidebar>
                             </tree-sidebar>
                         </div>
                     </div>
@@ -33,15 +32,13 @@
                 </div>
             </nav>
             <main role="main" class="col-lg-9 col-md-8 ml-sm-auto">
-                <feature-list v-if="selectedTreeElement.type == 'FOLDER'">
+                <feature-list>
                 </feature-list>
 
-                <feature-detail v-if="selectedTreeElement.type == 'FEATURE'"
-                                v-bind:feature="selectedTreeElement.model">
+                <feature-detail>
                 </feature-detail>
 
-                <scenario-detail v-if="selectedTreeElement.type == 'SCENARIO'"
-                                 v-bind:scenario="selectedTreeElement.model">
+                <scenario-detail>
                 </scenario-detail>
 
             </main>

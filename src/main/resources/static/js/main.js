@@ -39,18 +39,18 @@ var treeItemMixins = {
         getConcatenatedPath: function (pathItem) {
             return this.getConcatenatedPathByPathAndFileName(pathItem.path, pathItem.fileName)
         },
-        getUrlForFeature: function (project, feature) {
-            return "/" + project.id + "/feature/" + feature.id
+        getUrlForFeature: function (feature) {
+            return "/" + feature.projectId + "/feature/" + feature.id
         },
         getFileNameWithoutSuffix: function (folderItem) {
             return folderItem.fileName.replace('.feature', '')
         },
-        getUrlForScenario: function (project, scenario) {
-            return "/" + project.id + "/scenario/" + scenario.id
+        getUrlForScenario: function (scenario) {
+            return "/" + scenario.projectId + "/scenario/" + scenario.id
         },
         getRootFolder: function () {
             rootFolder = {
-                model: {id: 'folderRoot', path: '', fileName: '/'},
+                model: {id: 'folderRoot', path: '', fileName: '/', projectId: this.$root.currentProject.id},
                 type: 'FOLDER'
             }
             return rootFolder
@@ -197,6 +197,7 @@ Vue.component('import-project-modal', {
 
 Vue.component('create-folder-modal', {
     template: '#create-folder-modal',
+    mixins: [treeItemMixins],
     data: function () {
         return {
             emptyFolder: {
@@ -209,13 +210,19 @@ Vue.component('create-folder-modal', {
                 projectId: null,
                 path: null
             },
-            errorResult: null
+            errorResult: null,
+            selectedTreeElement: null
         }
+    },
+    created: function () {
+        vueBus.$on('selectTreeElement', (selectedItem) => {
+            this.selectedTreeElement = selectedItem
+        });
     },
     methods: {
         processForm: function () {
             this.inputFolder.projectId = this.$root.currentProject.id;
-            this.inputFolder.path = this.getConcatenatedPath(this.$root.selectedTreeElement.model)
+            this.inputFolder.path = this.getConcatenatedPath(this.selectedTreeElement.model)
             var self = this
             $.ajax({
                 url: postFolderURL,
@@ -227,7 +234,7 @@ Vue.component('create-folder-modal', {
                     self.errorResult = null
                     self.inputFolder = $.extend(true, {}, self.emptyFolder);
                     newFolder = {model: result, type: 'FOLDER', children: []}
-                    self.$root.selectedTreeElement.children.push(newFolder)
+                    self.selectedTreeElement.children.push(newFolder)
                     $(self.$refs["createFolderModal"]).modal('hide')
                 },
                 error: function (result) {
@@ -240,6 +247,7 @@ Vue.component('create-folder-modal', {
 
 Vue.component('create-feature-modal', {
     template: '#create-feature-modal',
+    mixins: [treeItemMixins],
     data: function () {
         return {
             emptyFeature: {
@@ -256,13 +264,19 @@ Vue.component('create-feature-modal', {
                 name: null,
                 description: null
             },
-            errorResult: null
+            errorResult: null,
+            selectedTreeElement: null
         }
+    },
+    created: function () {
+        vueBus.$on('selectTreeElement', (selectedItem) => {
+            this.selectedTreeElement = selectedItem
+        });
     },
     methods: {
         processForm: function () {
             this.inputFeature.projectId = this.$root.currentProject.id;
-            this.inputFeature.path = this.getConcatenatedPath(this.$root.selectedTreeElement.model)
+            this.inputFeature.path = this.getConcatenatedPath(this.selectedTreeElement.model)
             featureToSubmit = $.extend(true, {}, this.inputFeature)
 
             if (featureToSubmit.fileName) {
@@ -279,7 +293,7 @@ Vue.component('create-feature-modal', {
                     self.errorResult = null
                     self.inputFeature = $.extend(true, {}, self.emptyFeature)
                     newFeature = {model: result, type: 'FEATURE', children: null}
-                    self.$root.selectedTreeElement.children.push(newFeature)
+                    self.selectedTreeElement.children.push(newFeature)
                     $(self.$refs["createFeatureModal"]).modal('hide')
                 },
                 error: function (result) {
@@ -293,24 +307,23 @@ Vue.component('create-feature-modal', {
 Vue.component('tree-sidebar', {
     template: '#tree-sidebar',
     mixins: [treeItemMixins],
-    props: {
-        roots: Array
+    data: function () {
+        return {
+            roots: null
+        }
     },
     created: function () {
         this.fetchTreeStructure(this.$root.currentProject.id)
 
 
         vueBus.$on('deletedScenario', (scenario) => {
-            this.$root.selectedTreeElement = this.getRootFolder()
-            this.$root.highlightedTreeElement = this.getRootFolder()
+            vueBus.$emit("selectTreeElement", this.getRootFolder())
         });
         vueBus.$on('deletedFeature', (feature) => {
-            this.$root.selectedTreeElement = this.getRootFolder()
-            this.$root.highlightedTreeElement = this.getRootFolder()
+            vueBus.$emit("selectTreeElement", this.getRootFolder())
         });
         vueBus.$on('deletedFolder', (folder) => {
-            this.$root.selectedTreeElement = this.getRootFolder()
-            this.$root.highlightedTreeElement = this.getRootFolder()
+            vueBus.$emit("selectTreeElement", this.getRootFolder())
         });
     },
     methods: {
@@ -326,41 +339,10 @@ Vue.component('tree-sidebar', {
                     rootFolder = self.getRootFolder();
                     rootFolder.children = result
                     rootFolderList = [rootFolder]
-                    if (selectedTreeItem) {
-                        self.$root.selectedTreeElement = selectedTreeItem
-                    } else {
-                        self.$root.selectedTreeElement = rootFolder
-                    }
-                    self.$root.treeRoots = rootFolderList
+                    self.roots = rootFolderList
                 },
 
             });
-        }
-    },
-    computed: {
-        selectedTreeItem: function () {
-            return this.$root.selectedTreeElement;
-        }
-    },
-    watch: {
-        selectedTreeItem: function (val) {
-            switch (this.selectedTreeItem.type) {
-                case 'FOLDER':
-                    url = '/' + this.$root.currentProject.id + /folder/
-                    if (this.selectedTreeItem.model.id !== this.getRootFolder().model.id) {
-                        url = url + this.selectedTreeItem.model.id
-                    }
-                    history.pushState({}, '', url);
-                    break
-                case 'FEATURE':
-                    url = this.getUrlForFeature(this.$root.currentProject, this.selectedTreeItem.model)
-                    history.pushState({}, '', url);
-                    break
-                case 'SCENARIO':
-                    url = this.getUrlForScenario(this.$root.currentProject, this.selectedTreeItem.model)
-                    history.pushState({}, '', url);
-                    break
-            }
         }
     }
 })
@@ -374,19 +356,26 @@ Vue.component('tree-sidebar-item', {
     },
     data: function () {
         return {
-            open: false
+            open: false,
+            selected: false,
+            highlighted: false
         }
     },
     created: function () {
-        if (this.isSelected && this.$parent.setOpen) {
-            this.$parent.setOpen()
-        }
-        if (this.$parent.item && this.$parent.item.pathItems != null) {
-            this.item.pathItems = new Array(this.$parent.item.pathItems)
-            this.item.pathItems.push(this.item)
-        } else {
-            this.item.pathItems = new Array
-        }
+
+        vueBus.$on('selectTreeElement', (selectedItem) => {
+            if (selectedItem.model.id == this.item.model.id) {
+                this.selected = true;
+                if (this.item.type == 'SCENARIO') {
+                    this.$parent.highlighted = true
+                } else {
+                    this.highlighted = true
+                }
+            } else {
+                this.selected = false;
+                this.highlighted = false
+            }
+        });
 
         vueBus.$on('deletedFeature', (feature) => {
             if (this.item.children) {
@@ -414,14 +403,22 @@ Vue.component('tree-sidebar-item', {
             }
         });
 
+        if (initialTreeItem && initialTreeItem.model.id == this.item.model.id) {
+            vueBus.$emit("selectTreeElement", this.item)
+        }
+
+        if (this.selected && this.$parent.setOpen) {
+            this.$parent.setOpen()
+        }
+        if (this.$parent.item && this.$parent.item.pathItems != null) {
+            this.item.pathItems = new Array(this.$parent.item.pathItems)
+            this.item.pathItems.push(this.item)
+        } else {
+            this.item.pathItems = new Array
+        }
+
     },
     computed: {
-        isSelected: function () {
-            return this.item.model.id === this.$root.selectedTreeElement.model.id
-        },
-        isHighlighted: function () {
-            return this.item.model.id === this.$root.highlightedTreeElement.model.id
-        },
         fileNameWithoutSuffix: function (val) {
             switch (this.item.type) {
                 case 'FOLDER':
@@ -436,19 +433,6 @@ Vue.component('tree-sidebar-item', {
             if (this.open && this.$parent.setOpen) {
                 this.$parent.setOpen()
             }
-        },
-        isSelected: function (val) {
-            if (this.isSelected) {
-                if (this.$parent.setOpen) {
-                    this.$parent.setOpen()
-                }
-
-                if (this.item.type == 'SCENARIO') {
-                    this.$root.highlightedTreeElement = this.$parent.item
-                } else {
-                    this.$root.highlightedTreeElement = this.item
-                }
-            }
         }
     },
     methods: {
@@ -458,7 +442,7 @@ Vue.component('tree-sidebar-item', {
             }
         },
         select: function () {
-            this.$root.selectedTreeElement = this.item
+            vueBus.$emit("selectTreeElement", this.item)
         },
         setOpen: function () {
             this.open = true;
@@ -473,26 +457,29 @@ Vue.component('feature-list', {
     template: '#feature-list',
     data: function () {
         return {
-            features: null
-        }
-    },
-    computed: {
-        selectedTreeItem: function () {
-            return this.$root.selectedTreeElement;
-        }
-    },
-    watch: {
-        selectedTreeItem: function (val) {
-
-            this.fetchFeatures(this.$root.currentProject.id, this.selectedTreeItem.model.path + this.selectedTreeItem.model.fileName)
+            features: null,
+            show: false,
         }
     },
     created: function () {
-        this.fetchFeatures(this.$root.currentProject.id, this.selectedTreeItem.model.path + this.selectedTreeItem.model.fileName)
+        if (initialTreeItem && initialTreeItem.type == 'FOLDER') {
+            let folder = initialTreeItem.model
+            this.fetchFeatures(folder.projectId, folder.path + folder.fileName)
+        }
+
+        vueBus.$on('selectTreeElement', (selectedItem) => {
+            if (selectedItem && selectedItem.type == 'FOLDER') {
+                this.show = true
+                let folder = selectedItem.model
+                this.fetchFeatures(folder.projectId, folder.path + folder.fileName)
+            } else {
+                this.show = false
+            }
+
+        });
     },
     methods: {
         fetchFeatures: function (projectId, path) {
-            console.log('selected:' + projectId + '###' + path)
             var self = this
             $.ajax({
                 url: getFeaturesRecursiveURL,
@@ -516,12 +503,12 @@ Vue.component('feature-card', {
     },
     computed: {
         url: function () {
-            return this.getUrlForFeature(this.$root.currentProject, this.feature);
+            return this.getUrlForFeature(this.feature);
         }
     },
     methods: {
         select: function () {
-            this.$root.selectedTreeElement = {type: 'FEATURE', model: this.feature}
+            vueBus.$emit("selectTreeElement", {type: 'FEATURE', model: this.feature})
         }
     }
 })
@@ -540,12 +527,12 @@ Vue.component('scenario-card', {
     },
     computed: {
         url: function () {
-            return this.getUrlForScenario(this.$root.currentProject, this.scenario);
+            return this.getUrlForScenario(this.scenario);
         }
     },
     methods: {
         select: function () {
-            this.$root.selectedTreeElement = {type: 'SCENARIO', model: this.scenario}
+            vueBus.$emit("selectTreeElement", {type: 'SCENARIO', model: this.scenario})
         }
     }
 })
@@ -555,23 +542,32 @@ Vue.component('feature-detail', {
     mixins: [treeItemMixins],
     data: function () {
         return {
-            scenarios: []
+            scenarios: [],
+            feature: Object,
+            show: false
         }
-    },
-    props: {
-        feature: Object
     },
     computed: {
         url: function () {
-            return this.getUrlForFeature(this.$root.currentProject, this.feature);
+            return this.getUrlForFeature(this.feature);
         }
-    }, created: function () {
-        this.fetchScenarios(this.$root.currentProject.id, this.feature.path + this.feature.fileName)
     },
-    watch: {
-        feature: function (val) {
-            this.fetchScenarios(this.$root.currentProject.id, this.feature.path + this.feature.fileName)
+    created: function () {
+        if (initialTreeItem && initialTreeItem.type == 'FEATURE') {
+            this.feature = initialTreeItem.model
+            this.fetchScenarios(this.feature.projectId, this.feature.path + this.feature.fileName)
         }
+
+        vueBus.$on('selectTreeElement', (selectedItem) => {
+            if (selectedItem && selectedItem.type == 'FEATURE') {
+                this.show = true
+                this.feature = selectedItem.model
+                this.fetchScenarios(this.feature.projectId, this.feature.path + this.feature.fileName)
+            } else {
+                this.show = false
+            }
+
+        });
     },
     methods: {
         fetchScenarios: function (projectId, path) {
@@ -618,13 +614,31 @@ Vue.component('feature-detail', {
 
 Vue.component('scenario-detail', {
     template: '#scenario-detail',
-    props: {
-        scenario: Object
+    data: function () {
+        return {
+            scenario: Object,
+            show: false
+        }
     },
     computed: {
         url: function () {
-            return this.getUrlForScenario(this.$root.currentProject, this.scenario);
+            return this.getUrlForScenario(this.scenario);
         }
+    },
+    created: function () {
+        if (initialTreeItem && initialTreeItem.type == 'SCENARIO') {
+            this.scenario = initialTreeItem.model
+        }
+
+        vueBus.$on('selectTreeElement', (selectedItem) => {
+            if (selectedItem && selectedItem.type == 'SCENARIO') {
+                this.show = true
+                this.scenario = selectedItem.model
+            } else {
+                this.show = false
+            }
+
+        });
     },
     methods: {
         addTag: function () {
@@ -753,11 +767,17 @@ Vue.component('delete-folder-modal', {
     template: '#delete-folder-modal',
     data: function () {
         return {
-            error: false
+            error: false,
+            folder: Object
         }
     },
-    props: {
-        folder: Object
+    created: function () {
+        if (initialTreeItem && initialTreeItem.type == 'FOLDER') {
+            this.folder = initialTreeItem.model
+        }
+        vueBus.$on('selectTreeElement', (selectedItem) => {
+            this.folder = selectedItem.model
+        });
     },
     methods: {
         processForm: function () {

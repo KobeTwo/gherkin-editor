@@ -2,8 +2,7 @@
 <body>
 <th:block th:fragment="feature-list-vue-template">
     <script type="text/x-template" id="feature-list">
-        <div>
-
+        <div v-if="show">
             <div class="card-columns">
                 <div v-for="(feature, index) in features">
                     <feature-card

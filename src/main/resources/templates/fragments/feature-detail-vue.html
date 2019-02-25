@@ -2,7 +2,7 @@
 <body>
 <th:block th:fragment="feature-detail-vue-template">
     <script type="text/x-template" id="feature-detail">
-        <form>
+        <form v-if="show">
             <delete-feature-modal
                     :feature="feature">
             </delete-feature-modal>

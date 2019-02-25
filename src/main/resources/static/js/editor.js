@@ -4,19 +4,37 @@ var vueBody = new Vue({
     data: {
         allprojects: null,
         currentProject: currentProject,
-        selectedTreeElement: selectedTreeItem,
-        highlightedTreeElement: null,
-        treeRoots: null,
+        selectedTreeElement: null
     },
+    mixins: [treeItemMixins],
     created: function () {
+        if (!initialTreeItem) {
+            initialTreeItem = this.getRootFolder();
+        }
         this.fetchProjects()
-        if (!this.selectedTreeElement) {
-            this.selectedTreeElement = {model: {path: '/', fileName: ''}}
-        }
-        if (!this.highlightedTreeElement) {
-            this.highlightedTreeElement = {model: {path: '/', fileName: ''}}
-        }
+        vueBus.$on('selectTreeElement', (selectedItem) => {
+            this.selectedTreeElement = selectedItem
+        });
 
+        vueBus.$on('selectTreeElement', (selectedItem) => {
+            switch (selectedItem.type) {
+                case 'FOLDER':
+                    url = '/' + selectedItem.model.projectId + /folder/
+                    if (selectedItem.model.id !== this.getRootFolder().model.id) {
+                        url = url + selectedItem.model.id
+                    }
+                    history.pushState({}, '', url);
+                    break
+                case 'FEATURE':
+                    url = this.getUrlForFeature(selectedItem.model)
+                    history.pushState({}, '', url);
+                    break
+                case 'SCENARIO':
+                    url = this.getUrlForScenario(selectedItem.model)
+                    history.pushState({}, '', url);
+                    break
+            }
+        });
     },
     methods: {
         fetchProjects: function () {

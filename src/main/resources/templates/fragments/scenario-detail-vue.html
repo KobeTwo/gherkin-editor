@@ -2,7 +2,7 @@
 <body>
 <th:block th:fragment="scenario-detail-vue-template">
     <script type="text/x-template" id="scenario-detail">
-        <form>
+        <form v-if="show">
             <delete-scenario-modal
                     :scenario="scenario">
             </delete-scenario-modal>
