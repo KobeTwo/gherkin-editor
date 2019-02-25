@@ -861,6 +861,7 @@ Vue.component('step-input', {
     },
     watch: {
         text: function (val) {
+            alert('text')
             if (this.focused) {
                 var self = this
                 $.ajax({

@@ -4,12 +4,14 @@
     <script type="text/x-template" id="step-list">
         <div>
             <div class="row form-group">
-                <div v-for="(step, index) in steps" class="col-12">
-                    <step-input
-                            v-bind:step="step"
-                    >
-                    </step-input>
-                </div>
+                <draggable :list="steps" class="col-12">
+                    <div v-for="(step, index) in steps" :key="step.text">
+                        <step-input
+                                v-bind:step="step"
+                        >
+                        </step-input>
+                    </div>
+                </draggable>
             </div>
             <div class="row form-group">
                 <div class="col-12">
