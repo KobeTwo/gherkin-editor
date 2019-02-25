@@ -20,6 +20,7 @@ public class ScenarioController extends AbstractProjectController {
         setCurrentProject(projectId, model);
 
         setCurrentNav(AbstractProjectController.NAV_EDITOR, model);
+        
 
         if (scenarioId != null) {
             model.addAttribute("selectedTreeItem", this.folderStructureFacade.getFolderStructureScenario(scenarioId));

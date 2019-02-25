@@ -438,8 +438,16 @@ Vue.component('tree-sidebar-item', {
             }
         },
         isSelected: function (val) {
-            if (this.isSelected && this.$parent.setOpen) {
-                this.$parent.setOpen()
+            if (this.isSelected) {
+                if (this.$parent.setOpen) {
+                    this.$parent.setOpen()
+                }
+
+                if (this.item.type == 'SCENARIO') {
+                    this.$root.highlightedTreeElement = this.$parent.item
+                } else {
+                    this.$root.highlightedTreeElement = this.item
+                }
             }
         }
     },
@@ -451,12 +459,6 @@ Vue.component('tree-sidebar-item', {
         },
         select: function () {
             this.$root.selectedTreeElement = this.item
-
-            if (this.item.type == 'SCENARIO') {
-                this.$root.highlightedTreeElement = this.$parent.item
-            } else {
-                this.$root.highlightedTreeElement = this.item
-            }
         },
         setOpen: function () {
             this.open = true;
