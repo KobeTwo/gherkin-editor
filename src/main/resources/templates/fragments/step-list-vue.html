@@ -5,7 +5,7 @@
         <div>
             <div class="row form-group">
                 <draggable :list="steps" class="col-12">
-                    <div v-for="(step, index) in steps" :key="step.text">
+                    <div v-for="(step, index) in steps">
                         <step-input
                                 v-bind:step="step"
                         >
