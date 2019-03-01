@@ -6,6 +6,7 @@ import com.auth0.Tokens;
 import com.auth0.jwt.JWT;
 import de.gherkineditor.configuration.TokenAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ import java.io.IOException;
 
 @SuppressWarnings("unused")
 @Controller
+@Profile("auth0")
 public class CallbackController {
 
     @Autowired

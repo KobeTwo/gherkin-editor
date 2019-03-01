@@ -2,12 +2,14 @@ package de.gherkineditor.configuration;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.*;
 
+@Profile("auth0")
 public class TokenAuthentication extends AbstractAuthenticationToken {
 
     private final DecodedJWT jwt;

@@ -91,6 +91,7 @@
                        th:text="#{documentation}"/>
                     <span class="mr-auto"></span>
                     <a class="btn btn-outline-secondary" role="button"
+                       th:if="${#arrays.contains(@environment.getActiveProfiles(),'auth0')}"
                        th:href="@{'https://' + ${authDomain} + '/v2/logout?returnTo=http%3A%2F%2Flocalhost%3A8080%2Flogout&client_id=' + ${authClientId}}">
                         <i class="fas fa-power-off"></i> <span th:text="#{logout}"></span>
                     </a>
@@ -122,7 +123,7 @@
             integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
             crossorigin="anonymous"></script>
     <script type="text/javascript" th:src="@{/js/vue.js}"></script>
-    
+
     <script src="//cdn.jsdelivr.net/npm/sortablejs@1.7.0/Sortable.min.js"></script>
     <!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.17.0/vuedraggable.min.js"></script>
