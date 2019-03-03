@@ -366,6 +366,7 @@ Vue.component('tree-sidebar-item', {
         vueBus.$on('selectTreeElement', (selectedItem) => {
             if (selectedItem.model.id == this.item.model.id) {
                 this.selected = true;
+                this.setOpen();
                 if (this.item.type == 'SCENARIO') {
                     this.$parent.highlighted = true
                 } else {
@@ -830,15 +831,37 @@ Vue.component('data-table', {
     template: '#data-table',
     data: function () {
         return {
-            datatable: [[1, 2], [3, 4]]
+            datatable: [['']],
+            sizeX: 1,
+            sizeY: 1
         }
     },
     methods: {
         addHorizontal: function () {
-            alert('added hor')
+            this.sizeX++
         },
         addVertical: function () {
-            alert('added ver')
+            this.sizeY++
+        },
+        recalculateArray() {
+            for (y = 0; y < this.sizeY; y++) {
+                if (!this.datatable[y]) {
+                    Vue.set(this.datatable, y, [])
+                }
+                for (x = 0; x < this.sizeX; x++) {
+                    if (!this.datatable[y][x]) {
+                        Vue.set(this.datatable[y], x, '')
+                    }
+                }
+            }
+        }
+    },
+    watch: {
+        sizeX: function (val) {
+            this.recalculateArray()
+        },
+        sizeY: function (val) {
+            this.recalculateArray()
         }
     }
 })
