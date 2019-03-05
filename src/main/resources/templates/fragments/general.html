@@ -9,6 +9,20 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
 </head>
 <body>
+<th:block th:fragment="translations">
+    <script th:inline="javascript">
+
+        /*<![CDATA[*/
+        var txtFolderDeleteSuccess = /*[[#{folder.delete.success}]]*/ null;
+        var txtFolderDeleteError = /*[[#{folder.delete.error}]]*/ null;
+        var txtFeatureDeleteSuccess = /*[[#{feature.delete.success}]]*/ null;
+        var txtFeatureDeleteError = /*[[#{feature.delete.error}]]*/ null;
+        var txtScenarioDeleteSuccess = /*[[#{scenario.delete.success}]]*/ null;
+        var txtScenarioDeleteError = /*[[#{scenario.delete.error}]]*/ null;
+
+        /*]]>*/
+    </script>
+</th:block>
 <th:block th:fragment="general-vue-templates">
     <script th:inline="javascript">
         /*<![CDATA[*/

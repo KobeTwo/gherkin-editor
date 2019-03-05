@@ -711,6 +711,7 @@ Vue.component('delete-scenario-modal', {
     methods: {
         processForm: function () {
             var self = this
+            let name = self.scenario.path + self.scenario.fileName
             $.ajax({
                 url: deleteScenarioURL + this.scenario.id,
                 type: 'DELETE',
@@ -719,12 +720,12 @@ Vue.component('delete-scenario-modal', {
                 success: function (result) {
                     self.errorResult = null
                     vueBus.$emit("deletedScenario", self.scenario)
-                    vueBus.$emit("addAlert", "alert-success", "Scenario " + self.scenario + " was successfully deleted", true)
+                    vueBus.$emit("addAlert", "alert-success", txtScenarioDeleteSuccess + name, true)
                     $(self.$refs["deleteScenarioModal"]).modal('hide')
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
-                    vueBus.$emit("addAlert", "alert-danger", "Error while deleting scenario " + self.scenario, true)
+                    vueBus.$emit("addAlert", "alert-danger", txtScenarioDeleteError + name, true)
                 }
             });
         }
@@ -744,6 +745,7 @@ Vue.component('delete-feature-modal', {
     methods: {
         processForm: function () {
             var self = this
+            let name = self.feature.path + self.feature.fileName
             $.ajax({
                 url: deleteFeatureURL + this.feature.id,
                 type: 'DELETE',
@@ -751,13 +753,14 @@ Vue.component('delete-feature-modal', {
                 dataType: 'json',
                 success: function (result) {
                     self.errorResult = null
+
                     vueBus.$emit("deletedFeature", self.feature)
-                    vueBus.$emit("addAlert", "alert-success", "Feature " + self.feature + " was successfully deleted", true)
+                    vueBus.$emit("addAlert", "alert-success", txtFeatureDeleteSuccess + name, true)
                     $(self.$refs["deleteFeatureModal"]).modal('hide')
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
-                    vueBus.$emit("addAlert", "alert-danger", "Error while deleting feature " + self.feature, true)
+                    vueBus.$emit("addAlert", "alert-danger", txtFeatureDeleteError + name, true)
                 }
             });
         }
@@ -783,6 +786,7 @@ Vue.component('delete-folder-modal', {
     methods: {
         processForm: function () {
             var self = this
+            let name = self.folder.path + self.folder.fileName
             $.ajax({
                 url: deleteFolderURL + this.folder.id,
                 type: 'DELETE',
@@ -790,13 +794,14 @@ Vue.component('delete-folder-modal', {
                 dataType: 'json',
                 success: function (result) {
                     self.errorResult = null
+
                     vueBus.$emit("deletedFolder", self.folder)
-                    vueBus.$emit("addAlert", "alert-success", "Folder " + self.folder + " was successfully deleted", true)
+                    vueBus.$emit("addAlert", "alert-success", txtFolderDeleteSuccess + name, true)
                     $(self.$refs["deleteFolderModal"]).modal('hide')
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
-                    vueBus.$emit("addAlert", "alert-danger", "Error while deleting folder " + self.folder, true)
+                    vueBus.$emit("addAlert", "alert-danger", txtFolderDeleteError + name, true)
                 }
             });
         }
