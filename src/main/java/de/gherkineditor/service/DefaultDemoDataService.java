@@ -118,9 +118,9 @@ public class DefaultDemoDataService implements DemoDataService {
         scenarios.add(new Scenario("project1", "/1/2/feature5file.feature", "p1f5s4", "desc4"));
         scenarios.add(new Scenario("project1", "/1/2/feature5file.feature", "p1f5s5", "desc5"));
         scenarios.add(new Scenario("project1", "/2/feature6file.feature", "p1f5s6", "desc6"));
-        scenarios.add(new Scenario("project2", "/1/feature1file.feature", "p1f1s1", "desc1"));
-        scenarios.add(new Scenario("project2", "/1/feature1file.feature", "p1sf12", "desc2"));
-        scenarios.add(new Scenario("project2", "/1/feature1file.feature", "p1f1s1", "desc3"));
+        scenarios.add(new Scenario("project2", "/1/feature1file.feature", "p2f1s1", "desc1"));
+        scenarios.add(new Scenario("project2", "/1/feature1file.feature", "p2f1s2", "desc2"));
+        scenarios.add(new Scenario("project2", "/1/feature1file.feature", "p2f1s3", "desc3"));
 
         this.scenarioRepository.saveAll(scenarios);
     }
