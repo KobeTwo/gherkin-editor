@@ -5,10 +5,10 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.BucketOrder;
 import org.elasticsearch.search.aggregations.bucket.filter.Filter;
 import org.elasticsearch.search.aggregations.bucket.nested.Nested;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,7 +39,7 @@ public class SuggestionRestController {
                                 .filter(QueryBuilders.prefixQuery("steps.text.raw", text)))
                         .subAggregation(AggregationBuilders.terms("top_steps")
                                 .field("steps.text.raw")
-                                .order(Terms.Order.count(false))));
+                                .order(BucketOrder.count(false))));
 
 
         SearchResponse response = this.client.prepareSearch("scenario")

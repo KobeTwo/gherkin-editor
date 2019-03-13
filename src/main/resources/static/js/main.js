@@ -15,6 +15,7 @@ var deleteScenarioURL = '/rest/api/scenario/'
 var deleteFeatureURL = '/rest/api/feature/'
 var deleteFolderURL = '/rest/api/folder/'
 var suggestStepsURL = '/rest/api/suggest'
+var postScenarioURL = '/rest/api/scenario'
 
 var vueBus = new Vue();
 
@@ -294,10 +295,69 @@ Vue.component('create-feature-modal', {
                     self.inputFeature = $.extend(true, {}, self.emptyFeature)
                     newFeature = {model: result, type: 'FEATURE', children: null}
                     self.selectedTreeElement.children.push(newFeature)
+                    vueBus.$emit("createdFeature", newFeature.model)
+                    vueBus.$emit("addAlert", "alert-success", txtFeatureCreateSuccess + newFeature.model.name, true)
                     $(self.$refs["createFeatureModal"]).modal('hide')
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
+                    vueBus.$emit("addAlert", "alert-danger", txtFeatureCreateError, true)
+                }
+            });
+        }
+    }
+})
+
+Vue.component('create-scenario-modal', {
+    template: '#create-scenario-modal',
+    mixins: [treeItemMixins],
+    data: function () {
+        return {
+            emptyScenario: {
+                projectId: null,
+                path: null,
+                name: null,
+                description: null
+            },
+            inputScenario: {
+                projectId: null,
+                path: null,
+                name: null,
+                description: null
+            },
+            errorResult: null,
+            selectedTreeElement: null
+        }
+    },
+    created: function () {
+        vueBus.$on('selectTreeElement', (selectedItem) => {
+            this.selectedTreeElement = selectedItem
+        });
+    },
+    methods: {
+        processForm: function () {
+            this.inputScenario.projectId = this.$root.currentProject.id;
+            this.inputScenario.path = this.getConcatenatedPath(this.selectedTreeElement.model)
+            scenarioToSubmit = $.extend(true, {}, this.inputScenario)
+            var self = this
+            $.ajax({
+                url: postScenarioURL,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(scenarioToSubmit),
+                dataType: 'json',
+                success: function (result) {
+                    self.errorResult = null
+                    self.inputScenario = $.extend(true, {}, self.emptyScenario)
+                    newScenario = {model: result, type: 'SCENARIO', children: null}
+                    self.selectedTreeElement.children.push(newScenario)
+                    vueBus.$emit("createdScenario", newScenario.model)
+                    vueBus.$emit("addAlert", "alert-success", txtScenarioCreateSuccess + newScenario.model.name, true)
+                    $(self.$refs["createScenarioModal"]).modal('hide')
+                },
+                error: function (result) {
+                    self.errorResult = result.responseJSON
+                    vueBus.$emit("addAlert", "alert-danger", txtScenarioCreateError, true)
                 }
             });
         }
@@ -458,6 +518,7 @@ Vue.component('feature-list', {
     template: '#feature-list',
     data: function () {
         return {
+            folder: null,
             features: null,
             show: false,
         }
@@ -471,12 +532,14 @@ Vue.component('feature-list', {
         vueBus.$on('selectTreeElement', (selectedItem) => {
             if (selectedItem && selectedItem.type == 'FOLDER') {
                 this.show = true
-                let folder = selectedItem.model
-                this.fetchFeatures(folder.projectId, folder.path + folder.fileName)
+                this.folder = selectedItem.model
+                this.fetchFeatures(this.folder.projectId, this.folder.path + this.folder.fileName)
             } else {
                 this.show = false
             }
-
+        });
+        vueBus.$on('createdFeature', (feature) => {
+            this.fetchFeatures(this.folder.projectId, this.folder.path + this.folder.fileName)
         });
     },
     methods: {
@@ -568,6 +631,9 @@ Vue.component('feature-detail', {
                 this.show = false
             }
 
+        });
+        vueBus.$on('createdScenario', (scenario) => {
+            this.fetchScenarios(this.feature.projectId, this.feature.path + this.feature.fileName)
         });
     },
     methods: {

@@ -19,7 +19,10 @@
         var txtFeatureDeleteError = /*[[#{feature.delete.error}]]*/ null;
         var txtScenarioDeleteSuccess = /*[[#{scenario.delete.success}]]*/ null;
         var txtScenarioDeleteError = /*[[#{scenario.delete.error}]]*/ null;
-
+        var txtScenarioCreateSuccess = /*[[#{scenario.create.success}]]*/ null;
+        var txtScenarioCreateError = /*[[#{scenario.create.error}]]*/ null;
+        var txtFeatureCreateSuccess = /*[[#{feature.create.success}]]*/ null;
+        var txtFeatureCreateError = /*[[#{feature.create.error}]]*/ null;
         /*]]>*/
     </script>
 </th:block>
@@ -35,6 +38,7 @@
     <th:block th:replace="fragments/import-project-modal-vue.html :: import-project-modal-vue-template"/>
     <th:block th:replace="fragments/create-folder-modal-vue.html :: create-folder-modal-vue-template"/>
     <th:block th:replace="fragments/create-feature-modal-vue.html :: create-feature-modal-vue-template"/>
+    <th:block th:replace="fragments/create-scenario-modal-vue.html :: create-scenario-modal-vue-template"/>
     <th:block th:replace="fragments/tree-sidebar-vue.html :: tree-sidebar-vue-template"/>
     <th:block th:replace="fragments/tree-sidebar-item-vue.html :: tree-sidebar-item-vue-template"/>
     <th:block th:replace="fragments/feature-list-vue.html :: feature-list-vue-template"/>
@@ -70,6 +74,10 @@
     <create-feature-modal>
 
     </create-feature-modal>
+
+    <create-scenario-modal>
+
+    </create-scenario-modal>
 
     <delete-folder-modal>
     </delete-folder-modal>
@@ -143,6 +151,8 @@
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.8/dist/vue.min.js"></script>
     </th:block>
 
+    <!-- CDNJS :: Sortable (https://cdnjs.com/) -->
+    <script src="//cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
     <!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.17.0/vuedraggable.min.js"></script>
 
