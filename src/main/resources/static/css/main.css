@@ -101,3 +101,7 @@ a.clickable-card .card:hover {
     display: block;
     width: 1%;
 }
+
+.step-list .step .menu a span {
+    width: 14px;
+}

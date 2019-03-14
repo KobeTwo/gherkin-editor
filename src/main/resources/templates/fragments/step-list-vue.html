@@ -3,7 +3,7 @@
 <th:block th:fragment="step-list-vue-template">
     <script type="text/x-template" id="step-list">
         <div>
-            <div class="row form-group">
+            <div class="row form-group step-list">
                 <draggable :list="steps" class="col-12">
                     <div v-for="(step, index) in steps">
                         <step-input
@@ -13,11 +13,11 @@
                     </div>
                 </draggable>
             </div>
-            <div class="row form-group">
+            <div class="row form-group add-step">
                 <div class="col-12">
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <select>
+                            <select v-model="inputStep.type">
                                 <option value="GIVEN">Given</option>
                                 <option value="AND">And</option>
                                 <option value="BUT">But</option>
@@ -27,9 +27,12 @@
                         </div>
                         <input class="form-control" type="text"
                                th:placeholder="#{step.add.text.placeholder}"
+                               v-model="inputStep.text"
+                               ref="inputText"
+                               @keyup.enter="addStep(inputStep)"
                         >
                         <div class="input-group-append">
-                            <button @click="addStep" class="btn btn-outline-primary" type="button"><i
+                            <button @click="addStep(inputStep)" class="btn btn-outline-primary" type="button"><i
                                     class="fas fa-plus"></i></button>
                         </div>
 

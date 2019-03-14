@@ -753,13 +753,25 @@ Vue.component('tag-list-input', {
 
 Vue.component('step-list', {
     template: '#step-list',
+    data: function () {
+        return {
+            inputStep: {
+                type: "GIVEN",
+                text: ""
+            }
+        }
+    },
     props: {
         steps: Array
     },
     methods: {
         deleteStep: function (step) {
             this.steps.splice(this.steps.indexOf(step), 1);
-
+        },
+        addStep: function (inputStep) {
+            this.steps.push(JSON.parse(JSON.stringify(inputStep)));
+            this.inputStep.text = "";
+            this.$refs.inputText.focus()
         }
     }
 })

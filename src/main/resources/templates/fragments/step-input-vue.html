@@ -2,7 +2,7 @@
 <body>
 <th:block th:fragment="step-input-vue-template">
     <script type="text/x-template" id="step-input">
-        <div class="input-group">
+        <div class="input-group step">
             <div class="input-group-prepend">
                 <select v-model="step.type">
                     <option value="GIVEN">Given</option>
@@ -28,7 +28,7 @@
                     </a>
                 </div>
             </div>
-            <div class="input-group-append">
+            <div class="input-group-append menu">
                 <a class="input-group-text" href="#" id="dropdownMenuLink"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span><i class="fas fa-ellipsis-v"></i></span>
