@@ -25,12 +25,24 @@
                                 <option value="THEN">Then</option>
                             </select>
                         </div>
-                        <input class="form-control" type="text"
-                               th:placeholder="#{step.add.text.placeholder}"
-                               v-model="inputStep.text"
-                               ref="inputText"
-                               @keyup.enter="addStep(inputStep)"
-                        >
+                        <div class="step-input-wrapper">
+                            <input class="form-control" type="text"
+                                   th:placeholder="#{step.add.text.placeholder}"
+                                   v-model="inputStep.text"
+                                   ref="inputText"
+                                   @keyup.enter="addStep(inputStep)"
+                                   @focus="focused = true"
+                            >
+                            <div class="suggestion-list list-group">
+                                <a class="list-group-item list-group-item-action"
+                                   v-for="(suggestion) in suggestions"
+                                   @click="inputStep.text = suggestion"
+                                   @mousedown.prevent
+                                >
+                                    {{ suggestion }}
+                                </a>
+                            </div>
+                        </div>
                         <div class="input-group-append">
                             <button @click="addStep(inputStep)" class="btn btn-outline-primary" type="button"><i
                                     class="fas fa-plus"></i></button>

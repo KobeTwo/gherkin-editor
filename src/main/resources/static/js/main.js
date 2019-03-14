@@ -758,7 +758,14 @@ Vue.component('step-list', {
             inputStep: {
                 type: "GIVEN",
                 text: ""
-            }
+            },
+            suggestions: [],
+            focused: false
+        }
+    },
+    computed: {
+        text: function () {
+            return this.inputStep.text;
         }
     },
     props: {
@@ -772,6 +779,68 @@ Vue.component('step-list', {
             this.steps.push(JSON.parse(JSON.stringify(inputStep)));
             this.inputStep.text = "";
             this.$refs.inputText.focus()
+        }
+    },
+    watch: {
+        text: function (val) {
+            var self = this
+            $.ajax({
+                url: suggestStepsURL,
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: {text: val},
+                success: function (result) {
+                    if (self.focused) {
+                        self.suggestions = result
+                    }
+                },
+            });
+        },
+        focused: function (val) {
+            if (!this.focused) {
+                this.suggestions = []
+            }
+        }
+    }
+})
+
+Vue.component('step-input', {
+    template: '#step-input',
+    data: function () {
+        return {
+            suggestions: [],
+            focused: false
+        }
+    },
+    props: {
+        step: Object
+    },
+    computed: {
+        text: function () {
+            return this.step.text;
+        }
+    },
+    watch: {
+        text: function (val) {
+            if (this.focused) {
+                var self = this
+                $.ajax({
+                    url: suggestStepsURL,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: {text: val},
+                    success: function (result) {
+                        self.suggestions = result
+                    },
+                });
+            }
+        },
+        focused: function (val) {
+            if (!this.focused) {
+                this.suggestions = []
+            }
         }
     }
 })
@@ -949,42 +1018,3 @@ Vue.component('data-table', {
     }
 })
 
-Vue.component('step-input', {
-    template: '#step-input',
-    data: function () {
-        return {
-            suggestions: [],
-            focused: false
-        }
-    },
-    props: {
-        step: Object
-    },
-    computed: {
-        text: function () {
-            return this.step.text;
-        }
-    },
-    watch: {
-        text: function (val) {
-            if (this.focused) {
-                var self = this
-                $.ajax({
-                    url: suggestStepsURL,
-                    type: 'GET',
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    data: {text: val},
-                    success: function (result) {
-                        self.suggestions = result
-                    },
-                });
-            }
-        },
-        focused: function (val) {
-            if (!this.focused) {
-                this.suggestions = []
-            }
-        }
-    }
-})
