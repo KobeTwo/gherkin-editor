@@ -7,6 +7,9 @@
             <div class="row">
                 <div class="col">
                     <div v-for="(row, y) in datatable" class="form-row">
+                        <button @click="deleteRow(y)" class="btn btn-outline-secondary btn-sm ml-2 form-group"
+                                type="button"><i
+                                class="fas fa-trash"></i></button>
                         <div v-for="(col, x) in row" class="form-group col">
 
                             <input v-if="y==0" type="text" class="form-control"
@@ -15,7 +18,9 @@
                             <input v-else type="text" class="form-control form-control-sm" v-model="datatable[y][x]"
                                    th:placeholder="#{scenario.datatable.value}">
                         </div>
+
                     </div>
+
                     <div class="text-center">
                         <button @click="addVertical" class="btn btn-outline-secondary btn-sm ml-2" type="button"><i
                                 class="fas fa-plus"></i></button>

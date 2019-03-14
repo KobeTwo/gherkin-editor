@@ -1002,6 +1002,9 @@ Vue.component('data-table', {
             this.sizeY++
             this.resizeArray()
         },
+        deleteRow(y) {
+            alert('delete row')
+        },
         resizeArray() {
             for (y = 0; y < this.sizeY; y++) {
                 if (!this.datatable[y]) {
