@@ -110,7 +110,18 @@ public class DefaultDemoDataService implements DemoDataService {
                 .addStep(new Step(Step.TYPE.WHEN, "A when step"))
                 .addStep(new Step(Step.TYPE.THEN, "A then and step"))
         );
-        scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s2", "desc2"));
+        Scenario p1f1s2 = new Scenario("project1", "/1/feature1file.feature", "p1f1s2", "desc2");
+        p1f1s2.setExamples(new String[][]{
+                        {"key1", "key2", "key3"},
+                        {"value11", "value12", "value13"},
+                        {"value21", "value22", "value23"},
+                        {"value31", "value32", "value33"},
+                        {"value41", "value42", "value43"}
+                }
+        );
+
+        scenarios.add(p1f1s2);
+
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s3", "desc3"));
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s11", "desc11"));
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s12", "desc12"));

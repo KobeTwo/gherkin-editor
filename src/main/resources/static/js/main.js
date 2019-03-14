@@ -986,19 +986,23 @@ Vue.component('data-table', {
     template: '#data-table',
     data: function () {
         return {
-            datatable: [['']],
-            sizeX: 1,
-            sizeY: 1
+            sizeX: 0,
+            sizeY: 0
         }
+    },
+    props: {
+        datatable: Array
     },
     methods: {
         addHorizontal: function () {
             this.sizeX++
+            this.resizeArray()
         },
         addVertical: function () {
             this.sizeY++
+            this.resizeArray()
         },
-        recalculateArray() {
+        resizeArray() {
             for (y = 0; y < this.sizeY; y++) {
                 if (!this.datatable[y]) {
                     Vue.set(this.datatable, y, [])
@@ -1009,15 +1013,22 @@ Vue.component('data-table', {
                     }
                 }
             }
+        },
+        recalculateSize() {
+            this.sizeY = this.datatable.length
+            var index;
+            for (index = 0; index < this.datatable.length; ++index) {
+                this.sizeX = this.datatable[index].length
+            }
         }
     },
     watch: {
-        sizeX: function (val) {
-            this.recalculateArray()
-        },
-        sizeY: function (val) {
-            this.recalculateArray()
+        datatable: function (val) {
+            this.recalculateSize()
         }
+    },
+    created: function () {
+        this.recalculateSize()
     }
 })
 

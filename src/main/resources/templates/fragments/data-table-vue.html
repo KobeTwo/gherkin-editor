@@ -9,10 +9,10 @@
                     <div v-for="(row, y) in datatable" class="form-row">
                         <div v-for="(col, x) in row" class="form-group col">
 
-                            <input v-if="y==0" type="text" class="form-control form-control-lg"
+                            <input v-if="y==0" type="text" class="form-control"
                                    v-model="datatable[y][x]"
                                    th:placeholder="#{scenario.datatable.attribute}">
-                            <input v-else type="text" class="form-control" v-model="datatable[y][x]"
+                            <input v-else type="text" class="form-control form-control-sm" v-model="datatable[y][x]"
                                    th:placeholder="#{scenario.datatable.value}">
                         </div>
                     </div>

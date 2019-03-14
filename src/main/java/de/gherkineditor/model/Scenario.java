@@ -6,9 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Document(indexName = "scenario", type = "scenario", shards = 1, replicas = 0, refreshInterval = "-1")
 public class Scenario extends AbstractPathItem {
@@ -26,8 +24,7 @@ public class Scenario extends AbstractPathItem {
     @Field(type = FieldType.Nested)
     private List<Step> steps = new ArrayList<>();
 
-    @Field(type = FieldType.Nested)
-    private Map<String, String[]> examples = new HashMap<>();
+    private String[][] examples;
 
     private Scenario() {
     }
@@ -99,20 +96,12 @@ public class Scenario extends AbstractPathItem {
         return this;
     }
 
-    public Map<String, String[]> getExamples() {
+    public String[][] getExamples() {
         return this.examples;
     }
 
-    public void setExamples(Map<String, String[]> examples) {
+    public void setExamples(String[][] examples) {
         this.examples = examples;
-    }
-
-    public void setExample(String key, String[] value) {
-        this.examples.put(key, value);
-    }
-
-    public void removeExample(String key, String[] value) {
-        this.examples.put(key, value);
     }
 
     @Override
