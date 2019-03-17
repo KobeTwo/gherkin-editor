@@ -90,7 +90,7 @@ a.clickable-card .card:hover {
 
 .suggestion-list {
     position: absolute;
-    z-index: 1;
+    z-index: 100;
 }
 
 .step-input-wrapper {

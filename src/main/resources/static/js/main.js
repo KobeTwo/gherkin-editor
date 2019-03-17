@@ -669,12 +669,6 @@ Vue.component('feature-detail', {
                     vueBus.$emit("addAlert", "alert-danger", "Error while saving feature " + self.feature.name, true)
                 }
             });
-        },
-        removeTag: function (name) {
-            this.feature.tags.splice(this.feature.tags.indexOf(name), 1);
-        },
-        addTag: function () {
-            this.feature.tags.push('')
         }
     }
 })
@@ -711,9 +705,6 @@ Vue.component('scenario-detail', {
         addTag: function () {
             this.scenario.tags.push('')
         },
-        removeTag: function (name) {
-            this.scenario.tags.splice(this.scenario.tags.indexOf(name), 1);
-        },
         removeScenario: function () {
             alert('TODO')
         },
@@ -741,12 +732,34 @@ Vue.component('scenario-detail', {
 
 Vue.component('tag-list-input', {
     template: '#tag-list-input',
+    data: function () {
+        return {
+            inputTags: []
+        }
+    },
     props: {
         tags: Array
     },
+    created: function () {
+        for (var i = 0; i < this.tags.length; i++) {
+            this.inputTags[i] = this.tags[i].substring(1)
+        }
+    },
+    watch: {
+        inputTags: function (val) {
+            this.tags.splice(0)
+            for (var i = 0; i < this.inputTags.length; i++) {
+                this.tags[i] = '@' + this.inputTags[i]
+
+            }
+        }
+    },
     methods: {
         removeTag: function (tag) {
-            this.$parent.removeTag(tag)
+            this.inputTags.splice(this.inputTags.indexOf(tag), 1);
+        },
+        addTag: function () {
+            this.inputTags.push('')
         }
     }
 })

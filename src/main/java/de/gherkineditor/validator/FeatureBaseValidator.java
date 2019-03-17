@@ -26,6 +26,13 @@ public abstract class FeatureBaseValidator extends AbstractPathItemValidator {
         if (isInputStringEmpty(feature.getName())) {
             errors.rejectValue("name", "name.empty", "Name is empty");
         }
+
+        //validate all tags starting with @
+        for (String tag : feature.getTags()) {
+            if (!tag.startsWith("@")) {
+                errors.rejectValue("tags", "tags.pattern.error", "One of the feature tags do not start with @");
+            }
+        }
     }
 
     protected boolean isFileNamePatternInvalid(String name) {
