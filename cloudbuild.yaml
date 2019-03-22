@@ -8,7 +8,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
     args: ['-c', 'docker login --username=kobetwo --password=$$DOCKER_HUB_PASSWORD']
-    secretEnv: ['PASSWORD']
+    secretEnv: ['DOCKER_HUB_PASSWORD']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'kobetwo/gherkin-editor']
 images:
