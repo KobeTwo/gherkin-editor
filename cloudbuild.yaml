@@ -5,6 +5,15 @@ steps:
     args: ['cp', 'target/gherkineditor-release.jar', 'gs://gherkin-editor-release/gherkineditor-$TAG_NAME.jar']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/gherkin-editor:$TAG_NAME', '-t', 'kobetwo/gherkin-editor:$TAG_NAME', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: ['-c', 'docker login --username=kobetwo --password=$$DOCKER_HUB_PASSWORD']
+    secretEnv: ['PASSWORD']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'kobetwo/gherkin-editor']
 images:
   - 'gcr.io/$PROJECT_ID/gherkin-editor:$TAG_NAME'
-  - 'kobetwo/gherkin-editor:$TAG_NAME'
+secrets:
+  - kmsKeyName: projects/gherkin-editor/locations/global/keyRings/gherkin-editor/cryptoKeys/docker-hub
+    secretEnv:
+      DOCKER_HUB_PASSWORD: $E=??~?Q~?bPt?@?:??dn??w??8iC0??);~?kΉ???No?|?^S??eL'r?8C??ʫ??%}Xt>??Ղ
