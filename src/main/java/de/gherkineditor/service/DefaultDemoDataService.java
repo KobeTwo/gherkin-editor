@@ -94,31 +94,19 @@ public class DefaultDemoDataService implements DemoDataService {
     private void createScenarios() {
         List<Scenario> scenarios = new ArrayList<Scenario>();
 
-        String[][] datatable = {
-                {"head1", "head2", "head3"},
-                {"val11", "val12", "val13"},
-                {"val21", "val22", "val23"},
-                {"val31", "val32", "val33"}
-        };
+        String datatable = "|key1|key2|key3|\n|value11|value12|value13|\n|value21|value22|value23|";
 
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s1", "desc1")
                 .addTag("@featuretag1")
                 .addTag("@featuretag2")
-                .addStep(new Step(Step.TYPE.GIVEN, "A given step", datatable))
-                .addStep(new Step(Step.TYPE.AND, "A given and step", "doc string ipsum doc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsum"))
+                .addStep(new Step(Step.TYPE.GIVEN, "A given step", null, datatable))
+                .addStep(new Step(Step.TYPE.AND, "A given and step", "doc string ipsum doc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsum", null))
                 .addStep(new Step(Step.TYPE.BUT, "A given but step"))
                 .addStep(new Step(Step.TYPE.WHEN, "A when step"))
                 .addStep(new Step(Step.TYPE.THEN, "A then and step"))
         );
         Scenario p1f1s2 = new Scenario("project1", "/1/feature1file.feature", "p1f1s2", "desc2");
-        p1f1s2.setExamples(new String[][]{
-                        {"key1", "key2", "key3"},
-                        {"value11", "value12", "value13"},
-                        {"value21", "value22", "value23"},
-                        {"value31", "value32", "value33"},
-                        {"value41", "value42", "value43"}
-                }
-        );
+        p1f1s2.setExamples(datatable);
 
         scenarios.add(p1f1s2);
 

@@ -2,43 +2,71 @@
 <body>
 <th:block th:fragment="step-input-vue-template">
     <script type="text/x-template" id="step-input">
-        <div class="input-group step">
-            <div class="input-group-prepend">
-                <select v-model="step.type">
-                    <option value="GIVEN">Given</option>
-                    <option value="AND">And</option>
-                    <option value="BUT">But</option>
-                    <option value="WHEN">When</option>
-                    <option value="THEN">Then</option>
-                </select>
-            </div>
-            <div class="step-input-wrapper">
-                <input class="form-control" type="text"
-                       th:placeholder="#{step.text.placeholder}"
-                       v-model="step.text"
-                       @focus="focused = true"
-                       @blur="focused = false"
-                >
-                <div class="suggestion-list list-group">
-                    <a class="list-group-item list-group-item-action"
-                       v-for="(suggestion) in suggestions"
-                       @click="step.text = suggestion"
-                       @mousedown.prevent
+        <div>
+            <div class="input-group step">
+                <div class="input-group-prepend">
+                    <select v-model="step.type">
+                        <option value="GIVEN">Given</option>
+                        <option value="AND">And</option>
+                        <option value="BUT">But</option>
+                        <option value="WHEN">When</option>
+                        <option value="THEN">Then</option>
+                    </select>
+                </div>
+                <div class="step-input-wrapper">
+                    <input class="form-control" type="text"
+                           th:placeholder="#{step.text.placeholder}"
+                           v-model="step.text"
+                           @focus="focused = true"
+                           @blur="focused = false"
                     >
-                        {{ suggestion }}
+                    <div class="suggestion-list list-group">
+                        <a class="list-group-item list-group-item-action"
+                           v-for="(suggestion) in suggestions"
+                           @click="step.text = suggestion"
+                           @mousedown.prevent
+                        >
+                            {{ suggestion }}
+                        </a>
+                    </div>
+                </div>
+                <div class="input-group-append menu">
+                    <a class="input-group-text" href="#" id="dropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span><i class="fas fa-ellipsis-v"></i></span>
                     </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a v-if="step.docstring==null" class="dropdown-item" @click="addDocstring()"
+                           th:text="#{step.create.freetextparameter}"></a>
+                        <a v-if="step.docstring!=null" class="dropdown-item" @click="removeDocstring()"
+                           th:text="#{step.remove.freetextparameter}"></a>
+                        <a v-if="step.datatable==null" class="dropdown-item" @click="addDatatable()"
+                           th:text="#{step.create.tableparameter}"></a>
+                        <a v-if="step.datatable!=null" class="dropdown-item" @click="removeDatatable()"
+                           th:text="#{step.remove.tableparameter}"></a>
+                        <a class="dropdown-item" @click="deleteStep()" th:text="#{step.delete}"></a>
+                    </div>
                 </div>
             </div>
-            <div class="input-group-append menu">
-                <a class="input-group-text" href="#" id="dropdownMenuLink"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span><i class="fas fa-ellipsis-v"></i></span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" th:text="#{step.create.freetextparameter}"></a>
-                    <a class="dropdown-item" th:text="#{step.create.tableparameter}"></a>
-                    <a class="dropdown-item" @click="deleteStep(step)" th:text="#{step.delete}"></a>
+            <div v-if="step.docstring!=null" class="input-group step-input-parameter">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" th:text="#{step.docstring}"></span>
                 </div>
+                <textarea class="form-control"
+                          th:placeholder="#{step.docstring.placeholder}"
+                          rows="2"
+                          v-model="step.docstring"
+                ></textarea>
+            </div>
+            <div v-if="step.datatable!=null" class="input-group step-input-parameter">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" th:text="#{step.datatable}"></span>
+                </div>
+                <textarea class="form-control"
+                          th:placeholder="#{step.datatable.placeholder}"
+                          rows="2"
+                          v-model="step.datatable"
+                ></textarea>
             </div>
         </div>
     </script>

@@ -33,6 +33,7 @@
                                    ref="inputText"
                                    @keyup.enter="addStep(inputStep)"
                                    @focus="focused = true"
+                                   @blur="focused = false"
                             >
                             <div class="suggestion-list list-group">
                                 <a class="list-group-item list-group-item-action"

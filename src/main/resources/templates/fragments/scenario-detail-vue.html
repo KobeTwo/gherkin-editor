@@ -66,9 +66,13 @@
                         </a>
                         <div id="collapseExamples" class="collapse">
                             <div class="card-body">
-                                <data-table
-                                        v-bind:datatable="this.scenario.examples">
-                                </data-table>
+                                <div class="form-group">
+                                    <textarea class="form-control"
+                                              th:placeholder="#{scenario.examples.placeholder}"
+                                              rows="5"
+                                              v-model="scenario.examples"
+                                    ></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>

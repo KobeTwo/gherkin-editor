@@ -35,20 +35,22 @@ public class DefaultScenarioService implements ScenarioService {
                 step.setDocstring(stepMessage.getDocString().getContent());
             }
 
+
             //add data table
             if (stepMessage.getArgumentCase().equals(Messages.Step.ArgumentCase.DATA_TABLE)) {
                 Messages.DataTable dataTable = stepMessage.getDataTable();
-                String[][] dataTableArray = new String[dataTable.getRowsCount()][];
+                String dataTableText = "";
                 for (int i = 0; i < dataTable.getRowsCount(); i++) {
                     Messages.TableRow row = dataTable.getRows(i);
                     String[] rowArray = new String[row.getCellsCount()];
                     for (int j = 0; j < row.getCellsCount(); j++) {
                         Messages.TableCell cell = row.getCells(j);
                         rowArray[j] = cell.getValue();
+                        dataTableText = dataTableText.concat("|").concat(cell.getValue());
                     }
-                    dataTableArray[i] = rowArray;
+                    dataTableText = dataTableText.concat("|\n");
                 }
-                step.setDatatable(dataTableArray);
+                step.setDatatable(dataTableText);
             }
             scenario.addStep(step);
         }

@@ -105,3 +105,7 @@ a.clickable-card .card:hover {
 .step-list .step .menu a span {
     width: 14px;
 }
+
+.step-input-parameter {
+    padding-left: 20px;
+}

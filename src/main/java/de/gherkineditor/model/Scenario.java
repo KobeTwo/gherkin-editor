@@ -24,7 +24,7 @@ public class Scenario extends AbstractPathItem {
     @Field(type = FieldType.Nested)
     private List<Step> steps = new ArrayList<>();
 
-    private String[][] examples;
+    private String examples;
 
     private Scenario() {
     }
@@ -96,11 +96,11 @@ public class Scenario extends AbstractPathItem {
         return this;
     }
 
-    public String[][] getExamples() {
+    public String getExamples() {
         return this.examples;
     }
 
-    public void setExamples(String[][] examples) {
+    public void setExamples(String examples) {
         this.examples = examples;
     }
 

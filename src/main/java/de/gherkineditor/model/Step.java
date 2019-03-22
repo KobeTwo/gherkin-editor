@@ -22,7 +22,7 @@ public class Step {
     private String text;
     private String docstring;
 
-    private String[][] datatable;
+    private String datatable;
 
     private Step() {
     }
@@ -31,15 +31,7 @@ public class Step {
         this(type, text, null, null);
     }
 
-    public Step(TYPE type, String text, String[][] datatable) {
-        this(type, text, null, datatable);
-    }
-
-    public Step(TYPE type, String text, String docstring) {
-        this(type, text, docstring, null);
-    }
-
-    public Step(TYPE type, String text, String docstring, String[][] datatable) {
+    public Step(TYPE type, String text, String docstring, String datatable) {
         this.type = type;
         this.text = text;
         this.docstring = docstring;
@@ -71,11 +63,11 @@ public class Step {
         this.docstring = docstring;
     }
 
-    public String[][] getDatatable() {
+    public String getDatatable() {
         return this.datatable;
     }
 
-    public void setDatatable(String[][] datatable) {
+    public void setDatatable(String datatable) {
         this.datatable = datatable;
     }
 }

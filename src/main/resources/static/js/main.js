@@ -824,9 +824,21 @@ Vue.component('step-input', {
         }
     },
     methods: {
-        deleteStep: function (step) {
-            this.steps.splice(this.steps.indexOf(step), 1);
+        deleteStep: function () {
+            this.steps.splice(this.steps.indexOf(this.step), 1);
         },
+        addDocstring: function () {
+            this.step.docstring = '';
+        },
+        addDatatable: function () {
+            this.step.datatable = '';
+        },
+        removeDocstring: function () {
+            this.step.docstring = null;
+        },
+        removeDatatable: function () {
+            this.step.datatable = null;
+        }
     },
     props: {
         step: Object,
@@ -992,59 +1004,6 @@ Vue.component('global-alert-box', {
         vueBus.$on('addAlert', (type, text, dismissible) => {
             this.addAlert(type, text, dismissible)
         });
-    }
-})
-
-Vue.component('data-table', {
-    template: '#data-table',
-    data: function () {
-        return {
-            sizeX: 0,
-            sizeY: 0
-        }
-    },
-    props: {
-        datatable: Array
-    },
-    methods: {
-        addHorizontal: function () {
-            this.sizeX++
-            this.resizeArray()
-        },
-        addVertical: function () {
-            this.sizeY++
-            this.resizeArray()
-        },
-        deleteRow(y) {
-            alert('delete row')
-        },
-        resizeArray() {
-            for (y = 0; y < this.sizeY; y++) {
-                if (!this.datatable[y]) {
-                    Vue.set(this.datatable, y, [])
-                }
-                for (x = 0; x < this.sizeX; x++) {
-                    if (!this.datatable[y][x]) {
-                        Vue.set(this.datatable[y], x, '')
-                    }
-                }
-            }
-        },
-        recalculateSize() {
-            this.sizeY = this.datatable.length
-            var index;
-            for (index = 0; index < this.datatable.length; ++index) {
-                this.sizeX = this.datatable[index].length
-            }
-        }
-    },
-    watch: {
-        datatable: function (val) {
-            this.recalculateSize()
-        }
-    },
-    created: function () {
-        this.recalculateSize()
     }
 })
 
