@@ -16,4 +16,4 @@ images:
 secrets:
   - kmsKeyName: projects/gherkin-editor/locations/global/keyRings/gherkin-editor/cryptoKeys/docker-hub
     secretEnv:
-      DOCKER_HUB_PASSWORD: $E=??~?Q~?bPt?@?:??dn??w??8iC0??);~?kΉ???No?|?^S??eL'r?8C??ʫ??%}Xt>??Ղ
+      DOCKER_HUB_PASSWORD: CiQART3/0t2ZB1u/8eYi+cKCvWh8HMkVTCVwTHGtXQYAevix6VwSMADO8ik7pkOL0Ygj2IeVOKt/EdLrBw56IiW/9AkxGpPgx57sB5giUtWzgpMssCbkJA==
