@@ -6,4 +6,5 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/gherkineditor:$TAG_NAME', '.']
 images:
-  - 'gcr.io/$PROJECT_ID/gherkineditor:$TAG_NAME'
+  - 'gcr.io/$PROJECT_ID/gherkin-editor:$TAG_NAME'
+  - 'kobetwo/gherkin-editor:$TAG_NAME'

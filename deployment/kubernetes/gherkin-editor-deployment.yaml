@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gherkin-editor
+  labels:
+    app: gherkin-editor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gherkin-editor
+  template:
+    metadata:
+      labels:
+        app: gherkin-editor
+    spec:
+      containers:
+        - name: gherkin-editor
+          image: nginx:1.7.9
+          ports:
+            - containerPort: 8080
