@@ -16,6 +16,33 @@ spec:
     spec:
       containers:
         - name: gherkin-editor
-          image: nginx:1.7.9
+          image: gcr.io/gherkin-editor/gherkin-editor:v.0.0.20
           ports:
             - containerPort: 8080
+          env:
+            - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NODE
+              value: 'elasticsearch-elasticsearch-svc:9300'
+            - name: SPRING_DATA_ELASTICSEARCH_CLUSTER_NAME
+              value: 'elasticsearch-cluster'
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: gherkin-editor
+spec:
+  type: NodePort
+  selector:
+    app: gherkin-editor
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gherkin-editor-ip
+spec:
+  backend:
+    serviceName: gherkin-editor
+    servicePort: 8080
