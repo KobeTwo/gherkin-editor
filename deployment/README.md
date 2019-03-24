@@ -1,4 +1,4 @@
-#Gherkin-Editor Deployment
+# Gherkin-Editor Deployment
 Gherkin-editor is build on top of spring boot. You can run the app via Java directly or containerized via Docker, docker-compose or Kubernetes.
 
 ## Prerequisites
