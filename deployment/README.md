@@ -17,10 +17,10 @@ java -jar gherkin-editor.v.0.0.23.jar
 docker run gcr.io/gherkin-editor/gherkin-editor:v.0.0.23 
 ```
 ### run via docker-compose
-See the [docker compose example deployment](./deployment/docker-compose).
+See the [docker compose example deployment](./docker-compose).
 
 ### run via kubernetes
-See the [kubernetes example deployment](./deployment/kubernetes).
+See the [kubernetes example deployment](./kubernetes).
 
 ## Configuration and profiles
 
