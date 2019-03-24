@@ -293,7 +293,7 @@ Vue.component('create-feature-modal', {
                 success: function (result) {
                     self.errorResult = null
                     self.inputFeature = $.extend(true, {}, self.emptyFeature)
-                    newFeature = {model: result, type: 'FEATURE', children: null}
+                    newFeature = {model: result, type: 'FEATURE', children: []}
                     self.selectedTreeElement.children.push(newFeature)
                     vueBus.$emit("createdFeature", newFeature.model)
                     vueBus.$emit("addAlert", "alert-success", txtFeatureCreateSuccess + newFeature.model.name, true)
@@ -770,7 +770,9 @@ Vue.component('step-list', {
         return {
             inputStep: {
                 type: "GIVEN",
-                text: ""
+                text: "",
+                docstring: null,
+                datatable: null
             },
             suggestions: [],
             focused: false
