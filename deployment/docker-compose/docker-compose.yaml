@@ -1,0 +1,17 @@
+version: '2.2'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+  gherkin-editor:
+    image: gcr.io/gherkin-editor/gherkin-editor:v.0.0.23
+    container_name: gherkin-editor
+    depends_on:
+      - elasticsearch
+    environment:
+      - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODE=elasticsearch:9300
+      - SPRING_DATA_ELASTICSEARCH_CLUSTER_NAME=docker-cluster
+    ports:
+      - 80:8080
