@@ -24,7 +24,7 @@ All elements have deeplinks. With that in mind you can simply add the link to yo
 Via the gherkin editor rest interface you can simply download a zip of your project with all the folders and feature files. See the [Export Project Rest API](https://htmlpreview.github.io/?https://github.com/KobeTwo/gherkin-editor/blob/master/swagger/index.html#exportProjectUsingGET).
 
 ### How to deal with existing feature files
-You can import a zip file containing all your folders & feature files within the app or via the [Import Projekct Rest Interface](https://htmlpreview.github.io/?https://github.com/KobeTwo/gherkin-editor/blob/master/swagger/index.html#importProjectUsingPOST)
+You can import a zip file containing all your folders & feature files within the app or via the [Import Project Rest Interface](https://htmlpreview.github.io/?https://github.com/KobeTwo/gherkin-editor/blob/master/swagger/index.html#importProjectUsingPOST)
 
 ### Other integrations
 Gherkin editor offers an open web interface which is used by the vue.js frontend. You can use this interface to integrate with other systems that need to receive data from Gherkin Editor or need to write data to it in an automatic way.
