@@ -52,27 +52,29 @@
             </ul>
         </li>
         <li v-else-if="item.type === 'FEATURE'">
-            <div class="sidebar-list-element"
-                 :class="{'bg-info text-white': highlighted}"
-                 @click="select">
-                <span><i class="fas fa-file"></i> {{ fileNameWithoutSuffix }}</span>
-                <span v-if="selected" class="float-right">
-                    <span class="pr-1" data-toggle="modal"
-                          data-target="#createScenarioModal"
-                    >
-                        <a data-toggle="tooltip" th:title="#{scenario.create}">
-                            <i class="fas fa-handshake"></i>
-                        </a>
+            <drop @drop="handleScenarioDrop">
+                <div class="sidebar-list-element"
+                     :class="{'bg-info text-white': highlighted}"
+                     @click="select">
+                    <span><i class="fas fa-file"></i> {{ fileNameWithoutSuffix }}</span>
+                    <span v-if="selected" class="float-right">
+                        <span class="pr-1" data-toggle="modal"
+                              data-target="#createScenarioModal"
+                        >
+                            <a data-toggle="tooltip" th:title="#{scenario.create}">
+                                <i class="fas fa-handshake"></i>
+                            </a>
+                        </span>
+                        <span class="pr-1" data-toggle="modal"
+                              data-target="#deleteFeatureModal"
+                        >
+                            <a data-toggle="tooltip" th:title="#{feature.delete}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </span>
                     </span>
-                    <span class="pr-1" data-toggle="modal"
-                          data-target="#deleteFeatureModal"
-                    >
-                        <a data-toggle="tooltip" th:title="#{feature.delete}">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </span>
-                </span>
-            </div>
+                </div>
+            </drop>
             <tree-sidebar-item
                     class="item"
                     v-for="(item, index) in item.children"

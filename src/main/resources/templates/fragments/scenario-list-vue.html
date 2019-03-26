@@ -6,11 +6,12 @@
 
             <div class="row">
                 <div v-for="(scenario, index) in scenarios" class="col-lg-4 col-md-6 col-sm-12">
-                    <scenario-card
-                            v-bind:scenario="scenario"
-                    >
-                    </scenario-card>
-
+                    <drag :transfer-data="scenario">
+                        <scenario-card
+                                v-bind:scenario="scenario"
+                        >
+                        </scenario-card>
+                    </drag>
 
                 </div>
             </div>

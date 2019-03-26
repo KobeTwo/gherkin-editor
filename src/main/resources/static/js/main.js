@@ -510,6 +510,9 @@ Vue.component('tree-sidebar-item', {
             if (this.$parent.setOpen) {
                 this.$parent.setOpen()
             }
+        },
+        handleScenarioDrop(scenario) {
+            alert(`You dropped with data: ${JSON.stringify(scenario)}`);
         }
     }
 })
