@@ -9,7 +9,7 @@ public class Step {
 
 
     public enum TYPE {
-        GIVEN, WHEN, THEN, AND, BUT;
+        Given, When, Then, And, But;
     }
 
     private TYPE type;

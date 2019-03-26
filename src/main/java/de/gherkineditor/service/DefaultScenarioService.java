@@ -28,7 +28,7 @@ public class DefaultScenarioService implements ScenarioService {
 
         //add steps for scenario
         for (Messages.Step stepMessage : scenarioMessage.getStepsList()) {
-            Step step = new Step(Step.TYPE.valueOf(stepMessage.getKeyword().toUpperCase().trim()), stepMessage.getText().trim());
+            Step step = new Step(Step.TYPE.valueOf(stepMessage.getKeyword().trim()), stepMessage.getText().trim());
 
             //add doc string
             if (stepMessage.getArgumentCase().equals(Messages.Step.ArgumentCase.DOC_STRING)) {

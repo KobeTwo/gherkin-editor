@@ -769,7 +769,7 @@ Vue.component('step-list', {
     data: function () {
         return {
             inputStep: {
-                type: "GIVEN",
+                type: "Given",
                 text: "",
                 docstring: null,
                 datatable: null

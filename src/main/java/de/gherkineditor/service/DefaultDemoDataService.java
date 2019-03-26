@@ -78,8 +78,8 @@ public class DefaultDemoDataService implements DemoDataService {
         features.add(new Feature("project1", "/1/", "feature1file.feature", "feature_p1_1", "feature1Desc")
                 .addTag("@tag1")
                 .addTag("@tag2")
-                .addBackgroundSteps(new Step(Step.TYPE.GIVEN, "A first test background"))
-                .addBackgroundSteps(new Step(Step.TYPE.GIVEN, "A second test background"))
+                .addBackgroundSteps(new Step(Step.TYPE.Given, "A first test background"))
+                .addBackgroundSteps(new Step(Step.TYPE.Given, "A second test background"))
         );
         features.add(new Feature("project1", "/1/", "feature2file.feature", "feature_p1_2", "feature2Desc"));
         features.add(new Feature("project1", "/1/1/", "feature3file.feature", "feature_p1_3", "feature3Desc"));
@@ -99,11 +99,11 @@ public class DefaultDemoDataService implements DemoDataService {
         scenarios.add(new Scenario("project1", "/1/feature1file.feature", "p1f1s1", "desc1")
                 .addTag("@featuretag1")
                 .addTag("@featuretag2")
-                .addStep(new Step(Step.TYPE.GIVEN, "A given step", null, datatable))
-                .addStep(new Step(Step.TYPE.AND, "A given and step", "doc string ipsum doc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsum", null))
-                .addStep(new Step(Step.TYPE.BUT, "A given but step"))
-                .addStep(new Step(Step.TYPE.WHEN, "A when step"))
-                .addStep(new Step(Step.TYPE.THEN, "A then and step"))
+                .addStep(new Step(Step.TYPE.Given, "A given step", null, datatable))
+                .addStep(new Step(Step.TYPE.And, "A given and step", "doc string ipsum doc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsumdoc string ipsum", null))
+                .addStep(new Step(Step.TYPE.But, "A given but step"))
+                .addStep(new Step(Step.TYPE.When, "A when step"))
+                .addStep(new Step(Step.TYPE.Then, "A then and step"))
         );
         Scenario p1f1s2 = new Scenario("project1", "/1/feature1file.feature", "p1f1s2", "desc2");
         p1f1s2.setExamples(datatable);
