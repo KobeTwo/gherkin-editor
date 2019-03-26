@@ -3,7 +3,7 @@
 <th:block th:fragment="global-alert-box-vue-template">
     <script type="text/x-template" id="global-alert-box">
         <div ref="globalAlertBox" class="alert-box">
-            <div v-for="(alert) of Array.from(alerts.values())" :class="alert.type"
+            <div v-for="alert of alerts" :class="alert.type"
                  class="alert alert-dismissible fade show"
                  role="alert">
                 {{ alert.text }}

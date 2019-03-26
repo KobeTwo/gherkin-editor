@@ -705,9 +705,6 @@ Vue.component('scenario-detail', {
         addTag: function () {
             this.scenario.tags.push('')
         },
-        removeScenario: function () {
-            alert('TODO')
-        },
         saveScenario: function () {
             var self = this
             $.ajax({
@@ -989,7 +986,7 @@ Vue.component('global-alert-box', {
     template: '#global-alert-box',
     data: function () {
         return {
-            alerts: new Map()
+            alerts: []
         }
     },
     methods: {
@@ -998,8 +995,11 @@ Vue.component('global-alert-box', {
             alert.type = type
             alert.text = text
             alert.dismissible = dismissible
-            this.alerts.set(text, alert)
-            this.$forceUpdate()
+            this.alerts.push(alert)
+            if(alert.type == 'alert-success'){
+                setTimeout(() => this.alerts.splice(this.alerts.indexOf(alert), 1), 5000);
+            }
+
         }
     },
     created: function () {
