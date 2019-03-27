@@ -20,6 +20,24 @@
 
 <div id="vue-editor">
     <th:block th:replace="fragments/general.html :: header"/>
+    <create-folder-modal>
+
+    </create-folder-modal>
+
+    <create-feature-modal>
+
+    </create-feature-modal>
+
+    <create-scenario-modal>
+
+    </create-scenario-modal>
+
+    <delete-folder-modal>
+    </delete-folder-modal>
+    <delete-project-modal
+            :project="currentProject">
+    </delete-project-modal>
+
     <div class="container-fluid">
         <div class="row">
             <nav class="col-lg-3 col-md-4 d-md-block sidebar collapse" id="treeSidebarNavbar">

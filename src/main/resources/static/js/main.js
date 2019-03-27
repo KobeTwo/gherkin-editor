@@ -14,6 +14,7 @@ var patchScenarioURL = '/rest/api/scenario/'
 var deleteScenarioURL = '/rest/api/scenario/'
 var deleteFeatureURL = '/rest/api/feature/'
 var deleteFolderURL = '/rest/api/folder/'
+var deleteProjectURL = '/rest/api/project/'
 var suggestStepsURL = '/rest/api/suggest'
 var postScenarioURL = '/rest/api/scenario'
 
@@ -87,6 +88,9 @@ $(document).ready(function () {
     $('#project-archive').on('change', function () {
         fileName = $(this).val().split('\\').pop();
         $(this).next('#project-archive-label').addClass("selected").html(fileName);
+    });
+    vueBus.$on('deletedProject', (project) => {
+        setTimeout(() => window.location.href = '/', 2000);
     });
 })
 
@@ -374,8 +378,6 @@ Vue.component('tree-sidebar', {
     },
     created: function () {
         this.fetchTreeStructure(this.$root.currentProject.id)
-
-
         vueBus.$on('deletedScenario', (scenario) => {
             vueBus.$emit("selectTreeElement", this.getRootFolder())
         });
@@ -871,6 +873,40 @@ Vue.component('step-input', {
             if (!this.focused) {
                 this.suggestions = []
             }
+        }
+    }
+})
+
+Vue.component('delete-project-modal', {
+    template: '#delete-project-modal',
+    data: function () {
+        return {
+            error: false
+        }
+    },
+    props: {
+        project: Object
+    },
+    methods: {
+        processForm: function () {
+            var self = this
+            let name = self.project.id
+            $.ajax({
+                url: deleteProjectURL + this.project.id,
+                type: 'DELETE',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    self.errorResult = null
+                    vueBus.$emit("deletedProject", self.project)
+                    vueBus.$emit("addAlert", "alert-success", txtProjectDeleteSuccess + name, true)
+                    $(self.$refs["deleteProjectModal"]).modal('hide')
+                },
+                error: function (result) {
+                    self.errorResult = result.responseJSON
+                    vueBus.$emit("addAlert", "alert-danger", txtProjectDeleteError + name, true)
+                }
+            });
         }
     }
 })

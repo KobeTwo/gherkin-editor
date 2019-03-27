@@ -13,6 +13,8 @@
     <script th:inline="javascript">
 
         /*<![CDATA[*/
+        var txtProjectDeleteSuccess = /*[[#{project.delete.success}]]*/ null;
+        var txtProjectDeleteError = /*[[#{project.delete.error}]]*/ null;
         var txtFolderDeleteSuccess = /*[[#{folder.delete.success}]]*/ null;
         var txtFolderDeleteError = /*[[#{folder.delete.error}]]*/ null;
         var txtFeatureDeleteSuccess = /*[[#{feature.delete.success}]]*/ null;
@@ -66,20 +68,6 @@
             :allprojects="allprojects">
     </import-project-modal>
 
-    <create-folder-modal>
-
-    </create-folder-modal>
-
-    <create-feature-modal>
-
-    </create-feature-modal>
-
-    <create-scenario-modal>
-
-    </create-scenario-modal>
-
-    <delete-folder-modal>
-    </delete-folder-modal>
 
     <header class="mb-3">
         <nav class="navbar navbar-expand-md navbar-light bg-light">

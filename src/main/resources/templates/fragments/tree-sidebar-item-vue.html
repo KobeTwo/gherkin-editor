@@ -30,7 +30,15 @@
                             <i class="fas fa-file-signature"></i>
                         </a>
                     </span>
-                    <span v-if="item.model.id !== 'folderRoot'"
+                    <span v-if="item.model.id === 'folderRoot'"
+                          class="pr-1" data-toggle="modal"
+                          data-target="#deleteProjectModal"
+                    >
+                        <a data-toggle="tooltip" th:title="#{project.delete}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </span>
+                    <span v-else
                           class="pr-1" data-toggle="modal"
                           data-target="#deleteFolderModal"
                     >

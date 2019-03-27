@@ -1,23 +1,30 @@
 package de.gherkineditor.controller;
 
 import de.gherkineditor.facade.ProjectFacade;
+import de.gherkineditor.model.Feature;
+import de.gherkineditor.model.Folder;
 import de.gherkineditor.model.Project;
+import de.gherkineditor.model.Scenario;
+import de.gherkineditor.repository.FeatureRepository;
+import de.gherkineditor.repository.FolderRepository;
+import de.gherkineditor.repository.ProjectRepository;
+import de.gherkineditor.repository.ScenarioRepository;
+import de.gherkineditor.util.Util;
 import org.elasticsearch.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Optional;
 
 
 @RestController
@@ -25,6 +32,18 @@ public class ProjectRestController {
 
     @Autowired
     ProjectFacade projectFacade;
+
+    @Autowired
+    ProjectRepository projectRepository;
+
+    @Autowired
+    ScenarioRepository scenarioRepository;
+
+    @Autowired
+    FeatureRepository featureRepository;
+
+    @Autowired
+    FolderRepository folderRepository;
 
     @Autowired
     Client client;
@@ -51,5 +70,21 @@ public class ProjectRestController {
                 .contentLength(resource.contentLength())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
+    }
+
+    @RequestMapping(value = "project/{projectId}", produces = "application/json", method = RequestMethod.DELETE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteProject(@PathVariable(name = "projectId", required = true) String projectId) {
+        Optional<Project> projectOptional = this.projectRepository.findById(projectId);
+        if (projectOptional.isPresent()) {
+            String path = "/";
+            Iterable<Scenario> scenariosToDelete = this.scenarioRepository.findChildrenRecursive(projectOptional.get().getId(), path, null);
+            Iterable<Feature> featuresToDelete = this.featureRepository.findChildrenRecursive(projectOptional.get().getId(), path, null);
+            Iterable<Folder> foldersToDelete = this.folderRepository.findChildrenRecursive(projectOptional.get().getId(), path, null);
+            this.scenarioRepository.deleteAll(scenariosToDelete);
+            this.featureRepository.deleteAll(featuresToDelete);
+            this.folderRepository.deleteAll(foldersToDelete);
+            this.projectRepository.delete(projectOptional.get());
+        }
     }
 }
