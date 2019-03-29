@@ -60,7 +60,8 @@
             </ul>
         </li>
         <li v-else-if="item.type === 'FEATURE'">
-            <drop @drop="handleScenarioDrop">
+            <drop
+                  @dragover="handleScenarioDragover('scenario', ...arguments)" @drop="handleScenarioDrop">
                 <div class="sidebar-list-element"
                      :class="{'bg-info text-white': highlighted}"
                      @click="select">

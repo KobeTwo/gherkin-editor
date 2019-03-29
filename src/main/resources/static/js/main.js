@@ -513,8 +513,32 @@ Vue.component('tree-sidebar-item', {
                 this.$parent.setOpen()
             }
         },
-        handleScenarioDrop(scenario) {
-            alert(`You dropped with data: ${JSON.stringify(scenario)}`);
+        handleScenarioDragover(group, data, event) {
+            if (group !== data.group) {
+                event.dataTransfer.dropEffect = 'none';
+            }
+        },
+        handleScenarioDrop(data) {
+            scenario = data.scenario
+            let path = this.getConcatenatedPath(this.item.model)
+            scenario.path = path
+            var self = this
+            $.ajax({
+                url: patchScenarioURL + scenario.id,
+                type: 'PATCH',
+                contentType: 'application/json',
+                data: JSON.stringify(scenario),
+                dataType: 'json',
+                success: function (result) {
+                    self.errorResult = null
+                    vueBus.$emit("moveScenario", result)
+                    vueBus.$emit("addAlert", "alert-success", "Scenario " + scenario.name + " was saved", true)
+                },
+                error: function (result) {
+                    self.errorResult = result.responseJSON
+                    vueBus.$emit("addAlert", "alert-danger", "Error while saving scenario " + scenario.name, true)
+                }
+            });
         }
     }
 })
@@ -638,6 +662,9 @@ Vue.component('feature-detail', {
 
         });
         vueBus.$on('createdScenario', (scenario) => {
+            this.fetchScenarios(this.feature.projectId, this.feature.path + this.feature.fileName)
+        });
+        vueBus.$on('moveScenario', (result) => {
             this.fetchScenarios(this.feature.projectId, this.feature.path + this.feature.fileName)
         });
     },
