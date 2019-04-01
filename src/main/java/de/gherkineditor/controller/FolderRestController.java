@@ -50,4 +50,17 @@ public class FolderRestController {
         }
     }
 
+
+    @RequestMapping(value = "/folder/{folderId}", method = RequestMethod.PATCH, consumes = "application/json")
+    public @ResponseBody
+    Folder saveFolder(@RequestBody Folder newFolder){
+        Optional<Folder> oldFolder = folderRepository.findById(newFolder.getId());
+
+        if(oldFolder.isPresent() && oldFolder.get().getPath() != newFolder.getPath()){
+            //TODO move all features to the new folder path
+        }
+
+        return folderRepository.save(newFolder);
+    }
+
 }

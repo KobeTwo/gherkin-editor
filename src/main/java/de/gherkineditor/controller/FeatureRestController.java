@@ -1,6 +1,7 @@
 package de.gherkineditor.controller;
 
 import de.gherkineditor.model.Feature;
+import de.gherkineditor.model.Folder;
 import de.gherkineditor.model.Scenario;
 import de.gherkineditor.repository.FeatureRepository;
 import de.gherkineditor.repository.ScenarioRepository;
@@ -8,11 +9,10 @@ import de.gherkineditor.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @BasePathAwareController
@@ -34,6 +34,24 @@ public class FeatureRestController {
             this.scenarioRepository.deleteAll(scenariosToDelete);
             this.featureRepository.delete(featureOptional.get());
         }
+    }
+
+    @RequestMapping(value = "/feature/{featureId}", method = RequestMethod.PATCH, consumes = "application/json")
+    public @ResponseBody
+    Feature saveFeature(@RequestBody Feature newFeature){
+        Optional<Feature> oldFeature = featureRepository.findById(newFeature.getId());
+
+        if(oldFeature.isPresent() && oldFeature.get().getPath() != newFeature.getPath()){
+            List<Scenario> scenarios = this.scenarioRepository.findChildrenRecursive(oldFeature.get().getProjectId(), oldFeature.get().getPath(), null);
+            for(Scenario scenario : scenarios){
+                scenario.setPath(scenario.getPath().replace(oldFeature.get().getPath(), newFeature.getPath()));
+            }
+            if(scenarios.size() > 0){
+                scenarioRepository.saveAll(scenarios);
+            }
+        }
+
+        return featureRepository.save(newFeature);
     }
 
 }

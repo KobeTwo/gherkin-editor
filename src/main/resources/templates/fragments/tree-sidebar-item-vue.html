@@ -3,51 +3,53 @@
 <th:block th:fragment="tree-sidebar-item-vue-template">
     <script type="text/x-template" id="tree-sidebar-item">
         <li v-if="item.type === 'FOLDER'">
-            <div class="sidebar-list-element"
-                 :class="{'bg-info text-white': highlighted}"
-                 @click="select">
+            <drop @dragover="handleFeatureDragover('feature', ...arguments)" @drop="handleFeatureDrop">
+                <div class="sidebar-list-element"
+                     :class="{'bg-info text-white': highlighted}"
+                     @click="select">
 
-                <span>
-                    <span @click="toggle">
-                        <i v-if="open" class="fas fa-chevron-circle-down"></i>
-                        <i v-else="open" class="fas fa-chevron-circle-right"></i>
-                    </span>
-                    <span>{{ item.model.fileName }}</span>
+                    <span>
+                        <span @click="toggle">
+                            <i v-if="open" class="fas fa-chevron-circle-down"></i>
+                            <i v-else="open" class="fas fa-chevron-circle-right"></i>
+                        </span>
+                        <span>{{ item.model.fileName }}</span>
 
-                </span>
-                <span v-if="selected" class="float-right">
-                    <span class="pr-1" data-toggle="modal"
-                          data-target="#createFolderModal"
-                    >
-                        <a data-toggle="tooltip" th:title="#{folder.create}">
-                            <i class="fas fa-folder-plus"></i>
-                        </a>
                     </span>
-                    <span class="pr-1" data-toggle="modal"
-                          data-target="#createFeatureModal"
-                    >
-                        <a data-toggle="tooltip" th:title="#{feature.create}">
-                            <i class="fas fa-file-signature"></i>
-                        </a>
+                    <span v-if="selected" class="float-right">
+                        <span class="pr-1" data-toggle="modal"
+                              data-target="#createFolderModal"
+                        >
+                            <a data-toggle="tooltip" th:title="#{folder.create}">
+                                <i class="fas fa-folder-plus"></i>
+                            </a>
+                        </span>
+                        <span class="pr-1" data-toggle="modal"
+                              data-target="#createFeatureModal"
+                        >
+                            <a data-toggle="tooltip" th:title="#{feature.create}">
+                                <i class="fas fa-file-signature"></i>
+                            </a>
+                        </span>
+                        <span v-if="item.model.id === 'folderRoot'"
+                              class="pr-1" data-toggle="modal"
+                              data-target="#deleteProjectModal"
+                        >
+                            <a data-toggle="tooltip" th:title="#{project.delete}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </span>
+                        <span v-else
+                              class="pr-1" data-toggle="modal"
+                              data-target="#deleteFolderModal"
+                        >
+                            <a data-toggle="tooltip" th:title="#{folder.delete}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </span>
                     </span>
-                    <span v-if="item.model.id === 'folderRoot'"
-                          class="pr-1" data-toggle="modal"
-                          data-target="#deleteProjectModal"
-                    >
-                        <a data-toggle="tooltip" th:title="#{project.delete}">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </span>
-                    <span v-else
-                          class="pr-1" data-toggle="modal"
-                          data-target="#deleteFolderModal"
-                    >
-                        <a data-toggle="tooltip" th:title="#{folder.delete}">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    </span>
-                </span>
-            </div>
+                </div>
+            </drop>
             <ul v-show="open">
 
                 <tree-sidebar-item
@@ -58,32 +60,34 @@
                 >
                 </tree-sidebar-item>
             </ul>
+
         </li>
         <li v-else-if="item.type === 'FEATURE'">
-            <drop
-                  @dragover="handleScenarioDragover('scenario', ...arguments)" @drop="handleScenarioDrop">
-                <div class="sidebar-list-element"
-                     :class="{'bg-info text-white': highlighted}"
-                     @click="select">
-                    <span><i class="fas fa-file"></i> {{ fileNameWithoutSuffix }}</span>
-                    <span v-if="selected" class="float-right">
-                        <span class="pr-1" data-toggle="modal"
-                              data-target="#createScenarioModal"
-                        >
-                            <a data-toggle="tooltip" th:title="#{scenario.create}">
-                                <i class="fas fa-handshake"></i>
-                            </a>
+                <drag :transfer-data="{ group: 'feature', feature: item.model}" >
+                <drop @dragover="handleScenarioDragover('scenario', ...arguments)" @drop="handleScenarioDrop">
+                    <div class="sidebar-list-element"
+                         :class="{'bg-info text-white': highlighted}"
+                         @click="select">
+                        <span><i class="fas fa-file"></i> {{ fileNameWithoutSuffix }}</span>
+                        <span v-if="selected" class="float-right">
+                            <span class="pr-1" data-toggle="modal"
+                                  data-target="#createScenarioModal"
+                            >
+                                <a data-toggle="tooltip" th:title="#{scenario.create}">
+                                    <i class="fas fa-handshake"></i>
+                                </a>
+                            </span>
+                            <span class="pr-1" data-toggle="modal"
+                                  data-target="#deleteFeatureModal"
+                            >
+                                <a data-toggle="tooltip" th:title="#{feature.delete}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </span>
                         </span>
-                        <span class="pr-1" data-toggle="modal"
-                              data-target="#deleteFeatureModal"
-                        >
-                            <a data-toggle="tooltip" th:title="#{feature.delete}">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </span>
-                    </span>
-                </div>
-            </drop>
+                    </div>
+                </drop>
+            </drag>
             <tree-sidebar-item
                     class="item"
                     v-for="(item, index) in item.children"

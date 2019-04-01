@@ -220,7 +220,7 @@ Vue.component('create-folder-modal', {
         }
     },
     created: function () {
-        vueBus.$on('selectTreeElement', (selectedItem) => {
+        vueBus.$on('selectedTreeElementChanged', (selectedItem) => {
             this.selectedTreeElement = selectedItem
         });
     },
@@ -274,7 +274,7 @@ Vue.component('create-feature-modal', {
         }
     },
     created: function () {
-        vueBus.$on('selectTreeElement', (selectedItem) => {
+        vueBus.$on('selectedTreeElementChanged', (selectedItem) => {
             this.selectedTreeElement = selectedItem
         });
     },
@@ -334,7 +334,7 @@ Vue.component('create-scenario-modal', {
         }
     },
     created: function () {
-        vueBus.$on('selectTreeElement', (selectedItem) => {
+        vueBus.$on('selectedTreeElementChanged', (selectedItem) => {
             this.selectedTreeElement = selectedItem
         });
     },
@@ -379,13 +379,16 @@ Vue.component('tree-sidebar', {
     created: function () {
         this.fetchTreeStructure(this.$root.currentProject.id)
         vueBus.$on('deletedScenario', (scenario) => {
-            vueBus.$emit("selectTreeElement", this.getRootFolder())
+            this.$root.selectedTreeElement = this.getRootFolder()
         });
         vueBus.$on('deletedFeature', (feature) => {
-            vueBus.$emit("selectTreeElement", this.getRootFolder())
+            this.$root.selectedTreeElement = this.getRootFolder()
         });
         vueBus.$on('deletedFolder', (folder) => {
-            vueBus.$emit("selectTreeElement", this.getRootFolder())
+            this.$root.selectedTreeElement = this.getRootFolder()
+        });
+        vueBus.$on('moveSidebarItem', (item) => {
+            this.fetchTreeStructure(this.$root.currentProject.id)
         });
     },
     methods: {
@@ -419,26 +422,10 @@ Vue.component('tree-sidebar-item', {
     data: function () {
         return {
             open: false,
-            selected: false,
             highlighted: false
         }
     },
     created: function () {
-
-        vueBus.$on('selectTreeElement', (selectedItem) => {
-            if (selectedItem.model.id == this.item.model.id) {
-                this.selected = true;
-                this.setOpen();
-                if (this.item.type == 'SCENARIO') {
-                    this.$parent.highlighted = true
-                } else {
-                    this.highlighted = true
-                }
-            } else {
-                this.selected = false;
-                this.highlighted = false
-            }
-        });
 
         vueBus.$on('deletedFeature', (feature) => {
             if (this.item.children) {
@@ -467,12 +454,9 @@ Vue.component('tree-sidebar-item', {
         });
 
         if (initialTreeItem && initialTreeItem.model.id == this.item.model.id) {
-            vueBus.$emit("selectTreeElement", this.item)
+            this.$root.selectedTreeElement = this.item
         }
 
-        if (this.selected && this.$parent.setOpen) {
-            this.$parent.setOpen()
-        }
         if (this.$parent.item && this.$parent.item.pathItems != null) {
             this.item.pathItems = new Array(this.$parent.item.pathItems)
             this.item.pathItems.push(this.item)
@@ -488,6 +472,20 @@ Vue.component('tree-sidebar-item', {
                     return this.model.fileName
                 case 'FEATURE':
                     return this.getFileNameWithoutSuffix(this.item.model)
+            }
+        },
+        selected: function (val) {
+            if(this.$root.selectedTreeElement && this.$root.selectedTreeElement.model && this.item.model.id == this.$root.selectedTreeElement.model.id){
+                this.setOpen();
+                if (this.item.type == 'SCENARIO') {
+                    this.$parent.highlighted = true
+                } else {
+                    this.highlighted = true
+                }
+                return true
+            }else{
+                this.highlighted = false
+                return false
             }
         }
     },
@@ -505,7 +503,7 @@ Vue.component('tree-sidebar-item', {
             }
         },
         select: function () {
-            vueBus.$emit("selectTreeElement", this.item)
+            this.$root.selectedTreeElement = this.item
         },
         setOpen: function () {
             this.open = true;
@@ -513,6 +511,13 @@ Vue.component('tree-sidebar-item', {
                 this.$parent.setOpen()
             }
         },
+        determineState: function () {
+            this.open = true;
+            if (this.$parent.setOpen) {
+                this.$parent.setOpen()
+            }
+        }
+        ,
         handleScenarioDragover(group, data, event) {
             if (group !== data.group) {
                 event.dataTransfer.dropEffect = 'none';
@@ -531,12 +536,43 @@ Vue.component('tree-sidebar-item', {
                 dataType: 'json',
                 success: function (result) {
                     self.errorResult = null
-                    vueBus.$emit("moveScenario", result)
+                    self.setOpen()
+                    vueBus.$emit("moveSidebarItem", {type: 'SCENARIO', model: scenario})
+                    vueBus.$emit("saveScenario", result)
                     vueBus.$emit("addAlert", "alert-success", "Scenario " + scenario.name + " was saved", true)
                 },
                 error: function (result) {
                     self.errorResult = result.responseJSON
                     vueBus.$emit("addAlert", "alert-danger", "Error while saving scenario " + scenario.name, true)
+                }
+            });
+        },
+        handleFeatureDragover(group, data, event) {
+            if (group !== data.group) {
+                event.dataTransfer.dropEffect = 'none';
+            }
+        },
+        handleFeatureDrop(data) {
+            feature = data.feature
+            let path = this.getConcatenatedPath(this.item.model)
+            feature.path = path
+            var self = this
+            $.ajax({
+                url: patchFeatureURL + feature.id,
+                type: 'PATCH',
+                contentType: 'application/json',
+                data: JSON.stringify(feature),
+                dataType: 'json',
+                success: function (result) {
+                    self.errorResult = null
+                    self.setOpen()
+                    vueBus.$emit("moveSidebarItem", {type: 'FEATURE', model: feature})
+                    vueBus.$emit("saveScenario", result)
+                    vueBus.$emit("addAlert", "alert-success", "Feature " + feature.name + " was saved", true)
+                },
+                error: function (result) {
+                    self.errorResult = result.responseJSON
+                    vueBus.$emit("addAlert", "alert-danger", "Error while saving feature " + feature.name, true)
                 }
             });
         }
@@ -558,7 +594,7 @@ Vue.component('feature-list', {
             this.fetchFeatures(folder.projectId, folder.path + folder.fileName)
         }
 
-        vueBus.$on('selectTreeElement', (selectedItem) => {
+        vueBus.$on('selectedTreeElementChanged', (selectedItem) => {
             if (selectedItem && selectedItem.type == 'FOLDER') {
                 this.show = true
                 this.folder = selectedItem.model
@@ -601,7 +637,7 @@ Vue.component('feature-card', {
     },
     methods: {
         select: function () {
-            vueBus.$emit("selectTreeElement", {type: 'FEATURE', model: this.feature})
+            this.$root.selectedTreeElement = {type: 'FEATURE', model: this.feature};
         }
     }
 })
@@ -625,7 +661,7 @@ Vue.component('scenario-card', {
     },
     methods: {
         select: function () {
-            vueBus.$emit("selectTreeElement", {type: 'SCENARIO', model: this.scenario})
+            this.$root.selectedTreeElement = {type: 'SCENARIO', model: this.scenario}
         }
     }
 })
@@ -651,7 +687,7 @@ Vue.component('feature-detail', {
             this.fetchScenarios(this.feature.projectId, this.feature.path + this.feature.fileName)
         }
 
-        vueBus.$on('selectTreeElement', (selectedItem) => {
+        vueBus.$on('selectedTreeElementChanged', (selectedItem) => {
             if (selectedItem && selectedItem.type == 'FEATURE') {
                 this.show = true
                 this.feature = selectedItem.model
@@ -723,7 +759,7 @@ Vue.component('scenario-detail', {
             this.scenario = initialTreeItem.model
         }
 
-        vueBus.$on('selectTreeElement', (selectedItem) => {
+        vueBus.$on('selectedTreeElementChanged', (selectedItem) => {
             if (selectedItem && selectedItem.type == 'SCENARIO') {
                 this.show = true
                 this.scenario = selectedItem.model
@@ -1019,7 +1055,7 @@ Vue.component('delete-folder-modal', {
         if (initialTreeItem && initialTreeItem.type == 'FOLDER') {
             this.folder = initialTreeItem.model
         }
-        vueBus.$on('selectTreeElement', (selectedItem) => {
+        vueBus.$on('selectedTreeElementChanged', (selectedItem) => {
             this.folder = selectedItem.model
         });
     },

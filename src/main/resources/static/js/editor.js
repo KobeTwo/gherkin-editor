@@ -12,11 +12,8 @@ var vueBody = new Vue({
             initialTreeItem = this.getRootFolder();
         }
         this.fetchProjects()
-        vueBus.$on('selectTreeElement', (selectedItem) => {
-            this.selectedTreeElement = selectedItem
-        });
 
-        vueBus.$on('selectTreeElement', (selectedItem) => {
+        vueBus.$on('selectedTreeElementChanged', (selectedItem) => {
             switch (selectedItem.type) {
                 case 'FOLDER':
                     url = '/' + selectedItem.model.projectId + /folder/
@@ -35,6 +32,11 @@ var vueBody = new Vue({
                     break
             }
         });
+    },
+    watch: {
+        selectedTreeElement: function (val) {
+            vueBus.$emit("selectedTreeElementChanged", val)
+        }
     },
     methods: {
         fetchProjects: function () {
