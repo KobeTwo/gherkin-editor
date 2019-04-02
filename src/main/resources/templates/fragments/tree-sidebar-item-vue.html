@@ -55,7 +55,7 @@
                 <tree-sidebar-item
                         class="item"
                         v-for="(item, index) in item.children"
-                        :key="index"
+                        :key="item.model.id"
                         :item="item"
                 >
                 </tree-sidebar-item>
@@ -91,7 +91,7 @@
             <tree-sidebar-item
                     class="item"
                     v-for="(item, index) in item.children"
-                    :key="index"
+                    :key="item.model.id"
                     :item="item"
             >
             </tree-sidebar-item>

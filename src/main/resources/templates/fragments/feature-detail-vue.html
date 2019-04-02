@@ -64,6 +64,9 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             <span class="font-weight-bold" th:text="#{scenarios}"></span>
+                            <button type="button" class="btn btn-sm btn-outline-secondary float-right" data-toggle="modal" data-target="#createScenarioModal">
+                                <i class="fas fa-handshake"></i> <span th:text="#{scenario.create}"></span>
+                            </button>
                         </div>
                         <div class="card-body">
                             <scenario-list

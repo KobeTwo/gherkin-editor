@@ -379,16 +379,17 @@ Vue.component('tree-sidebar', {
     created: function () {
         this.fetchTreeStructure(this.$root.currentProject.id)
         vueBus.$on('deletedScenario', (scenario) => {
-            this.$root.selectedTreeElement = this.getRootFolder()
+            vueBus.$emit("changeSelectedTreeElement", this.getRootFolder())
         });
         vueBus.$on('deletedFeature', (feature) => {
-            this.$root.selectedTreeElement = this.getRootFolder()
+            vueBus.$emit("changeSelectedTreeElement", this.getRootFolder())
         });
         vueBus.$on('deletedFolder', (folder) => {
-            this.$root.selectedTreeElement = this.getRootFolder()
+            vueBus.$emit("changeSelectedTreeElement", this.getRootFolder())
         });
         vueBus.$on('moveSidebarItem', (item) => {
             this.fetchTreeStructure(this.$root.currentProject.id)
+            vueBus.$emit("changeSelectedTreeElement", this.getRootFolder())
         });
     },
     methods: {
@@ -421,8 +422,9 @@ Vue.component('tree-sidebar-item', {
     },
     data: function () {
         return {
-            open: false,
-            highlighted: false
+            open: null,
+            highlighted: false,
+            selected: false
         }
     },
     created: function () {
@@ -453,8 +455,26 @@ Vue.component('tree-sidebar-item', {
             }
         });
 
-        if (initialTreeItem && initialTreeItem.model.id == this.item.model.id) {
-            this.$root.selectedTreeElement = this.item
+        vueBus.$on('selectedTreeElementChanged', (val) => {
+            if(this.$root.selectedTreeElement && this.$root.selectedTreeElement.model && this.item.model.id == this.$root.selectedTreeElement.model.id){
+                if(this.open ==null){
+                    this.setOpen();
+                }
+
+                if (this.item.type == 'SCENARIO') {
+                    this.$parent.highlighted = true
+                } else {
+                    this.highlighted = true
+                }
+                this.selected = true
+            }else{
+                this.highlighted = false
+                this.selected =  false
+            }
+        });
+
+        if (initialTreeItem && !this.$root.selectedTreeElement && initialTreeItem.model.id == this.item.model.id) {
+            vueBus.$emit("changeSelectedTreeElement", this.item)
         }
 
         if (this.$parent.item && this.$parent.item.pathItems != null) {
@@ -473,20 +493,6 @@ Vue.component('tree-sidebar-item', {
                 case 'FEATURE':
                     return this.getFileNameWithoutSuffix(this.item.model)
             }
-        },
-        selected: function (val) {
-            if(this.$root.selectedTreeElement && this.$root.selectedTreeElement.model && this.item.model.id == this.$root.selectedTreeElement.model.id){
-                this.setOpen();
-                if (this.item.type == 'SCENARIO') {
-                    this.$parent.highlighted = true
-                } else {
-                    this.highlighted = true
-                }
-                return true
-            }else{
-                this.highlighted = false
-                return false
-            }
         }
     },
     watch: {
@@ -503,15 +509,9 @@ Vue.component('tree-sidebar-item', {
             }
         },
         select: function () {
-            this.$root.selectedTreeElement = this.item
+            vueBus.$emit("changeSelectedTreeElement", this.item)
         },
         setOpen: function () {
-            this.open = true;
-            if (this.$parent.setOpen) {
-                this.$parent.setOpen()
-            }
-        },
-        determineState: function () {
             this.open = true;
             if (this.$parent.setOpen) {
                 this.$parent.setOpen()
@@ -637,7 +637,7 @@ Vue.component('feature-card', {
     },
     methods: {
         select: function () {
-            this.$root.selectedTreeElement = {type: 'FEATURE', model: this.feature};
+            vueBus.$emit("changeSelectedTreeElement", {type: 'FEATURE', model: this.feature})
         }
     }
 })
@@ -661,7 +661,7 @@ Vue.component('scenario-card', {
     },
     methods: {
         select: function () {
-            this.$root.selectedTreeElement = {type: 'SCENARIO', model: this.scenario}
+            vueBus.$emit("changeSelectedTreeElement", {type: 'SCENARIO', model: this.scenario})
         }
     }
 })
@@ -987,7 +987,7 @@ Vue.component('delete-scenario-modal', {
     methods: {
         processForm: function () {
             var self = this
-            let name = self.scenario.path + self.scenario.fileName
+            let name = self.scenario.path + ' - ' + self.scenario.name
             $.ajax({
                 url: deleteScenarioURL + this.scenario.id,
                 type: 'DELETE',

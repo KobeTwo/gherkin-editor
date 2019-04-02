@@ -32,11 +32,10 @@ var vueBody = new Vue({
                     break
             }
         });
-    },
-    watch: {
-        selectedTreeElement: function (val) {
-            vueBus.$emit("selectedTreeElementChanged", val)
-        }
+        vueBus.$on('changeSelectedTreeElement', (selectedItem) => {
+            this.selectedTreeElement = selectedItem
+            vueBus.$emit("selectedTreeElementChanged", selectedItem)
+        });
     },
     methods: {
         fetchProjects: function () {
