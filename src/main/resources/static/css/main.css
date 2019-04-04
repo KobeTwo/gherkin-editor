@@ -106,6 +106,20 @@ a.clickable-card .card:hover {
     width: 14px;
 }
 
+.step-list .step {
+    margin-bottom: 5px;
+}
+
+.step-list .step .step-type-select{
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #e9ecef;
+}
+.step-list .step .step-input-wrapper input{
+    border-radius: 0px;
+}
+
 .step-input-parameter {
     padding-left: 20px;
+    margin-top: -1px;
 }

@@ -2,10 +2,10 @@
 <body>
 <th:block th:fragment="step-input-vue-template">
     <script type="text/x-template" id="step-input">
-        <div>
-            <div class="input-group step">
+        <div class="step" >
+            <div class="input-group">
                 <div class="input-group-prepend">
-                    <select v-model="step.type">
+                    <select class="custom-select step-type-select" v-model="step.type">
                         <option value="Given">Given</option>
                         <option value="And">And</option>
                         <option value="But">But</option>
@@ -36,21 +36,27 @@
                         <span><i class="fas fa-ellipsis-v"></i></span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a v-if="step.docstring==null" class="dropdown-item" @click="addDocstring()"
-                           th:text="#{step.create.freetextparameter}"></a>
-                        <a v-if="step.docstring!=null" class="dropdown-item" @click="removeDocstring()"
-                           th:text="#{step.remove.freetextparameter}"></a>
-                        <a v-if="step.datatable==null" class="dropdown-item" @click="addDatatable()"
-                           th:text="#{step.create.tableparameter}"></a>
-                        <a v-if="step.datatable!=null" class="dropdown-item" @click="removeDatatable()"
-                           th:text="#{step.remove.tableparameter}"></a>
-                        <a class="dropdown-item" @click="deleteStep()" th:text="#{step.delete}"></a>
+                        <a v-if="step.docstring==null" class="dropdown-item" @click="addDocstring()">
+                            <i class="fas fa-quote-right"></i> <span th:text="#{step.create.freetextparameter}"/>
+                        </a>
+                        <a v-if="step.docstring!=null" class="dropdown-item" @click="removeDocstring()">
+                            <i class="fas fa-quote-right"></i> <span th:text="#{step.remove.freetextparameter}"/>
+                        </a>
+                        <a v-if="step.datatable==null" class="dropdown-item" @click="addDatatable()">
+                            <i class="fas fa-table"></i> <span th:text="#{step.create.tableparameter}"/>
+                        </a>
+                        <a v-if="step.datatable!=null" class="dropdown-item" @click="removeDatatable()">
+                            <i class="fas fa-table"></i> <span th:text="#{step.remove.tableparameter}"/>
+                        </a>
+                        <a class="dropdown-item" @click="deleteStep()" >
+                            <i class="fas fa-trash"></i> <span th:text="#{step.delete}"/>
+                        </a>
                     </div>
                 </div>
             </div>
             <div v-if="step.docstring!=null" class="input-group step-input-parameter">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" th:text="#{step.docstring}"></span>
+                    <span class="input-group-text"><i class="fas fa-quote-right"></i></span>
                 </div>
                 <textarea class="form-control"
                           th:placeholder="#{step.docstring.placeholder}"
@@ -60,7 +66,7 @@
             </div>
             <div v-if="step.datatable!=null" class="input-group step-input-parameter">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" th:text="#{step.datatable}"></span>
+                    <span class="input-group-text"><i class="fas fa-table"></i></span>
                 </div>
                 <textarea class="form-control"
                           th:placeholder="#{step.datatable.placeholder}"
