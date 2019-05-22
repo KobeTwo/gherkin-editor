@@ -6,7 +6,7 @@ services:
     environment:
       - discovery.type=single-node
   gherkin-editor:
-    image: gcr.io/gherkin-editor/gherkin-editor:v.0.0.23
+    image: kobetwo/gherkin-editor
     container_name: gherkin-editor
     depends_on:
       - elasticsearch
