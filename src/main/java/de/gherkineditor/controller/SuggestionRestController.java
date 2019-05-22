@@ -36,7 +36,7 @@ public class SuggestionRestController {
                 .subAggregation(AggregationBuilders
                         .filter("filter", QueryBuilders
                                 .boolQuery()
-                                .filter(QueryBuilders.prefixQuery("steps.text.raw", text)))
+                                .filter(QueryBuilders.matchQuery("steps.text", text)))
                         .subAggregation(AggregationBuilders.terms("top_steps")
                                 .field("steps.text.raw")
                                 .order(BucketOrder.count(false))));
