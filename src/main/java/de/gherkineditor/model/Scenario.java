@@ -1,9 +1,11 @@
 package de.gherkineditor.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.CompletionField;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.core.completion.Completion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,9 @@ public class Scenario extends AbstractPathItem {
     private List<Step> steps = new ArrayList<>();
 
     private String examples;
+
+    @CompletionField
+    private Completion suggest;
 
     private Scenario() {
     }
@@ -102,6 +107,26 @@ public class Scenario extends AbstractPathItem {
 
     public void setExamples(String examples) {
         this.examples = examples;
+    }
+
+    public Completion getSuggest() {
+        return suggest;
+    }
+
+    public void setSuggest(Completion suggest) {
+        this.suggest = suggest;
+    }
+
+    public void setDefaultSuggest() {
+        String[] steps = new String[this.getSteps().size()];
+
+
+        for(int i = 0; i < this.getSteps().size(); i++){
+            steps[i] = this.getSteps().get(i).getText();
+        }
+
+        Completion completion = new Completion(steps);
+        this.setSuggest(completion);
     }
 
     @Override

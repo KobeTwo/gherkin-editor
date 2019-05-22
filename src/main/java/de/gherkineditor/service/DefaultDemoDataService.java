@@ -121,6 +121,11 @@ public class DefaultDemoDataService implements DemoDataService {
         scenarios.add(new Scenario("project2", "/1/feature1file.feature", "p2f1s2", "desc2"));
         scenarios.add(new Scenario("project2", "/1/feature1file.feature", "p2f1s3", "desc3"));
 
+        // set default suggest for all scenarios
+        for(Scenario scenario : scenarios){
+            scenario.setDefaultSuggest();
+        }
+
         this.scenarioRepository.saveAll(scenarios);
     }
 

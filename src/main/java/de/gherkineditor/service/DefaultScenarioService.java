@@ -55,6 +55,8 @@ public class DefaultScenarioService implements ScenarioService {
             scenario.addStep(step);
         }
 
+        scenario.setDefaultSuggest();
+
         this.scenarioRepository.save(scenario);
     }
 
