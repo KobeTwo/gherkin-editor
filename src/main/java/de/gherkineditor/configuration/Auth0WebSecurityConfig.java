@@ -30,7 +30,7 @@ public class Auth0WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/fonts/**", "/assets/**", "/callback", "/login", "/logout").permitAll()
+                .antMatchers("/css/**", "/js/**", "/fonts/**", "/assets/**", "/callback", "/login", "/logout", "/actuator/health").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
