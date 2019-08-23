@@ -22,7 +22,12 @@ public class Auth0LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     protected String login(final HttpServletRequest req) {
-        String redirectUri = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/callback";
+        String redirectUri = req.getScheme() + "://" + req.getServerName();
+        if (req.getServerPort() != 80 && req.getServerPort() != 443) {
+            redirectUri += ":" + req.getServerPort();
+        }
+        redirectUri += "/callback";
+
         String authorizeUrl = this.controller.buildAuthorizeUrl(req, redirectUri)
                 .withAudience(String.format("https://%s/userinfo", this.auth0WebSecurityConfig.getDomain()))
                 .withScope("openid email profile")
