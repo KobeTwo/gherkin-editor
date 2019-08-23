@@ -101,7 +101,7 @@
                     <span class="mr-auto"></span>
                     <a class="btn btn-outline-secondary" role="button"
                        th:if="${#arrays.contains(@environment.getActiveProfiles(),'auth0')}"
-                       th:href="@{'https://' + ${authDomain} + '/v2/logout?returnTo=http%3A%2F%2Flocalhost%3A8080%2Flogout&client_id=' + ${authClientId}}">
+                       th:href="@{'https://' + ${authDomain} + '/v2/logout?returnTo=' + ${#httpServletRequest.getScheme()} + '%3A%2F%2F' + ${#httpServletRequest.getServerName()} + '%3A' + ${#httpServletRequest.getServerPort()} + '%2Flogout&client_id=' + ${authClientId}}">
                         <i class="fas fa-power-off"></i> <span th:text="#{logout}"></span>
                     </a>
                 </div>
