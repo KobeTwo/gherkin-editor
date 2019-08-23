@@ -64,13 +64,15 @@
                                     class="fas fa-chevron-circle-down float-right"></i>
                             </div>
                         </a>
-                        <div id="collapseExamples" class="collapse">
+                        <div id="collapseExamples" class="collapse" :class="{ show: scenario.examples || examplesFocused }">
                             <div class="card-body">
                                 <div class="form-group">
                                     <textarea class="form-control"
                                               th:placeholder="#{scenario.examples.placeholder}"
                                               rows="5"
                                               v-model="scenario.examples"
+                                              @focus="examplesFocused = true"
+                                              @blur="examplesFocused = false"
                                     ></textarea>
                                 </div>
                             </div>

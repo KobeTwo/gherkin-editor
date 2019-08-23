@@ -746,7 +746,8 @@ Vue.component('scenario-detail', {
     data: function () {
         return {
             scenario: Object,
-            show: false
+            show: false,
+            examplesFocused: false
         }
     },
     computed: {
