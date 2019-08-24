@@ -31,7 +31,15 @@ public class SuggestionRestController {
     @RequestMapping(path = "/rest/api/suggest", method = RequestMethod.GET)
     public List<String> suggestSteps(@RequestParam(name = "text", required = true) String text) throws IOException {
 
+        List<String> stepSuggestions = getStepSuggestion(text);
+        List<String> backgroundStepSuggestions = getBackgroundStepSuggestion(text);
 
+        stepSuggestions.addAll(backgroundStepSuggestions);
+
+        return stepSuggestions;
+
+    }
+    protected List<String>getStepSuggestion(String text){
         AggregationBuilder aggregation = AggregationBuilders.nested("nested", "steps")
                 .subAggregation(AggregationBuilders
                         .filter("filter", QueryBuilders
@@ -55,8 +63,33 @@ public class SuggestionRestController {
                 .stream()
                 .map(b -> b.getKeyAsString())
                 .collect(Collectors.toList());
-
         return suggestions;
+    }
 
+    protected List<String>getBackgroundStepSuggestion(String text){
+        AggregationBuilder aggregation = AggregationBuilders.nested("nested", "backgroundSteps")
+                .subAggregation(AggregationBuilders
+                        .filter("filter", QueryBuilders
+                                .boolQuery()
+                                .filter(QueryBuilders.matchPhrasePrefixQuery("backgroundSteps.text", text).slop(5)))
+                        .subAggregation(AggregationBuilders.terms("top_steps")
+                                .field("backgroundSteps.text.raw")
+                                .order(BucketOrder.count(false))));
+
+
+        SearchResponse response = this.client.prepareSearch("feature")
+                .setTypes("feature")
+                .addAggregation(aggregation)
+                .execute().actionGet();
+
+        Nested nested = response.getAggregations().get("nested");
+        Filter filter = nested.getAggregations().get("filter");
+        StringTerms topSteps = filter.getAggregations().get("top_steps");
+
+        List<String> suggestions = topSteps.getBuckets()
+                .stream()
+                .map(b -> b.getKeyAsString())
+                .collect(Collectors.toList());
+        return suggestions;
     }
 }
