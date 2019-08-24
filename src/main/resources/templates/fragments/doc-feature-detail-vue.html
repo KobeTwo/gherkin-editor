@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="doc-feature-detail-vue-template">
+    <script type="text/x-template" id="doc-feature-detail">
+        <div class="card" >
+            <div class="card-body">
+
+                <h5 class="card-title">{{ feature.name }}</h5>
+                <p class="card-text">{{ feature.description }}</p>
+                <doc-scenario-list
+                        v-bind:scenarios="this.scenarios"
+                >
+                </doc-scenario-list>
+            </div>
+        </div>
+    </script>
+</th:block>
+</body>
+</html>

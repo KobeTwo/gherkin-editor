@@ -18,7 +18,7 @@
 <th:block th:replace="fragments/general.html :: general-vue-templates"/>
 
 
-<div id="vue-editor">
+<div id="vue-root">
     <th:block th:replace="fragments/general.html :: header"/>
     <create-folder-modal>
 
@@ -69,6 +69,5 @@
 
 <th:block th:replace="fragments/general.html :: footer"/>
 <th:block th:replace="fragments/general.html :: jsfiles"/>
-<script type="text/javascript" th:src="@{/js/editor.js}"></script>
 </body>
 </html>

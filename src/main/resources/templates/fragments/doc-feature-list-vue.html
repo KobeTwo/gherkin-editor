@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="doc-feature-list-vue-template">
+    <script type="text/x-template" id="doc-feature-list">
+        <div>
+            <div class="row" v-for="(feature, index) in features">
+                <div class="col-12">
+                    <doc-feature-detail
+                            v-bind:feature="feature"
+                    >
+                    </doc-feature-detail>
+                </div>
+            </div>
+        </div>
+    </script>
+</th:block>
+</body>
+</html>

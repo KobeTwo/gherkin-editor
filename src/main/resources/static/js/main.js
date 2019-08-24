@@ -18,6 +18,8 @@ var deleteProjectURL = '/rest/api/project/'
 var suggestStepsURL = '/rest/api/suggest'
 var postScenarioURL = '/rest/api/scenario'
 
+
+
 var vueBus = new Vue();
 
 var treeItemMixins = {
@@ -1111,4 +1113,134 @@ Vue.component('global-alert-box', {
         });
     }
 })
+Vue.component('doc-feature-list', {
+    template: '#doc-feature-list',
+    mixins: [treeItemMixins],
+    data: function () {
+        return {
+            features: null
+        }
+    },
+    created: function () {
+        let rootFolder = this.getRootFolder();
+        this.fetchFeatures(rootFolder.model.projectId, '/')
+    },
+    methods: {
+        fetchFeatures: function (projectId, path) {
+            var self = this
+            $.ajax({
+                url: getFeaturesRecursiveURL,
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: {projectId: projectId, path: path},
+                success: function (result) {
+                    self.features = result._embedded.feature
+                },
 
+            });
+        }
+    }
+})
+
+Vue.component('doc-feature-detail', {
+    template: '#doc-feature-detail',
+    data: function () {
+        return {
+            scenarios: null
+        }
+    },
+    props: {
+        feature: Object
+    },
+    created: function () {
+        this.fetchScenarios(this.feature.projectId, this.feature.path + this.feature.fileName)
+    },
+    methods: {
+        fetchScenarios: function (projectId, path) {
+            var self = this
+            $.ajax({
+                url: getScenariosURL,
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: {projectId: projectId, path: path},
+                success: function (result) {
+                    self.scenarios = result._embedded.scenario
+                },
+
+            });
+        }
+    }
+})
+
+Vue.component('doc-scenario-list', {
+    template: '#doc-scenario-list',
+    props: {
+        scenarios: Array
+    }
+})
+
+Vue.component('doc-scenario-detail', {
+    template: '#doc-scenario-detail',
+    props: {
+        scenario: Object
+    }
+})
+
+
+var vueBody = new Vue({
+
+    el: '#vue-root',
+    data: {
+        allprojects: null,
+        currentProject: currentProject,
+        selectedTreeElement: null
+    },
+    mixins: [treeItemMixins],
+    created: function () {
+        if (currentProject && !initialTreeItem) {
+            initialTreeItem = this.getRootFolder();
+        }
+        this.fetchProjects()
+
+        vueBus.$on('selectedTreeElementChanged', (selectedItem) => {
+            switch (selectedItem.type) {
+                case 'FOLDER':
+                    url = '/' + selectedItem.model.projectId + /folder/
+                    if (selectedItem.model.id !== this.getRootFolder().model.id) {
+                        url = url + selectedItem.model.id
+                    }
+                    history.pushState({}, '', url);
+                    break
+                case 'FEATURE':
+                    url = this.getUrlForFeature(selectedItem.model)
+                    history.pushState({}, '', url);
+                    break
+                case 'SCENARIO':
+                    url = this.getUrlForScenario(selectedItem.model)
+                    history.pushState({}, '', url);
+                    break
+            }
+        });
+        vueBus.$on('changeSelectedTreeElement', (selectedItem) => {
+            this.selectedTreeElement = selectedItem
+            vueBus.$emit("selectedTreeElementChanged", selectedItem)
+        });
+    },
+    methods: {
+        fetchProjects: function () {
+            var self = this
+            $.ajax({
+                url: getProjectURL,
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    self.allprojects = result._embedded.project
+                },
+
+            });
+        }
+    }
+})
