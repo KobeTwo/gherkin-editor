@@ -31,8 +31,8 @@
                                 <input v-model="inputProject.id" type="text" class="form-control" id="projectId"
                                        aria-describedby="projectIdHelp" placeholder="Enter the id of the project">
                             </div>
-                            <div class="form-group required">
-                                <label for="project-archive" th:text="#{project.archive}"/>
+                            <div class="form-group">
+                                <label for="project-archive" th:text="#{project.archive}"/>*
                                 <div class="custom-file">
                                     <input @change="processFile($event)" type="file" accept="application/zip"
                                            class="custom-file-input input-file" id="project-archive">

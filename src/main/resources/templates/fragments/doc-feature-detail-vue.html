@@ -6,7 +6,33 @@
             <div class="card-body">
 
                 <h5 class="card-title">{{ feature.name }}</h5>
+                <p>
+                    <span v-for="(tag, index) in feature.tags"  class="badge badge-pill badge-secondary"> {{ tag }} </span>
+                </p>
+
                 <p class="card-text">{{ feature.description }}</p>
+
+                <div class="row" v-if="feature.backgroundSteps.length > 0">
+                    <div class="col-12">
+                        <div class="card" >
+                            <div class="card-body">
+
+                                <h6 class="card-title" th:text="#{doc.background}" />
+                                <div v-for="(step, index) in feature.backgroundSteps">
+                                    <div class="doc-keyword">{{ step.type }}</div>
+                                    <div class="doc-steptext">{{ step.text }}</div>
+                                    <div class="doc-docstring"  v-if="step.docstring">
+                                        <pre >{{ step.docstring }}</pre>
+                                    </div>
+                                    <div class="doc-datatable" v-if="step.datatable">
+                                        <pre >{{ step.datatable }}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <doc-scenario-list
                         v-bind:scenarios="this.scenarios"
                 >

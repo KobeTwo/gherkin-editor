@@ -123,3 +123,30 @@ a.clickable-card .card:hover {
     padding-left: 20px;
     margin-top: -1px;
 }
+
+.doc-keyword {
+    color: red;
+    width: 50px;
+    float: left;
+}
+
+.doc-steptext {
+}
+
+.doc-docstring {
+    padding-left: 50px;
+}
+
+.doc-datatable{
+    padding-left: 50px;
+}
+
+.doc-datatable pre{
+    font-family: monospace;
+    margin: 0px;
+}
+
+.doc-docstring pre{
+    font-family: monospace;
+    margin: 0px;
+}

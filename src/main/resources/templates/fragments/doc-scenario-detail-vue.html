@@ -9,6 +9,21 @@
                         <div class="card-body">
 
                             <h6 class="card-title">{{ scenario.name }}</h6>
+                            <p>
+                                <span v-for="(tag, index) in scenario.tags"  class="badge badge-pill badge-secondary">{{ tag }}</span>
+                            </p>
+
+                            <div v-for="(step, index) in scenario.steps">
+                                <div class="doc-keyword">{{ step.type }}</div>
+                                <div class="doc-steptext">{{ step.text }}</div>
+                                <div class="doc-docstring"  v-if="step.docstring">
+                                    <pre >{{ step.docstring }}</pre>
+                                </div>
+                                <div class="doc-datatable" v-if="step.datatable">
+                                    <pre >{{ step.datatable }}</pre>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
