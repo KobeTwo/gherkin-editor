@@ -2,22 +2,22 @@
 <body>
 <th:block th:fragment="doc-feature-detail-vue-template">
     <script type="text/x-template" id="doc-feature-detail">
-        <div class="card" >
+        <div class="card mt-2 mb-2" >
             <div class="card-body">
 
-                <h5 class="card-title">{{ feature.name }}</h5>
+                <h4 class="card-title">{{ feature.name }}</h4>
                 <p>
-                    <span v-for="(tag, index) in feature.tags"  class="badge badge-pill badge-secondary"> {{ tag }} </span>
+                    <span v-for="(tag, index) in feature.tags"  class="badge badge-pill badge-secondary mr-1"> {{ tag }} </span>
                 </p>
 
                 <p class="card-text">{{ feature.description }}</p>
 
                 <div class="row" v-if="feature.backgroundSteps.length > 0">
                     <div class="col-12">
-                        <div class="card" >
+                        <div class="card m-2" >
                             <div class="card-body">
 
-                                <h6 class="card-title" th:text="#{doc.background}" />
+                                <h5 class="card-title" th:text="#{doc.background}" />
                                 <div v-for="(step, index) in feature.backgroundSteps">
                                     <div class="doc-keyword">{{ step.type }}</div>
                                     <div class="doc-steptext">{{ step.text }}</div>

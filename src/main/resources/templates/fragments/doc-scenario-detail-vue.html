@@ -5,12 +5,12 @@
         <div>
             <div class="row">
                 <div class="col-12">
-                    <div class="card" >
+                    <div class="card m-2" >
                         <div class="card-body">
 
-                            <h6 class="card-title">{{ scenario.name }}</h6>
+                            <h5 class="card-title">{{ scenario.name }}</h5>
                             <p>
-                                <span v-for="(tag, index) in scenario.tags"  class="badge badge-pill badge-secondary">{{ tag }}</span>
+                                <span v-for="(tag, index) in scenario.tags"  class="badge badge-pill badge-secondary mr-1">{{ tag }}</span>
                             </p>
 
                             <div v-for="(step, index) in scenario.steps">
