@@ -2,6 +2,7 @@ package de.gherkineditor.service;
 
 import de.gherkineditor.model.Feature;
 import de.gherkineditor.model.Project;
+import de.gherkineditor.model.Step;
 import de.gherkineditor.repository.ProjectRepository;
 import de.gherkineditor.util.Util;
 import org.apache.commons.io.IOUtils;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.zip.ZipEntry;
 
@@ -32,6 +34,9 @@ public class DefaultProjectService extends AbstractModelService<Project> impleme
 
     @Autowired
     FeatureService featureService;
+
+
+
 
     @Override
     public Iterable<Project> getAllProjects() {
@@ -90,6 +95,7 @@ public class DefaultProjectService extends AbstractModelService<Project> impleme
         }
         return out;
     }
+
 
     @Override
     public Project create(Project project) {

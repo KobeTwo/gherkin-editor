@@ -2,10 +2,13 @@ package de.gherkineditor.service;
 
 import de.gherkineditor.model.Feature;
 import de.gherkineditor.model.Project;
+import de.gherkineditor.model.Scenario;
 import de.gherkineditor.model.Step;
 import de.gherkineditor.repository.FeatureRepository;
 import io.cucumber.gherkin.Gherkin;
 import io.cucumber.messages.Messages;
+import io.netty.util.internal.StringUtil;
+import org.elasticsearch.search.aggregations.metrics.percentiles.hdr.InternalHDRPercentiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -30,16 +33,20 @@ public class DefaultFeatureService implements FeatureService {
     @Autowired
     TemplateEngine basicTemplateEngine;
 
+    final static String INDENT0 = "";
+    final static String INDENT1 = "  ";
+    final static String INDENT2 = "    ";
+    final static String INDENT3 = "      ";
+    final static String DOCSTRING_QUOTES = "\"\"\"";
+
     @Override
     public Iterable<Feature> listAllFeatures() {
-        Iterable<Feature> features = this.featureRepository.findAll();
-        return features;
+        return this.featureRepository.findAll();
     }
 
     @Override
     public Iterable<Feature> listFeatures(String projectId) {
-        Iterable<Feature> features = this.featureRepository.findAll(projectId);
-        return features;
+        return this.featureRepository.findAll(projectId);
     }
 
     @Override
@@ -90,13 +97,80 @@ public class DefaultFeatureService implements FeatureService {
     public String getFeatureContent(Feature feature) {
         final Context ctx = new Context();
 
-        ctx.setVariable("feature", feature);
-        ctx.setVariable("scenarios", this.scenarioService.getScenarios(feature));
-        String featureContent = this.basicTemplateEngine.process("text/feature.txt", ctx);
+        Iterable<Scenario> scenarios = this.scenarioService.getScenarios(feature);
+
+        StringBuilder builder = new StringBuilder();
+
+        writeTags(feature.getTags(), builder, INDENT0);
+        builder.append("Feature: " + feature.getName())
+        .append("\n")
+        .append(INDENT1 + feature.getDescription());
+        writeBackgroundSteps(feature,builder);
+        writeScenarios(scenarios,builder);
+
+
+        String featureContent = builder.toString();
 
         System.out.println(featureContent);
 
         return featureContent;
+    }
+
+
+    private void writeTags(List<String> tags, StringBuilder builder, String indent){
+        if(!tags.isEmpty()){
+            builder.append(indent);
+            for(String tag: tags){
+                builder.append(tag + " ");
+            }
+            builder.append("\n");
+        }
+    }
+
+    private void writeBackgroundSteps(Feature feature, StringBuilder builder){
+        if(!feature.getBackgroundSteps().isEmpty()){
+            builder.append("\n\n");
+            builder.append(INDENT1 + "Background:");
+            writeSteps(feature.getBackgroundSteps(),builder);
+        }
+    }
+
+    private void writeScenarios(Iterable<Scenario> scenarios, StringBuilder builder){
+        for(Scenario scenario: scenarios){
+            builder.append("\n\n");
+            writeTags(scenario.getTags(), builder, INDENT1);
+            builder.append(INDENT1 + "Scenario: " + scenario.getName());
+            writeSteps(scenario.getSteps(), builder);
+        }
+
+    }
+
+    private void writeSteps(List<Step> steps, StringBuilder builder){
+        for(Step step : steps){
+            builder.append("\n");
+            builder.append(INDENT2 + step.getType() + StringUtil.SPACE + step.getText());
+            writeDocstring(step, builder);
+            writeDatatable(step, builder);
+        }
+    }
+
+    private void writeDocstring(Step step, StringBuilder builder){
+        if(step.getDocstring() != null){
+            builder.append("\n")
+            .append(INDENT3 + DOCSTRING_QUOTES)
+            .append("\n")
+            .append(INDENT3 + step.getDocstring())
+            .append("\n")
+            .append(INDENT3 + DOCSTRING_QUOTES);
+        }
+    }
+
+    private void writeDatatable(Step step, StringBuilder builder){
+        if(step.getDatatable() != null){
+            builder.append("\n");
+            String indentedDatatable = step.getDatatable().replaceAll("\\n", StringUtil.NEWLINE + INDENT3 );
+            builder.append(INDENT3 + indentedDatatable);
+        }
     }
 
 
