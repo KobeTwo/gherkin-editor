@@ -155,6 +155,7 @@ a.clickable-card .card:hover {
 
 .sticky-top {
     top: 10px;
+    z-index: 999;
 }
 
 nav[data-toggle="toc"] {

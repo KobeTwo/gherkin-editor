@@ -456,6 +456,13 @@ Vue.component('tree-sidebar-item', {
                 });
             }
         });
+        vueBus.$on('changeSelectedTreeElement', (selectedItem) => {
+            if(selectedItem.model && this.item.model && selectedItem.model.id == this.item.model.id){
+                this.$root.selectedTreeElement = this.item
+                vueBus.$emit("selectedTreeElementChanged", this.item)
+            }
+
+        });
 
         vueBus.$on('selectedTreeElementChanged', (val) => {
             if(this.$root.selectedTreeElement && this.$root.selectedTreeElement.model && this.item.model.id == this.$root.selectedTreeElement.model.id){
@@ -1234,10 +1241,7 @@ var vueBody = new Vue({
                     break
             }
         });
-        vueBus.$on('changeSelectedTreeElement', (selectedItem) => {
-            this.selectedTreeElement = selectedItem
-            vueBus.$emit("selectedTreeElementChanged", selectedItem)
-        });
+
     },
     methods: {
         fetchProjects: function () {
