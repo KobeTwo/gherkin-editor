@@ -1188,6 +1188,17 @@ Vue.component('doc-scenario-detail', {
     }
 })
 
+Vue.component('doc-toc-sidebar', {
+    template: '#doc-toc-sidebar',
+    created: function () {
+        setTimeout(() => {
+            Toc.init({
+                $nav: $("#toc")
+            });
+        }, 500)
+    }
+})
+
 
 var vueBody = new Vue({
 

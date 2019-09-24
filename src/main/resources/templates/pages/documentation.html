@@ -11,13 +11,20 @@
     <th:block th:replace="fragments/general.html :: headerfiles"/>
 
 </head>
-    <body>
-
+    <body data-spy="scroll" data-target="#toc">
         <th:block th:replace="fragments/general.html :: general-vue-templates"/>
-        <div id="vue-root">
+        <div id="vue-root" class="container-fluid">
             <th:block th:replace="fragments/general.html :: header"/>
-            <doc-feature-list>
-            </doc-feature-list>
+            <div class="row">
+                <div class="col-lg-3 col-md-4">
+                    <doc-toc-sidebar>
+                    </doc-toc-sidebar>
+                </div>
+                <main role="main" class="col-lg-9 col-md-8">
+                    <doc-feature-list>
+                    </doc-feature-list>
+                </main>
+            </div>
         </div>
 
         <th:block th:replace="fragments/general.html :: footer"/>
